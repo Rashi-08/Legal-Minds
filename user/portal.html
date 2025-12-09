@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LegalMinds | Report Legal Problem</title>
@@ -733,9 +734,409 @@
         <span class="status-dot"></span>
         <span>Available 24/7</span>
       </div>
+=======
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Portal | JURIS_NET</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-body: #f3f4f6;
+            --bg-card: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --danger: #ef4444;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+        }
+
+        /* --- HEADER / NAVIGATION --- */
+        .navbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-pic {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #9333ea);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* --- LAYOUT GRID --- */
+        .main-container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Form takes 2/3, Sidebar takes 1/3 */
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- CARDS --- */
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        h2 { margin-top: 0; font-size: 1.5rem; color: var(--text-main); }
+        .subtitle { color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; margin-top: -10px; }
+
+        /* --- FORM ELEMENTS --- */
+        input, textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: all 0.2s;
+            background: #f9fafb;
+        }
+        
+        input:focus, textarea:focus { 
+            outline: none; 
+            border-color: var(--primary); 
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); 
+        }
+
+        textarea { resize: vertical; min-height: 150px; }
+
+        /* --- MEDIA TOOLBAR --- */
+        .media-toolbar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .media-btn {
+            border: 1px dashed var(--border);
+            background: #fafafa;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .media-btn:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        .media-btn.recording {
+            border-color: var(--danger);
+            background: #fef2f2;
+            color: var(--danger);
+            animation: pulse 1.5s infinite;
+        }
+
+        .media-icon { font-size: 1.5rem; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-header {
+            padding: 1rem;
+            background: #f9fafb;
+            border-bottom: 1px solid var(--border);
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Tags in Sidebar */
+        .tag-list {
+            padding: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag-chip {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tag-chip:hover { border-color: var(--primary); }
+        .tag-chip.selected { 
+            background: var(--primary); 
+            color: white; 
+            border-color: var(--primary); 
+        }
+
+        /* Case List */
+        .case-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .case-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+        .case-item:last-child { border-bottom: none; }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+        .status-active { background: #10b981; }
+        .status-pending { background: #f59e0b; }
+
+        .case-info h4 { margin: 0 0 0.25rem; font-size: 0.9rem; }
+        .case-info p { margin: 0; font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 1rem;
+        }
+        .submit-btn:hover { background: var(--primary-hover); }
+
+        /* File Preview Area */
+        .evidence-preview {
+            display: none;
+            padding: 1rem;
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            color: #065f46;
+            font-size: 0.9rem;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <span>⚖️</span> LEGALMINDS
+        </div>
+        <div class="nav-right">
+            <button class="icon-btn">
+                🔔 <span class="badge">2</span>
+            </button>
+            <div class="profile-pic">JD</div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        
+        <main>
+            <div class="card">
+                <div>
+                    <h2>New Case Report</h2>
+                    <p class="subtitle">Describe your issue below. A student representative will be assigned shortly.</p>
+                </div>
+
+                <form id="legalForm" onsubmit="handleSubmit(event)">
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <input type="text" id="caseSubject" placeholder="Subject (e.g., Unpaid Rent)" required>
+                        <textarea id="caseDesc" placeholder="Describe the situation in detail..." required></textarea>
+                    </div>
+
+                    <h3 style="margin: 1.5rem 0 0.5rem; font-size: 1rem; color: var(--text-muted);">Attach Evidence</h3>
+                    
+                    <div class="media-toolbar">
+                        <div class="media-btn" onclick="triggerUpload()" id="btn-upload">
+                            <span class="media-icon">📂</span>
+                            <span>Upload File</span>
+                        </div>
+                        
+                        <div class="media-btn" onclick="triggerVoice()" id="btn-voice">
+                            <span class="media-icon">🎙️</span>
+                            <span id="txt-voice">Record Voice</span>
+                        </div>
+
+                        <div class="media-btn" onclick="triggerVideo()" id="btn-video">
+                            <span class="media-icon">📹</span>
+                            <span id="txt-video">Record Video</span>
+                        </div>
+                    </div>
+
+                    <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(this)">
+
+                    <div id="evidencePreview" class="evidence-preview">
+                        <span>✅</span> <span id="evidenceText">Evidence Attached</span>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Case Report</button>
+                </form>
+            </div>
+        </main>
+
+        <aside>
+            <div class="sidebar-card">
+                <div class="sidebar-header">
+                    <span>Tags (Optional)</span>
+                </div>
+                <div class="tag-list" id="tagList">
+                    <div class="tag-chip" onclick="toggleTag(this, 'Rent')">🏠 Rent</div>
+                    <div class="tag-chip" onclick="toggleTag(this, 'Wages')">💰 Wages</div>
+                    <div class="tag-chip" onclick="toggleTag(this, 'Family')">👨‍👩‍👧 Family</div>
+                    <div class="tag-chip" onclick="toggleTag(this, 'Fraud')">⚠️ Fraud</div>
+                    <div class="tag-chip" onclick="toggleTag(this, 'Contract')">📝 Contract</div>
+                    <div class="tag-chip" onclick="toggleTag(this, 'Harassment')">🚫 Harassment</div>
+                </div>
+                <input type="hidden" id="selectedTags">
+            </div>
+
+            <div class="sidebar-card">
+                <div class="sidebar-header">
+                    <span>Previous Cases</span>
+                    <a href="#" style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">View All</a>
+                </div>
+                <ul class="case-list" id="historyList">
+                    <li class="case-item">
+                        <div class="status-dot status-active"></div>
+                        <div class="case-info">
+                            <h4>Unpaid Overtime</h4>
+                            <p>Status: <strong>Assigned</strong></p>
+                        </div>
+                    </li>
+                    <li class="case-item">
+                        <div class="status-dot status-pending"></div>
+                        <div class="case-info">
+                            <h4>Tenancy Review</h4>
+                            <p>Status: <strong>Pending</strong></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+>>>>>>> 7ba85e9 (WIP: Local changes before pull)
     </div>
   </nav>
 
+<<<<<<< HEAD
   <!-- Main Container -->
   <div class="container">
     <div class="layout">
@@ -1077,3 +1478,141 @@
   </script>
 </body>
 </html>
+=======
+    <script>
+        // --- 1. Tag Logic (Optional) ---
+        let activeTags = [];
+
+        function toggleTag(element, value) {
+            // Toggle UI
+            element.classList.toggle('selected');
+            
+            // Toggle Data
+            if (activeTags.includes(value)) {
+                activeTags = activeTags.filter(t => t !== value);
+            } else {
+                activeTags.push(value);
+            }
+            document.getElementById('selectedTags').value = activeTags.join(',');
+        }
+
+        // --- 2. Media Logic ---
+        
+        // File Upload
+        function triggerUpload() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileSelect(input) {
+            if (input.files && input.files[0]) {
+                showPreview(`File: ${input.files[0].name}`);
+                document.getElementById('btn-upload').style.borderColor = '#10b981';
+                document.getElementById('btn-upload').style.background = '#ecfdf5';
+            }
+        }
+
+        // Voice Recording Mock
+        let isRecordingVoice = false;
+        function triggerVoice() {
+            const btn = document.getElementById('btn-voice');
+            const txt = document.getElementById('txt-voice');
+            
+            if (!isRecordingVoice) {
+                // Start
+                isRecordingVoice = true;
+                btn.classList.add('recording');
+                txt.innerText = "Stop Rec";
+            } else {
+                // Stop
+                isRecordingVoice = false;
+                btn.classList.remove('recording');
+                txt.innerText = "Record Voice";
+                showPreview("Audio_Note_001.mp3 attached");
+                btn.style.borderColor = '#10b981';
+                btn.style.color = '#10b981';
+            }
+        }
+
+        // Video Recording Mock
+        let isRecordingVideo = false;
+        function triggerVideo() {
+            const btn = document.getElementById('btn-video');
+            const txt = document.getElementById('txt-video');
+
+            if (!isRecordingVideo) {
+                // Start
+                isRecordingVideo = true;
+                btn.classList.add('recording');
+                txt.innerText = "Stop Rec";
+            } else {
+                // Stop
+                isRecordingVideo = false;
+                btn.classList.remove('recording');
+                txt.innerText = "Record Video";
+                showPreview("Video_Clip_001.mp4 attached");
+                btn.style.borderColor = '#10b981';
+                btn.style.color = '#10b981';
+            }
+        }
+
+        function showPreview(text) {
+            const preview = document.getElementById('evidencePreview');
+            const txtSpan = document.getElementById('evidenceText');
+            preview.style.display = 'flex';
+            txtSpan.innerText = text;
+        }
+
+        // --- 3. Form Submission ---
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const btn = document.querySelector('.submit-btn');
+            const subject = document.getElementById('caseSubject').value;
+            
+            // Loading State
+            btn.innerText = "Submitting...";
+            btn.style.opacity = "0.7";
+
+            // Mock API delay
+            setTimeout(() => {
+                alert("Case Submitted Successfully!\nTags: " + (activeTags.length ? activeTags.join(', ') : 'None'));
+                
+                // Reset Button
+                btn.innerText = "Done ✓";
+                btn.style.background = "#10b981";
+                
+                // Add to sidebar history
+                addToHistory(subject);
+                
+                // Optional: Reset form after 2 seconds
+                setTimeout(() => {
+                    btn.innerText = "Submit Case Report";
+                    btn.style.background = "var(--primary)";
+                    btn.style.opacity = "1";
+                    document.getElementById('legalForm').reset();
+                    document.getElementById('evidencePreview').style.display = 'none';
+                    // clear tags
+                    document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('selected'));
+                    activeTags = [];
+                }, 2000);
+
+            }, 1000);
+        }
+
+        function addToHistory(subject) {
+            const list = document.getElementById('historyList');
+            const newItem = document.createElement('li');
+            newItem.className = 'case-item';
+            newItem.innerHTML = `
+                <div class="status-dot status-pending"></div>
+                <div class="case-info">
+                    <h4>${subject}</h4>
+                    <p>Status: <strong>Submitted</strong></p>
+                </div>
+            `;
+            list.prepend(newItem);
+        }
+    </script>
+</body>
+</html>
+>>>>>>> 7ba85e9 (WIP: Local changes before pull)

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reviewer Portal - Legal Aid Platform</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* 🎨 SHARED THEME PALETTE (Matches Student Dashboard) */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f3f4f6;
+    color: #111827;
+    min-height: 100vh;
+  }
+
+  /* --- Navigation --- */
+  .top-nav { background-color: #ffffff; border-bottom: 1px solid #e5e7eb; padding: 0.75rem 0; position: sticky; top: 0; z-index: 100; }
+  .nav-content { max-width: 1280px; margin: 0 auto; padding: 0 1rem; display: flex; align-items: center; gap: 2rem; }
+  .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #0a66c2 0%, #10b981 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+  .nav-actions { display: flex; gap: 1rem; margin-left: auto; }
+  .nav-btn { padding: 0.5rem 1rem; background: transparent; border: 1px solid #e5e7eb; border-radius: 20px; color: #374151; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
+  .nav-btn:hover { background-color: #f3f4f6; border-color: #0a66c2; }
+  .role-badge { background-color: #e0e7ff; color: #4338ca; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; border: 1px solid #c7d2fe; }
+
+  /* --- Layout --- */
+  .container { max-width: 1280px; margin: 1.5rem auto; padding: 0 1rem; display: grid; grid-template-columns: 280px 1fr 300px; gap: 1.5rem; }
+  
+  /* --- Cards & General --- */
+  .card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 1rem; }
+  .card-header { padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; }
+  .card-title { font-size: 1rem; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 0.5rem; }
+
+  /* --- Sidebar Styles --- */
+  .profile-header { height: 80px; background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%); position: relative; } /* Purple for Reviewer */
+  .profile-avatar { width: 80px; height: 80px; border-radius: 50%; border: 4px solid #ffffff; background: #4f46e5; position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #fff; font-weight: 700;}
+  .profile-info { padding: 3rem 1.5rem 1rem; text-align: center; border-bottom: 1px solid #e5e7eb; }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1rem; }
+  .stat-box { text-align: center; padding: 0.75rem; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; }
+  .stat-val { font-size: 1.25rem; font-weight: 700; color: #111827; }
+  .stat-lbl { font-size: 0.75rem; color: #6b7280; }
+
+  /* --- Review List Styles --- */
+  .review-item { padding: 1.25rem; border-bottom: 1px solid #e5e7eb; transition: background 0.2s; display: flex; gap: 1rem; }
+  .review-item:hover { background-color: #f9fafb; }
+  .review-icon { width: 48px; height: 48px; border-radius: 8px; background: #e0e7ff; color: #4338ca; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+  .review-content { flex: 1; }
+  .review-meta { display: flex; gap: 0.5rem; font-size: 0.75rem; color: #6b7280; margin-bottom: 0.25rem; }
+  .review-title { font-weight: 600; color: #111827; margin-bottom: 0.5rem; }
+  .review-snippet { font-size: 0.875rem; color: #4b5563; background: #f3f4f6; padding: 0.5rem; border-radius: 6px; margin-bottom: 0.75rem; border-left: 3px solid #cbd5e1; }
+  
+  .btn-primary { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; border: none; padding: 0.5rem 1.25rem; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 0.875rem; transition: transform 0.2s; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
+
+  /* --- MODAL (The Review Interface) --- */
+  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+  .modal-container { background: white; width: 90%; max-width: 1000px; height: 85vh; border-radius: 16px; display: flex; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+  
+  .modal-left { flex: 2; padding: 2rem; overflow-y: auto; background: #f9fafb; border-right: 1px solid #e5e7eb; }
+  .modal-right { flex: 1; padding: 2rem; overflow-y: auto; background: white; display: flex; flex-direction: column; }
+
+  .doc-viewer { background: white; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-radius: 8px; min-height: 600px; font-family: 'Times New Roman', serif; line-height: 1.6; color: #333; }
+  
+  .rubric-item { margin-bottom: 1.5rem; }
+  .rubric-label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #374151; font-size: 0.9rem; }
+  .rubric-input { width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px; }
+  .feedback-area { width: 100%; height: 150px; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; margin-bottom: 1rem; resize: none; font-family: inherit; }
+  
+  .action-buttons { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-approve { background: #10b981; color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+  .btn-reject { background: #ef4444; color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+  .btn-close { position: absolute; top: 1rem; right: 1rem; background: white; border: none; font-size: 1.5rem; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+  /* Utilities */
+  .tag { padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+  .tag-draft { background: #fee2e2; color: #991b1b; }
+  .tag-exam { background: #dbeafe; color: #1e40af; }
+  
+  @media (max-width: 1024px) { .container { grid-template-columns: 260px 1fr; } .right-sidebar { display: none; } }
+  @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .modal-container { flex-direction: column; height: 95vh; } .modal-left { height: 50%; } .modal-right { height: 50%; } }
+</style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <div class="nav-content">
+      <a href="#" class="logo"><span>⚖️</span><span>LegalMinds</span></a>
+      <span class="role-badge">REVIEWER MODE</span>
+      <div class="nav-actions">
+        <button class="nav-btn">My Queue (3)</button>
+        <button class="nav-btn">History</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    
+    <aside class="card">
+      <div class="profile-header"><div class="profile-avatar">RJ</div></div>
+      <div class="profile-info">
+        <h2 style="font-size: 1.1rem; font-weight: 700;">Rahul Jain</h2>
+        <p style="font-size: 0.85rem; color: #6b7280;">Senior Associate Reviewer</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem; color: #4b5563;">Specialty: Contract Law & Torts</p>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="stat-val" id="stat-reviewed">142</div><div class="stat-lbl">Reviewed</div></div>
+        <div class="stat-box"><div class="stat-val" style="color: #10b981;">98%</div><div class="stat-lbl">Accuracy</div></div>
+        <div class="stat-box"><div class="stat-val" id="stat-pending">3</div><div class="stat-lbl">Pending</div></div>
+        <div class="stat-box"><div class="stat-val">4.5h</div><div class="stat-lbl">Avg Time</div></div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">📝 Submission Queue</h2>
+          <span style="font-size: 0.8rem; color: #6b7280;">Sorted by Priority</span>
+        </div>
+        <div id="review-queue">
+          </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">✅ Recently Completed</h2>
+        </div>
+        <div class="review-item" style="opacity: 0.7;">
+          <div class="review-icon" style="background: #ecfdf5; color: #047857;">✓</div>
+          <div class="review-content">
+            <div class="review-meta">Student: Priya S. • 2 hours ago</div>
+            <div class="review-title">Drafting: Lease Agreement (Clause 4)</div>
+            <div style="font-size: 0.8rem; color: #10b981; font-weight: 600;">Approved (Score: 9/10)</div>
+          </div>
+          <button class="nav-btn" style="height: fit-content; align-self: center;">View</button>
+        </div>
+      </div>
+    </main>
+
+    <aside class="right-sidebar">
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">📋 Rubric Quick Guide</h3></div>
+        <div style="padding: 1.25rem;">
+          <div style="margin-bottom: 1rem;">
+            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">1. Legal Accuracy</div>
+            <p style="font-size: 0.8rem; color: #6b7280;">Citations must be from 2024 updated penal code. Check logic flow.</p>
+          </div>
+          <div style="margin-bottom: 1rem;">
+            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">2. Formatting</div>
+            <p style="font-size: 0.8rem; color: #6b7280;">Standard font size 12, proper indentation for clauses.</p>
+          </div>
+          <div style="margin-bottom: 1rem;">
+            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">3. Tone</div>
+            <p style="font-size: 0.8rem; color: #6b7280;">Professional, objective, and devoid of emotional language.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3 class="card-title">🏆 Top Reviewers</h3></div>
+        <div style="padding: 0.5rem;">
+           <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #f3f4f6;">
+             <div style="width: 32px; height: 32px; background: #e0e7ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">AS</div>
+             <div style="flex: 1; font-size: 0.85rem; font-weight: 600;">Ananya Singh</div>
+             <div style="font-size: 0.75rem; color: #6b7280;">152</div>
+           </div>
+           <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem;">
+             <div style="width: 32px; height: 32px; background: #fee2e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">DK</div>
+             <div style="flex: 1; font-size: 0.85rem; font-weight: 600;">Dev Kumar</div>
+             <div style="font-size: 0.75rem; color: #6b7280;">148</div>
+           </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <div class="modal-overlay" id="review-modal">
+    <div class="modal-container">
+      <button class="btn-close" onclick="closeModal()">×</button>
+      
+      <div class="modal-left">
+        <h2 style="margin-bottom: 1rem; font-size: 1.5rem;" id="modal-title">Loading...</h2>
+        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #6b7280;">
+          <span id="modal-student">Student: ...</span>
+          <span id="modal-type">Type: ...</span>
+        </div>
+        <div class="doc-viewer" id="modal-content">
+          </div>
+      </div>
+
+      <div class="modal-right">
+        <h3 style="margin-bottom: 1.5rem;">Evaluation</h3>
+        
+        <div class="rubric-item">
+          <label class="rubric-label">Legal Accuracy (0-10)</label>
+          <input type="range" min="0" max="10" value="5" class="rubric-input" oninput="this.nextElementSibling.value = this.value">
+          <output style="font-weight:bold; color: #4f46e5; margin-left: 10px;">5</output>
+        </div>
+
+        <div class="rubric-item">
+          <label class="rubric-label">Formatting & Syntax (0-10)</label>
+          <input type="range" min="0" max="10" value="5" class="rubric-input" oninput="this.nextElementSibling.value = this.value">
+          <output style="font-weight:bold; color: #4f46e5; margin-left: 10px;">5</output>
+        </div>
+
+        <div class="rubric-item">
+          <label class="rubric-label">Detailed Feedback</label>
+          <textarea class="feedback-area" placeholder="Provide constructive criticism here... e.g., 'The citation in paragraph 3 is outdated.'"></textarea>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn-reject" onclick="submitReview('reject')">Request Revision</button>
+          <button class="btn-approve" onclick="submitReview('approve')">Approve & Sign</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. DATA: Submissions Queue
+    let queueData = [
+      { 
+        id: 101, 
+        student: "Amit Kumar", 
+        type: "Drafting", 
+        title: "Eviction Notice - Non-Payment", 
+        submitted: "45 mins ago", 
+        tag: "tag-draft",
+        content: `
+          <h1>LEGAL NOTICE</h1>
+          <p><strong>To:</strong> Mr. R. Sharma (Tenant)<br><strong>From:</strong> Mrs. K. Desai (Landlord)</p>
+          <p><strong>Subject:</strong> Notice to vacate premises due to non-payment of rent.</p>
+          <p>Dear Sir,</p>
+          <p>1. Under instructions from my client, Mrs. K. Desai, I hereby call upon you to pay the arrears of rent amounting to ₹45,000 for the months of August, September, and October 2025.</p>
+          <p>2. Despite repeated verbal reminders, you have failed to clear the dues.</p>
+          <p>3. You are hereby given 15 days notice to clear the dues OR vacate the property located at 12/B Baker Street, Mumbai.</p>
+          <p>4. Failure to comply will result in legal action under the Rent Control Act.</p>
+        `
+      },
+      { 
+        id: 102, 
+        student: "Mehul Gupta", 
+        type: "Exam Answer", 
+        title: "Constitutional Law: Article 21", 
+        submitted: "2 hours ago", 
+        tag: "tag-exam",
+        content: `
+          <h3>Question: Discuss the expansion of Article 21.</h3>
+          <p><strong>Answer:</strong></p>
+          <p>Article 21 of the Indian Constitution states that "No person shall be deprived of his life or personal liberty except according to procedure established by law."</p>
+          <p>Over the years, the Supreme Court has expanded this definition significantly:</p>
+          <ul>
+            <li><strong>Maneka Gandhi v. Union of India:</strong> Established that the 'procedure' must be fair, just, and reasonable.</li>
+            <li><strong>Right to Privacy:</strong> Puttaswamy judgment declared privacy a fundamental right under Art 21.</li>
+            <li><strong>Right to Livelihood:</strong> Olga Tellis case included the right to earn a living.</li>
+          </ul>
+        `
+      },
+      { 
+        id: 103, 
+        student: "Sara Ali", 
+        type: "Drafting", 
+        title: "Affidavit for Name Change", 
+        submitted: "5 hours ago", 
+        tag: "tag-draft",
+        content: `
+          <h1>AFFIDAVIT</h1>
+          <p>I, Sara Ali, daughter of Mr. M. Ali, aged 22 years, residing at Delhi, do hereby solemnly affirm and declare as under:</p>
+          <p>1. That my recorded name in school certificates is "Sara Ali".</p>
+          <p>2. That I wish to change my name to "Sara Khan" for all future purposes.</p>
+          <p>3. That the contents of this affidavit are true to the best of my knowledge.</p>
+          <br><br>
+          <p>Deponent</p>
+        `
+      }
+    ];
+
+    let currentReviewId = null;
+
+    // 2. RENDER: Queue List
+    function renderQueue() {
+      const container = document.getElementById('review-queue');
+      
+      if (queueData.length === 0) {
+        container.innerHTML = `<div style="padding:2rem; text-align:center; color:#6b7280;">🎉 All caught up! No pending reviews.</div>`;
+        return;
+      }
+
+      container.innerHTML = queueData.map(item => `
+        <div class="review-item">
+          <div class="review-icon">📝</div>
+          <div class="review-content">
+            <div class="review-meta">Student: ${item.student} • ${item.submitted}</div>
+            <div class="review-title">
+              ${item.title} 
+              <span class="tag ${item.tag}">${item.type}</span>
+            </div>
+            <div class="review-snippet">Click 'Start Review' to view the full document and grading rubric...</div>
+          </div>
+          <button class="btn-primary" style="height: fit-content; align-self: center;" onclick="openReviewModal(${item.id})">Start Review</button>
+        </div>
+      `).join('');
+      
+      // Update Counter
+      document.getElementById('stat-pending').textContent = queueData.length;
+    }
+
+    // 3. ACTIONS: Modal Logic
+    function openReviewModal(id) {
+      const data = queueData.find(i => i.id === id);
+      if (!data) return;
+
+      currentReviewId = id;
+      document.getElementById('modal-title').textContent = data.title;
+      document.getElementById('modal-student').textContent = `Student: ${data.student}`;
+      document.getElementById('modal-type').textContent = `Type: ${data.type}`;
+      document.getElementById('modal-content').innerHTML = data.content;
+      
+      document.getElementById('review-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('review-modal').style.display = 'none';
+      currentReviewId = null;
+    }
+
+    function submitReview(decision) {
+      if (!currentReviewId) return;
+
+      const action = decision === 'approve' ? 'Approved' : 'Returned for Revision';
+      alert(`Submission ${action}! Stats updated.`);
+
+      // Remove from queue
+      queueData = queueData.filter(i => i.id !== currentReviewId);
+      
+      // Update Reviewed Count
+      let reviewedCount = parseInt(document.getElementById('stat-reviewed').textContent);
+      document.getElementById('stat-reviewed').textContent = reviewedCount + 1;
+
+      closeModal();
+      renderQueue();
+    }
+
+    // Initialize
+    renderQueue();
+
+  </script>
+</body>
+</html>

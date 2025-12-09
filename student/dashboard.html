@@ -11,16 +11,7 @@
     box-sizing: border-box;
   }
 
-  /* 🎨 LIGHT THEME PALETTE
-     Background:      #f3f4f6 (light gray)
-     Cards/Nav:       #ffffff (white)
-     Borders:         #e5e7eb (soft gray)
-     Main Text:       #111827 (near-black)
-     Muted Text:      #6b7280 / #9ca3af
-     Accent Blue:     #0a66c2
-     Accent Green:    #10b981
-  */
-
+  /* 🎨 LIGHT THEME PALETTE */
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: #f3f4f6;
@@ -637,7 +628,6 @@
 </style>
 </head>
 <body>
-  <!-- Top Navigation -->
   <nav class="top-nav">
     <div class="nav-content">
       <a href="#" class="logo">
@@ -654,9 +644,7 @@
     </div>
   </nav>
 
-  <!-- Main Container -->
   <div class="container">
-    <!-- Left Sidebar - Profile -->
     <aside class="profile-card">
       <div class="profile-header">
         <div class="profile-avatar">SR</div>
@@ -694,9 +682,7 @@
       </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
-      <!-- Category Filters -->
       <div class="card">
         <div class="card-header">
           <h2 class="card-title">
@@ -717,7 +703,6 @@
         </div>
       </div>
 
-      <!-- Unclaimed Cases -->
       <div class="card">
         <div class="card-header">
           <h2 class="card-title">
@@ -728,7 +713,6 @@
         <div class="case-list" id="unclaimed-cases"></div>
       </div>
 
-      <!-- My Cases -->
       <div class="card">
         <div class="card-header">
           <h2 class="card-title">
@@ -740,9 +724,7 @@
       </div>
     </main>
 
-    <!-- Right Sidebar -->
     <aside class="right-sidebar">
-      <!-- Recent Activity -->
       <div class="info-card">
         <div class="info-header">
           <span>⚡</span>
@@ -764,7 +746,6 @@
         </div>
       </div>
 
-      <!-- Leaderboard -->
       <div class="info-card">
         <div class="info-header">
           <span>🏆</span>
@@ -798,7 +779,6 @@
         </div>
       </div>
 
-      <!-- Community Tips -->
       <div class="info-card">
         <div class="info-header">
           <span>💡</span>
@@ -819,39 +799,57 @@
   </div>
 
   <script>
+    // 1. DATA STORE
     const mockData = {
       users: [
-        { id: 1, title: "Landlord refusing security deposit return", category: "Rent", location: "Mumbai", urgency: "High", status: "Pending", assignedTo: null, statusLabel: "Pending", phase: "exam", upvotes: 42, author: "Posted by tenant_147" },
-        { id: 2, title: "Unpaid overtime wages for 3 months", category: "Wages", location: "Delhi", urgency: "Medium", status: "Pending", assignedTo: null, statusLabel: "Pending", phase: "exam", upvotes: 28, author: "Posted by worker_89" },
-        { id: 3, title: "Workplace harassment complaint - urgent help needed", category: "Harassment", location: "Bangalore", urgency: "High", status: "Pending", assignedTo: null, statusLabel: "Pending", phase: "exam", upvotes: 67, author: "Posted by anonymous_user" },
-        { id: 4, title: "Illegal eviction notice received", category: "Rent", location: "Pune", urgency: "High", status: "In Progress", assignedTo: "student-001", statusLabel: "In Progress", phase: "draft", upvotes: 35, author: "Posted by family_203" },
-        { id: 5, title: "Minimum wage violation at factory", category: "Wages", location: "Chennai", urgency: "Medium", status: "In Progress", assignedTo: "student-001", statusLabel: "In Progress", phase: "exam", upvotes: 19, author: "Posted by laborer_56" },
-        { id: 6, title: "Sudden rent increase without proper notice", category: "Rent", location: "Hyderabad", urgency: "Low", status: "Pending", assignedTo: null, statusLabel: "Pending", phase: "exam", upvotes: 15, author: "Posted by resident_421" },
+        { id: 1, title: "Landlord refusing security deposit return", category: "Rent", location: "Mumbai", urgency: "High", status: "Pending", assignedTo: null, upvotes: 42, author: "Posted by tenant_147" },
+        { id: 2, title: "Unpaid overtime wages for 3 months", category: "Wages", location: "Delhi", urgency: "Medium", status: "Pending", assignedTo: null, upvotes: 28, author: "Posted by worker_89" },
+        { id: 3, title: "Workplace harassment complaint - urgent help needed", category: "Harassment", location: "Bangalore", urgency: "High", status: "Pending", assignedTo: null, upvotes: 67, author: "Posted by anonymous_user" },
+        { id: 4, title: "Illegal eviction notice received", category: "Rent", location: "Pune", urgency: "High", status: "In Progress", assignedTo: "student-001", upvotes: 35, author: "Posted by family_203" },
+        { id: 5, title: "Minimum wage violation at factory", category: "Wages", location: "Chennai", urgency: "Medium", status: "In Progress", assignedTo: "student-001", upvotes: 19, author: "Posted by laborer_56" },
+        { id: 6, title: "Sudden rent increase without proper notice", category: "Rent", location: "Hyderabad", urgency: "Low", status: "Pending", assignedTo: null, upvotes: 15, author: "Posted by resident_421" },
       ]
     };
 
     const currentStudentId = "student-001";
     let currentCategory = "All";
 
+    // 2. HELPER FUNCTIONS
     function getCategoryIcon(category) {
       const icons = { 'Rent': '🏠', 'Wages': '💰', 'Harassment': '⚠️', 'All': '📋' };
       return icons[category] || '📋';
     }
 
-    function filterUnclaimedCases() {
-      return mockData.users.filter(caseItem => {
-        const matchesCategory = currentCategory === "All" || caseItem.category === currentCategory;
-        return caseItem.status === "Pending" && matchesCategory;
-      });
-    }
+    // 3. LOGIC FUNCTIONS
+    // Claim Case: Moves from "Available" to "My Active Cases"
+    window.claimCase = function(id) {
+        const caseIndex = mockData.users.findIndex(c => c.id === id);
+        if (caseIndex !== -1) {
+            mockData.users[caseIndex].assignedTo = currentStudentId;
+            mockData.users[caseIndex].status = "In Progress";
+            
+            // Re-render UI
+            renderUnclaimedCases();
+            renderMyCases();
+        }
+    };
 
-    function filterMyCases() {
-      return mockData.users.filter(caseItem => caseItem.assignedTo === currentStudentId);
-    }
+    // Category Filtering
+    document.getElementById('category-filters').addEventListener('click', (e) => {
+      if (e.target.classList.contains('category-btn')) {
+        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        currentCategory = e.target.getAttribute('data-category');
+        renderUnclaimedCases();
+      }
+    });
 
+    // 4. RENDER FUNCTIONS
     function renderUnclaimedCases() {
       const container = document.getElementById("unclaimed-cases");
-      const cases = filterUnclaimedCases();
+      const cases = mockData.users.filter(c => 
+        c.status === "Pending" && (currentCategory === "All" || c.category === currentCategory)
+      );
 
       if (cases.length === 0) {
         container.innerHTML = `
@@ -879,7 +877,7 @@
             </div>
             <div class="case-title">${c.title}</div>
             <div class="case-description">
-              ${c.location} - This case requires immediate legal assistance. The complainant has provided all necessary documentation and is ready to proceed.
+              ${c.location} - This case requires immediate legal assistance. The complainant has provided all necessary documentation.
             </div>
             <div class="case-tags">
               <span class="tag category">${c.category}</span>
@@ -890,7 +888,6 @@
               <button class="case-action-btn" onclick="claimCase(${c.id})">Claim Case</button>
               <button class="case-meta-btn">💬 12 comments</button>
               <button class="case-meta-btn">🔖 Save</button>
-              <button class="case-meta-btn">⋯ More</button>
             </div>
           </div>
         </div>
@@ -899,9 +896,11 @@
 
     function renderMyCases() {
       const container = document.getElementById("my-cases");
-      const cases = filterMyCases();
+      const cases = mockData.users.filter(c => c.assignedTo === currentStudentId);
 
-      document.getElementById("sidebar-progress").textContent = cases.length;
+      // Update sidebar counter
+      const sidebarProgress = document.getElementById("sidebar-progress");
+      if(sidebarProgress) sidebarProgress.textContent = cases.length;
 
       if (cases.length === 0) {
         container.innerHTML = `
@@ -916,7 +915,34 @@
 
       container.innerHTML = cases.map(c => `
         <div class="case-item">
-          <div class="vote-section">
-            <button class="vote-btn">▲</button>
-            <div class="vote-count">${c.upvotes}</div>
-            <button class="vote-btn">▼
+          <div class="case-icon" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">⚡</div>
+          <div class="case-content">
+            <div class="case-header">
+              <span class="case-author">${c.author}</span>
+              <span class="case-time">• Assigned: Just now</span>
+            </div>
+            <div class="case-title">${c.title}</div>
+             <div class="case-description">
+              You are currently representing this client. Please review the uploaded documents in the case file.
+            </div>
+            <div class="case-tags">
+              <span class="tag category">${c.category}</span>
+              <span class="tag ${c.urgency === 'High' ? 'urgent' : ''}">${c.urgency} Priority</span>
+              <span class="tag" style="background-color: #ecfdf5; color: #047857; border-color: #a7f3d0;">Active</span>
+            </div>
+            <div class="case-footer">
+              <button class="case-action-btn">📂 Open Case File</button>
+              <button class="case-action-btn secondary">Update Status</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // INITIAL RENDER
+    renderUnclaimedCases();
+    renderMyCases();
+
+  </script>
+</body>
+</html>
