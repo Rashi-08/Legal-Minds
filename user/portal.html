@@ -1,538 +1,1541 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Citizen Portal | JURIS_NET</title>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --bg-body: #f3f4f6;
-            --bg-card: #ffffff;
-            --text-main: #111827;
-            --text-muted: #6b7280;
-            --border: #e5e7eb;
-            --success: #10b981;
-            --danger: #ef4444;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LegalMinds | Report Legal Problem</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f3f2ef;
+      color: #000000de;
+      min-height: 100vh;
+    }
 
-        /* --- HEADER / NAVIGATION --- */
-        .navbar {
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-            padding: 0.75rem 1.5rem;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
+    /* ================= NAVIGATION ================= */
+    .navbar {
+      background: #ffffff;
+      border-bottom: 1px solid #00000024;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-        .brand {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    .nav-inner {
+      max-width: 1128px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
 
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            font-size: 1.2rem;
-            color: var(--text-muted);
-        }
+    .logo-emoji {
+      font-size: 22px;
+      background: linear-gradient(115deg, #0a66c2, #2563eb, #1d4ed8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
 
-        .badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--danger);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: bold;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
 
-        .profile-pic {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #2563eb, #9333ea);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
+    .logo-text h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: linear-gradient(115deg, #0a66c2, #2563eb, #1d4ed8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
 
-        /* --- LAYOUT GRID --- */
-        .main-container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            display: grid;
-            grid-template-columns: 2fr 1fr; /* Form takes 2/3, Sidebar takes 1/3 */
-            gap: 2rem;
-        }
+    .logo-text span {
+      font-size: 10px;
+      color: #00000099;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
 
-        @media (max-width: 768px) {
-            .main-container {
-                grid-template-columns: 1fr;
-            }
-        }
+    .nav-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        /* --- CARDS --- */
-        .card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
+    .nav-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: #e7f3ff;
+      border-radius: 16px;
+      font-size: 12px;
+      color: #0a66c2;
+      font-weight: 500;
+      white-space: nowrap;
+    }
 
-        h2 { margin-top: 0; font-size: 1.5rem; color: var(--text-main); }
-        .subtitle { color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; margin-top: -10px; }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #057642;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
 
-        /* --- FORM ELEMENTS --- */
-        input, textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: inherit;
-            box-sizing: border-box;
-            transition: all 0.2s;
-            background: #f9fafb;
-        }
-        
-        input:focus, textarea:focus { 
-            outline: none; 
-            border-color: var(--primary); 
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); 
-        }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
 
-        textarea { resize: vertical; min-height: 150px; }
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.15s ease;
+    }
 
-        /* --- MEDIA TOOLBAR --- */
-        .media-toolbar {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
+    .icon-btn:hover {
+      background: #f3f4f6;
+      border-color: #0a66c2;
+    }
 
-        .media-btn {
-            border: 1px dashed var(--border);
-            background: #fafafa;
-            padding: 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            transition: all 0.2s;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+    .profile-wrapper {
+      position: relative;
+    }
 
-        .media-btn:hover {
-            border-color: var(--primary);
-            background: #eff6ff;
-            color: var(--primary);
-        }
+    .avatar-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+    }
 
-        .media-btn.recording {
-            border-color: var(--danger);
-            background: #fef2f2;
-            color: var(--danger);
-            animation: pulse 1.5s infinite;
-        }
+    .avatar-text {
+      font-size: 14px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0a66c2, #2563eb, #1d4ed8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
 
-        .media-icon { font-size: 1.5rem; }
+    .notif-dot {
+      position: relative;
+    }
+    .notif-dot::after {
+      content:"";
+      position:absolute;
+      top:6px;
+      right:6px;
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:#ef4444;
+    }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
+    /* Profile dropdown */
+    .profile-menu {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border: 1px solid #e5e7eb;
+      width: 220px;
+      padding: 8px 0;
+      display: none;
+      z-index: 150;
+    }
 
-        /* --- SIDEBAR --- */
-        .sidebar-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-        }
+    .profile-wrapper.open .profile-menu {
+      display: block;
+    }
 
-        .sidebar-header {
-            padding: 1rem;
-            background: #f9fafb;
-            border-bottom: 1px solid var(--border);
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .profile-header {
+      padding: 8px 14px 10px;
+      border-bottom: 1px solid #f3f4f6;
+    }
 
-        /* Tags in Sidebar */
-        .tag-list {
-            padding: 1rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
+    .profile-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+    }
 
-        .tag-chip {
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            background: #fff;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    .profile-email {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 2px;
+    }
 
-        .tag-chip:hover { border-color: var(--primary); }
-        .tag-chip.selected { 
-            background: var(--primary); 
-            color: white; 
-            border-color: var(--primary); 
-        }
+    .profile-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      color: #111827;
+      cursor: pointer;
+    }
 
-        /* Case List */
-        .case-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+    .profile-item:hover {
+      background: #f3f4f6;
+    }
 
-        .case-item {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            gap: 0.75rem;
-            align-items: flex-start;
-        }
-        .case-item:last-child { border-bottom: none; }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-top: 5px;
-            flex-shrink: 0;
-        }
-        .status-active { background: #10b981; }
-        .status-pending { background: #f59e0b; }
+    .profile-item span.icon {
+      width: 18px;
+      text-align: center;
+    }
 
-        .case-info h4 { margin: 0 0 0.25rem; font-size: 0.9rem; }
-        .case-info p { margin: 0; font-size: 0.8rem; color: var(--text-muted); }
+    /* ================= MAIN CONTAINER ================= */
+    .container {
+      max-width: 1128px;
+      margin: 24px auto;
+      padding: 0 24px;
+    }
 
-        /* Submit Button */
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 1rem;
-        }
-        .submit-btn:hover { background: var(--primary-hover); }
+    .layout {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
 
-        /* File Preview Area */
-        .evidence-preview {
-            display: none;
-            padding: 1rem;
-            background: #ecfdf5;
-            border: 1px solid #10b981;
-            border-radius: 8px;
-            color: #065f46;
-            font-size: 0.9rem;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    .layout .main-card {
+      flex: 2;
+    }
 
-    </style>
+    .main-card {
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #00000024;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    /* Previous Case Sidebar */
+    .side-card {
+      flex: 1;
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #00000024;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.08);
+      padding: 16px 16px 18px;
+      position: sticky;
+      top: 72px;
+      cursor: pointer;
+    }
+
+    .side-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #000000de;
+      margin-bottom: 4px;
+    }
+
+    .side-sub {
+      font-size: 12px;
+      color: #00000099;
+      margin-bottom: 12px;
+    }
+
+    .side-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .side-label {
+      color: #00000099;
+    }
+
+    .side-value {
+      font-weight: 600;
+      color: #000000de;
+    }
+
+    .status-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-pill::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .status-open {
+      background: #e7f3ff;
+      color: #0a66c2;
+    }
+
+    .status-open::before {
+      background: #0a66c2;
+    }
+
+    .status-closed {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-closed::before {
+      background: #2e7d32;
+    }
+
+    .status-unpaid {
+      background: #fff3e0;
+      color: #ef6c00;
+    }
+
+    .status-unpaid::before {
+      background: #ef6c00;
+    }
+
+    .status-paid {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .status-paid::before {
+      background: #2e7d32;
+    }
+
+    .side-divider {
+      border-top: 1px solid #0000001f;
+      margin: 12px 0;
+    }
+
+    .side-note {
+      font-size: 11px;
+      color: #00000099;
+      line-height: 1.4;
+    }
+
+    /* ================= HEADER ================= */
+    .card-header {
+      padding: 24px 24px 20px;
+      border-bottom: 1px solid #00000024;
+    }
+
+    .card-header h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #000000de;
+      margin-bottom: 8px;
+    }
+
+    .card-header p {
+      font-size: 14px;
+      color: #00000099;
+      line-height: 1.5;
+    }
+
+    .trust-row {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: #f3f2ef;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #00000099;
+    }
+
+    .trust-badge::before {
+      content: "✓";
+      color: #057642;
+      font-weight: 700;
+    }
+
+    /* ================= FORM BODY ================= */
+    .card-body {
+      padding: 24px;
+    }
+
+    .form-section {
+      margin-bottom: 32px;
+    }
+
+    .form-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #000000de;
+      margin-bottom: 4px;
+    }
+
+    .section-desc {
+      font-size: 13px;
+      color: #00000099;
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #000000de;
+      margin-bottom: 6px;
+    }
+
+    .optional {
+      font-weight: 400;
+      color: #00000099;
+      font-size: 13px;
+    }
+
+    .input, .select, .textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #00000066;
+      border-radius: 4px;
+      font-size: 14px;
+      color: #000000de;
+      background: #ffffff;
+      font-family: inherit;
+      transition: all 0.2s ease;
+    }
+
+    .input:hover, .select:hover, .textarea:hover {
+      border-color: #000000de;
+    }
+
+    .input:focus, .select:focus, .textarea:focus {
+      outline: none;
+      border-color: #0a66c2;
+      border-width: 2px;
+      padding: 9px 11px;
+    }
+
+    .textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.5;
+    }
+
+    .field-group {
+      margin-bottom: 16px;
+    }
+
+    .helper-text {
+      font-size: 12px;
+      color: #00000099;
+      margin-top: 4px;
+    }
+
+    /* ================= CATEGORY GRID ================= */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .category-card {
+      padding: 16px;
+      border: 1px solid #00000066;
+      border-radius: 8px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .category-card:hover {
+      border-color: #0a66c2;
+      box-shadow: 0 0 0 1px #0a66c2;
+    }
+
+    .category-card.selected {
+      border-color: #0a66c2;
+      border-width: 2px;
+      padding: 15px;
+      background: #e7f3ff;
+    }
+
+    .category-card.selected::after {
+      content: "✓";
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 20px;
+      height: 20px;
+      background: #0a66c2;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .category-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #000000de;
+      margin-bottom: 4px;
+    }
+
+    .category-desc {
+      font-size: 12px;
+      color: #00000099;
+      line-height: 1.4;
+    }
+
+    /* ================= INPUT MODE SELECTOR ================= */
+    .input-mode-selector {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #00000024;
+      border-radius: 8px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mode-btn:hover {
+      border-color: #0a66c2;
+    }
+
+    .mode-btn.active {
+      border-color: #0a66c2;
+      background: #e7f3ff;
+    }
+
+    .mode-icon {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .mode-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #000000de;
+    }
+
+    .mode-hint {
+      font-size: 11px;
+      color: #00000099;
+    }
+
+    /* ================= RECORDER AREAS ================= */
+    .recorder-area {
+      display: none;
+      padding: 24px;
+      background: #f3f2ef;
+      border: 2px dashed #00000066;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .recorder-area.active {
+      display: block;
+    }
+
+    .record-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .record-text {
+      font-size: 14px;
+      color: #000000de;
+      margin-bottom: 16px;
+    }
+
+    .record-btn {
+      padding: 10px 24px;
+      background: #0a66c2;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .record-btn:hover {
+      background: #004182;
+    }
+
+    .record-btn.recording {
+      background: #c92a2a;
+    }
+
+    .playback-wrapper {
+      margin-top: 14px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      text-align: left;
+    }
+
+    .playback-header {
+      font-size: 12px;
+      color: #4b5563;
+      margin-bottom: 6px;
+    }
+
+    .small-ghost-btn {
+      margin-top: 8px;
+      padding: 4px 10px;
+      font-size: 12px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      cursor: pointer;
+      color: #374151;
+    }
+
+    .small-ghost-btn:hover {
+      border-color: #b91c1c;
+      color: #b91c1c;
+    }
+
+    /* ================= UPLOAD AREA ================= */
+    .upload-zone {
+      display: block;
+      padding: 32px;
+      border: 2px dashed #00000066;
+      border-radius: 8px;
+      background: #fafafa;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .upload-zone:hover,
+    .upload-zone.dragover {
+      border-color: #0a66c2;
+      background: #e7f3ff;
+    }
+
+    .upload-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+      color: #00000099;
+    }
+
+    .upload-text {
+      font-size: 14px;
+      color: #000000de;
+      margin-bottom: 4px;
+    }
+
+    .upload-hint {
+      font-size: 12px;
+      color: #00000099;
+    }
+
+    .evidence-list {
+      margin-top: 10px;
+      font-size: 12px;
+    }
+
+    .evidence-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 8px;
+      border-radius: 6px;
+      background: #f3f4f6;
+      margin-bottom: 4px;
+    }
+
+    .evidence-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .evidence-name {
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .evidence-size {
+      color: #6b7280;
+      font-size: 11px;
+    }
+
+    .evidence-remove {
+      border: none;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .evidence-remove:hover {
+      background:#fecaca;
+    }
+
+    /* ================= SUBMIT BUTTON ================= */
+    .submit-section {
+      padding: 20px 24px;
+      background: #f3f2ef;
+      border-top: 1px solid #00000024;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-submit {
+      padding: 12px 24px;
+      background: #0a66c2;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 0 0 1px transparent;
+      white-space: nowrap;
+    }
+
+    .btn-submit:hover {
+      background: #004182;
+      box-shadow: 0 0 0 1px #0a66c2, 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    .submit-note {
+      font-size: 12px;
+      color: #00000099;
+      flex: 1;
+    }
+
+    /* ================= CHAR COUNTER ================= */
+    .char-counter {
+      text-align: right;
+      font-size: 12px;
+      color: #00000099;
+      margin-top: 4px;
+    }
+
+    /* ================= SUCCESS MODAL ================= */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 8px;
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .modal-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .modal-content h3 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #000000de;
+      margin-bottom: 8px;
+    }
+
+    .modal-content p {
+      font-size: 14px;
+      color: #00000099;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .case-id-box {
+      padding: 16px;
+      background: #e7f3ff;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+
+    .case-id-label {
+      font-size: 12px;
+      color: #00000099;
+      margin-bottom: 4px;
+    }
+
+    .case-id-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: #0a66c2;
+      font-family: monospace;
+    }
+
+    .btn-close {
+      padding: 10px 24px;
+      background: #0a66c2;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-close:hover {
+      background: #004182;
+    }
+
+    /* Previous case detail modal */
+    .modal-content-left {
+      text-align:left;
+    }
+    .detail-row {
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:8px;
+      font-size:13px;
+    }
+    .detail-label { color:#6b7280; }
+    .detail-value { font-weight:600; }
+
+    /* ================= RESPONSIVE ================= */
+    @media (max-width: 768px) {
+      .nav-status {
+        display: none;
+      }
+
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-body {
+        padding: 16px;
+      }
+
+      .submit-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-submit {
+        width: 100%;
+      }
+
+      .input-mode-selector {
+        flex-direction: column;
+      }
+
+      .layout {
+        flex-direction: column;
+      }
+
+      .side-card {
+        position: static;
+      }
+    }
+  </style>
 </head>
 <body>
 
+
     <nav class="navbar">
         <div class="brand">
-            <span>⚖️</span> LEGALMINDS
+             
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="logo">
+        <span class="logo-emoji">⚖️</span>
+        <div class="logo-text">
+          <h1>LEGALMINDS</h1>
+          <span>Symbiotic Justice Engine</span>
+
         </div>
-        <div class="nav-right">
-            <button class="icon-btn">
-                🔔 <span class="badge">2</span>
-            </button>
-            <div class="profile-pic">JD</div>
+      </div>
+
+      <div class="nav-right">
+        <div class="nav-status">
+          <span class="status-dot"></span>
+          <span>Available 24/7</span>
         </div>
-    </nav>
+        <button class="icon-btn notif-dot" title="Notifications">🔔</button>
 
-    <div class="main-container">
-        
-        <main>
-            <div class="card">
-                <div>
-                    <h2>New Case Report</h2>
-                    <p class="subtitle">Describe your issue below. A student representative will be assigned shortly.</p>
-                </div>
-
-                <form id="legalForm" onsubmit="handleSubmit(event)">
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <input type="text" id="caseSubject" placeholder="Subject (e.g., Unpaid Rent)" required>
-                        <textarea id="caseDesc" placeholder="Describe the situation in detail..." required></textarea>
-                    </div>
-
-                    <h3 style="margin: 1.5rem 0 0.5rem; font-size: 1rem; color: var(--text-muted);">Attach Evidence</h3>
-                    
-                    <div class="media-toolbar">
-                        <div class="media-btn" onclick="triggerUpload()" id="btn-upload">
-                            <span class="media-icon">📂</span>
-                            <span>Upload File</span>
-                        </div>
-                        
-                        <div class="media-btn" onclick="triggerVoice()" id="btn-voice">
-                            <span class="media-icon">🎙️</span>
-                            <span id="txt-voice">Record Voice</span>
-                        </div>
-
-                        <div class="media-btn" onclick="triggerVideo()" id="btn-video">
-                            <span class="media-icon">📹</span>
-                            <span id="txt-video">Record Video</span>
-                        </div>
-                    </div>
-
-                    <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(this)">
-
-                    <div id="evidencePreview" class="evidence-preview">
-                        <span>✅</span> <span id="evidenceText">Evidence Attached</span>
-                    </div>
-
-                    <button type="submit" class="submit-btn">Submit Case Report</button>
-                </form>
+        <div class="profile-wrapper" id="profile-wrapper">
+          <button class="avatar-btn" id="avatar-btn" type="button">
+            <span class="avatar-text">GU</span>
+          </button>
+          <div class="profile-menu">
+            <div class="profile-header">
+              <div class="profile-name" id="profile-name">Guest User</div>
+              <div class="profile-email" id="profile-email">guest@legalminds.app</div>
             </div>
-        </main>
-
-        <aside>
-            <div class="sidebar-card">
-                <div class="sidebar-header">
-                    <span>Tags (Optional)</span>
-                </div>
-                <div class="tag-list" id="tagList">
-                    <div class="tag-chip" onclick="toggleTag(this, 'Rent')">🏠 Rent</div>
-                    <div class="tag-chip" onclick="toggleTag(this, 'Wages')">💰 Wages</div>
-                    <div class="tag-chip" onclick="toggleTag(this, 'Family')">👨‍👩‍👧 Family</div>
-                    <div class="tag-chip" onclick="toggleTag(this, 'Fraud')">⚠️ Fraud</div>
-                    <div class="tag-chip" onclick="toggleTag(this, 'Contract')">📝 Contract</div>
-                    <div class="tag-chip" onclick="toggleTag(this, 'Harassment')">🚫 Harassment</div>
-                </div>
-                <input type="hidden" id="selectedTags">
+            <div class="profile-item">
+              <span class="icon">👤</span>
+              <span>Profile</span>
             </div>
-
-            <div class="sidebar-card">
-                <div class="sidebar-header">
-                    <span>Previous Cases</span>
-                    <a href="#" style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">View All</a>
-                </div>
-                <ul class="case-list" id="historyList">
-                    <li class="case-item">
-                        <div class="status-dot status-active"></div>
-                        <div class="case-info">
-                            <h4>Unpaid Overtime</h4>
-                            <p>Status: <strong>Assigned</strong></p>
-                        </div>
-                    </li>
-                    <li class="case-item">
-                        <div class="status-dot status-pending"></div>
-                        <div class="case-info">
-                            <h4>Tenancy Review</h4>
-                            <p>Status: <strong>Pending</strong></p>
-                        </div>
-                    </li>
-                </ul>
+            <div class="profile-item">
+              <span class="icon">⚙️</span>
+              <span>Settings</span>
             </div>
-        </aside>
-
+            <div class="profile-item">
+              <span class="icon">❓</span>
+              <span>Help</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </nav>
 
-    <script>
-        // --- 1. Tag Logic (Optional) ---
-        let activeTags = [];
+  <!-- Main Container -->
+  <div class="container">
+    <div class="layout">
+      <!-- Current Case Form -->
+      <div class="main-card">
+        <!-- Header -->
+        <div class="card-header">
+          <h2>Report a Legal Problem</h2>
+          <p>Fill in the details below. A verified law student will draft a document under supervision. Do not share one-time passwords, full card numbers, or any information you are not comfortable sharing.</p>
 
-        function toggleTag(element, value) {
-            // Toggle UI
-            element.classList.toggle('selected');
-            
-            // Toggle Data
-            if (activeTags.includes(value)) {
-                activeTags = activeTags.filter(t => t !== value);
-            } else {
-                activeTags.push(value);
+          <div class="trust-row">
+            <span class="trust-badge">Urgent issues welcomed</span>
+            <span class="trust-badge">Data handled with care</span>
+            <span class="trust-badge">Reviewed by mentors</span>
+          </div>
+        </div>
+
+        <!-- Form Body -->
+        <div class="card-body">
+          <!-- Category Selection -->
+          <div class="form-section">
+            <div class="section-title">Issue Category</div>
+            <div class="section-desc">Select the category that best describes your legal issue</div>
+
+            <div class="category-grid">
+              <div class="category-card selected" data-category="rent">
+                <div class="category-title">Rent / Eviction</div>
+                <div class="category-desc">Locked out, deposit not returned</div>
+              </div>
+
+              <div class="category-card" data-category="wages">
+                <div class="category-title">Unpaid Wages</div>
+                <div class="category-desc">Salary, overtime, PF issues</div>
+              </div>
+
+              <div class="category-card" data-category="harassment">
+                <div class="category-title">Harassment</div>
+                <div class="category-desc">Workplace or landlord</div>
+              </div>
+
+              <div class="category-card" data-category="fraud">
+                <div class="category-title">Fraud / Cheating</div>
+                <div class="category-desc">Online or offline scams</div>
+              </div>
+
+              <div class="category-card" data-category="family">
+                <div class="category-title">Family Dispute</div>
+                <div class="category-desc">Maintenance, custody, etc.</div>
+              </div>
+
+              <div class="category-card" data-category="other">
+                <div class="category-title">Other</div>
+                <div class="category-desc">Anything else</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Personal Details -->
+          <div class="form-section">
+            <div class="section-title">Your Information</div>
+            <div class="section-desc">Optional but helps us serve you better</div>
+
+            <div class="field-group">
+              <label class="form-label">
+                City / State <span class="optional">(optional)</span>
+              </label>
+              <input class="input" type="text" id="user-location" placeholder="e.g., Chennai, Tamil Nadu">
+            </div>
+
+            <div class="field-group">
+              <label class="form-label">Preferred Language for Explanation</label>
+              <select class="select" id="language-select">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="bn">Bengali</option>
+                <option value="te">Telugu</option>
+                <option value="mr">Marathi</option>
+                <option value="ta">Tamil</option>
+                <option value="gu">Gujarati</option>
+                <option value="kn">Kannada</option>
+                <option value="ml">Malayalam</option>
+                <option value="or">Odia</option>
+                <option value="pa">Punjabi</option>
+                <option value="as">Assamese</option>
+                <option value="ur">Urdu</option>
+              </select>
+              <div class="helper-text">Voice and video transcription will try to understand the selected language</div>
+            </div>
+          </div>
+
+          <!-- Case Description -->
+          <div class="form-section">
+            <div class="section-title">Issue Description</div>
+            <div class="section-desc">Choose how you want to describe your case</div>
+
+            <!-- Input Mode Selector -->
+            <div class="input-mode-selector">
+              <div class="mode-btn active" data-mode="text">
+                <div class="mode-icon">📝</div>
+                <div class="mode-label">Text Input</div>
+                <div class="mode-hint">Type your case</div>
+              </div>
+
+              <div class="mode-btn" data-mode="voice">
+                <div class="mode-icon">🎤</div>
+                <div class="mode-label">Voice Message</div>
+                <div class="mode-hint">Record audio</div>
+              </div>
+
+              <div class="mode-btn" data-mode="video">
+                <div class="mode-icon">🎥</div>
+                <div class="mode-label">Video Message</div>
+                <div class="mode-hint">Record video</div>
+              </div>
+            </div>
+
+            <!-- Text Input -->
+            <div id="text-input" class="input-area active">
+              <textarea
+                class="textarea"
+                id="case-description"
+                placeholder="Explain what happened in order. Include dates, amounts, names (if comfortable), and what outcome you want..."
+                maxlength="1000"
+              ></textarea>
+              <div class="char-counter">
+                <span id="char-counter">0 / 1000 characters</span>
+              </div>
+            </div>
+
+            <!-- Voice Recorder -->
+            <div id="voice-input" class="recorder-area">
+              <div class="record-icon">🎤</div>
+              <div class="record-text">Click the button below to start recording your voice message</div>
+              <button class="record-btn" id="voice-record-btn" type="button">Start Recording</button>
+              <div class="helper-text" style="margin-top: 12px;">Maximum 5 minutes</div>
+
+              <div id="voice-playback-wrapper" class="playback-wrapper" style="display:none;">
+                <div class="playback-header">Recorded voice message:</div>
+                <audio id="voice-playback" controls></audio>
+                <button type="button" id="voice-delete-btn" class="small-ghost-btn">Remove recording</button>
+              </div>
+            </div>
+
+            <!-- Video Recorder -->
+            <div id="video-input" class="recorder-area">
+              <div class="record-icon">🎥</div>
+              <div class="record-text">Click the button below to start recording your video message</div>
+              <button class="record-btn" id="video-record-btn" type="button">Start Recording</button>
+              <div class="helper-text" style="margin-top: 12px;">Maximum 5 minutes</div>
+
+              <div id="video-playback-wrapper" class="playback-wrapper" style="display:none;">
+                <div class="playback-header">Recorded video message:</div>
+                <video id="video-playback" controls style="max-width:100%;height:auto;"></video>
+                <button type="button" id="video-delete-btn" class="small-ghost-btn">Remove recording</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Evidence Upload -->
+          <div class="form-section">
+            <div class="section-title">Proof / Evidence <span class="optional">(optional)</span></div>
+            <div class="section-desc">Upload supporting documents, photos, or chat screenshots</div>
+
+            <div class="upload-zone" id="upload-zone">
+              <div class="upload-icon">📎</div>
+              <div class="upload-text">Click to upload or drag and drop files</div>
+              <div class="upload-hint">PDF, JPG, PNG, video, audio, or Word documents (Max 10MB each)</div>
+            </div>
+            <input type="file" id="evidence-input" multiple style="display:none" />
+            <div id="evidence-list" class="evidence-list"></div>
+
+            <div class="helper-text" style="margin-top: 8px;">You can blur or hide sensitive parts before uploading</div>
+          </div>
+        </div>
+
+        <!-- Submit Section -->
+        <div class="submit-section">
+          <div class="submit-note">
+            By submitting, you agree to our Terms of Service. Your information will be handled confidentially.
+          </div>
+          <button class="btn-submit" type="button" onclick="submitCase()">Submit Case</button>
+        </div>
+      </div>
+
+      <!-- Previous Case Sidebar (dynamic) -->
+      <aside class="side-card" id="prev-case-card">
+        <div class="side-title">Previous Case</div>
+        <div class="side-sub">Overview of your last submitted case</div>
+
+        <div class="side-row">
+          <span class="side-label">Case ID</span>
+          <span class="side-value" id="prev-case-id">Not available</span>
+        </div>
+
+        <div class="side-row">
+          <span class="side-label">Fees</span>
+          <span class="status-pill status-unpaid" id="prev-case-fees">Unknown</span>
+        </div>
+
+        <div class="side-row">
+          <span class="side-label">Case Status</span>
+          <span class="status-pill status-open" id="prev-case-status">No previous case</span>
+        </div>
+
+        <div class="side-row">
+          <span class="side-label">Last Updated</span>
+          <span class="side-value" id="prev-case-time">—</span>
+        </div>
+
+        <div class="side-divider"></div>
+        <div class="side-note">
+          This information updates automatically when you submit a new case. Click to see full details. It is only visible to you.
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="success-modal">
+    <div class="modal-content">
+      <div class="modal-icon">✅</div>
+      <h3>Case Submitted Successfully!</h3>
+      <p>Your case has been registered and assigned to our legal team.</p>
+
+      <div class="case-id-box">
+        <div class="case-id-label">Your Case ID</div>
+        <div class="case-id-value" id="success-case-id">CASE-LM-2024-0000</div>
+      </div>
+
+      <p style="font-size: 13px; margin-bottom: 24px;">
+        A legal clinic will review your case and contact you through the platform within 24 hours.
+      </p>
+
+      <button class="btn-close" onclick="closeModal()">Got It</button>
+    </div>
+  </div>
+
+  <!-- Previous case detail modal -->
+  <div class="modal-overlay" id="prev-details-modal">
+    <div class="modal-content modal-content-left">
+      <div class="modal-icon">📂</div>
+      <h3>Previous Case Details</h3>
+      <p style="font-size:13px;margin-bottom:16px;">Snapshot of your last case and who accepted it.</p>
+
+      <div id="prev-details-body">
+        <!-- filled by JS -->
+      </div>
+
+      <button class="btn-close" style="margin-top:18px;" onclick="closePrevDetails()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // ========= Load previous case from localStorage on page load =========
+    window.addEventListener("load", () => {
+      const prevCase = JSON.parse(localStorage.getItem("previousCase"));
+      if (prevCase) {
+        updatePreviousCaseUI(prevCase);
+      }
+    });
+
+    // ========= Profile dropdown =========
+    const profileWrapper = document.getElementById("profile-wrapper");
+    const avatarBtn = document.getElementById("avatar-btn");
+
+    avatarBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileWrapper.classList.toggle("open");
+    });
+
+    window.addEventListener("click", () => {
+      profileWrapper.classList.remove("open");
+    });
+
+    // ========= Category selection =========
+    document.querySelectorAll(".category-card").forEach(card => {
+      card.addEventListener("click", function() {
+        document.querySelectorAll(".category-card").forEach(c => c.classList.remove("selected"));
+        this.classList.add("selected");
+      });
+    });
+
+    // ========= Input mode selection =========
+    document.querySelectorAll(".mode-btn").forEach(btn => {
+      btn.addEventListener("click", function() {
+        const mode = this.dataset.mode;
+
+        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+
+        document.getElementById("text-input").style.display = mode === "text" ? "block" : "none";
+        document.getElementById("voice-input").classList.toggle("active", mode === "voice");
+        document.getElementById("video-input").classList.toggle("active", mode === "video");
+      });
+    });
+
+    // ========= Character counter =========
+    const textarea = document.getElementById("case-description");
+    const counter = document.getElementById("char-counter");
+
+    textarea.addEventListener("input", () => {
+      const length = textarea.value.length;
+      counter.textContent = `${length} / 1000 characters`;
+    });
+
+    // ========= VOICE RECORDING =========
+    let voiceRecorder = null;
+    let voiceChunks = [];
+    let voiceBlob = null;
+    let voiceStream = null;
+
+    const voiceBtn = document.getElementById("voice-record-btn");
+    const voicePlaybackWrapper = document.getElementById("voice-playback-wrapper");
+    const voiceAudio = document.getElementById("voice-playback");
+    const voiceDeleteBtn = document.getElementById("voice-delete-btn");
+
+    voiceBtn.addEventListener("click", async () => {
+      if (!voiceRecorder || voiceRecorder.state === "inactive") {
+        // Start recording
+        try {
+          voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          voiceRecorder = new MediaRecorder(voiceStream);
+          voiceChunks = [];
+
+          voiceRecorder.ondataavailable = (e) => {
+            if (e.data.size > 0) voiceChunks.push(e.data);
+          };
+
+          voiceRecorder.onstop = () => {
+            if (voiceStream) {
+              voiceStream.getTracks().forEach(t => t.stop());
+              voiceStream = null;
             }
-            document.getElementById('selectedTags').value = activeTags.join(',');
-        }
-
-        // --- 2. Media Logic ---
-        
-        // File Upload
-        function triggerUpload() {
-            document.getElementById('fileInput').click();
-        }
-
-        function handleFileSelect(input) {
-            if (input.files && input.files[0]) {
-                showPreview(`File: ${input.files[0].name}`);
-                document.getElementById('btn-upload').style.borderColor = '#10b981';
-                document.getElementById('btn-upload').style.background = '#ecfdf5';
+            if (voiceChunks.length > 0) {
+              voiceBlob = new Blob(voiceChunks, { type: "audio/webm" });
+              const url = URL.createObjectURL(voiceBlob);
+              voiceAudio.src = url;
+              voicePlaybackWrapper.style.display = "block";
             }
-        }
+            voiceBtn.textContent = "Start Recording";
+            voiceBtn.classList.remove("recording");
+          };
 
-        // Voice Recording Mock
-        let isRecordingVoice = false;
-        function triggerVoice() {
-            const btn = document.getElementById('btn-voice');
-            const txt = document.getElementById('txt-voice');
-            
-            if (!isRecordingVoice) {
-                // Start
-                isRecordingVoice = true;
-                btn.classList.add('recording');
-                txt.innerText = "Stop Rec";
-            } else {
-                // Stop
-                isRecordingVoice = false;
-                btn.classList.remove('recording');
-                txt.innerText = "Record Voice";
-                showPreview("Audio_Note_001.mp3 attached");
-                btn.style.borderColor = '#10b981';
-                btn.style.color = '#10b981';
+          voiceRecorder.start();
+          voiceBtn.textContent = "Stop Recording";
+          voiceBtn.classList.add("recording");
+          voicePlaybackWrapper.style.display = "none";
+          if (voiceAudio.src) URL.revokeObjectURL(voiceAudio.src);
+          voiceAudio.removeAttribute("src");
+          voiceBlob = null;
+        } catch (err) {
+          console.error(err);
+          alert("Unable to access microphone. Please allow mic permissions.");
+        }
+      } else if (voiceRecorder.state === "recording") {
+        voiceRecorder.stop();
+      }
+    });
+
+    voiceDeleteBtn.addEventListener("click", () => {
+      if (voiceAudio.src) {
+        URL.revokeObjectURL(voiceAudio.src);
+      }
+      voiceAudio.removeAttribute("src");
+      voiceBlob = null;
+      voicePlaybackWrapper.style.display = "none";
+    });
+
+    // ========= VIDEO RECORDING =========
+    let videoRecorder = null;
+    let videoChunks = [];
+    let videoBlob = null;
+    let videoStream = null;
+
+    const videoBtn = document.getElementById("video-record-btn");
+    const videoPlaybackWrapper = document.getElementById("video-playback-wrapper");
+    const videoEl = document.getElementById("video-playback");
+    const videoDeleteBtn = document.getElementById("video-delete-btn");
+
+    videoBtn.addEventListener("click", async () => {
+      if (!videoRecorder || videoRecorder.state === "inactive") {
+        try {
+          videoStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+          videoRecorder = new MediaRecorder(videoStream);
+          videoChunks = [];
+
+          videoRecorder.ondataavailable = (e) => {
+            if (e.data.size > 0) videoChunks.push(e.data);
+          };
+
+          videoRecorder.onstop = () => {
+            if (videoStream) {
+              videoStream.getTracks().forEach(t => t.stop());
+              videoStream = null;
             }
-        }
-
-        // Video Recording Mock
-        let isRecordingVideo = false;
-        function triggerVideo() {
-            const btn = document.getElementById('btn-video');
-            const txt = document.getElementById('txt-video');
-
-            if (!isRecordingVideo) {
-                // Start
-                isRecordingVideo = true;
-                btn.classList.add('recording');
-                txt.innerText = "Stop Rec";
-            } else {
-                // Stop
-                isRecordingVideo = false;
-                btn.classList.remove('recording');
-                txt.innerText = "Record Video";
-                showPreview("Video_Clip_001.mp4 attached");
-                btn.style.borderColor = '#10b981';
-                btn.style.color = '#10b981';
+            if (videoChunks.length > 0) {
+              videoBlob = new Blob(videoChunks, { type: "video/webm" });
+              const url = URL.createObjectURL(videoBlob);
+              videoEl.src = url;
+              videoPlaybackWrapper.style.display = "block";
             }
+            videoBtn.textContent = "Start Recording";
+            videoBtn.classList.remove("recording");
+          };
+
+          videoRecorder.start();
+          videoBtn.textContent = "Stop Recording";
+          videoBtn.classList.add("recording");
+          videoPlaybackWrapper.style.display = "none";
+          if (videoEl.src) URL.revokeObjectURL(videoEl.src);
+          videoEl.removeAttribute("src");
+          videoBlob = null;
+        } catch (err) {
+          console.error(err);
+          alert("Unable to access camera. Please allow camera & mic permissions.");
         }
+      } else if (videoRecorder.state === "recording") {
+        videoRecorder.stop();
+      }
+    });
 
-        function showPreview(text) {
-            const preview = document.getElementById('evidencePreview');
-            const txtSpan = document.getElementById('evidenceText');
-            preview.style.display = 'flex';
-            txtSpan.innerText = text;
-        }
+    videoDeleteBtn.addEventListener("click", () => {
+      if (videoEl.src) {
+        URL.revokeObjectURL(videoEl.src);
+      }
+      videoEl.removeAttribute("src");
+      videoBlob = null;
+      videoPlaybackWrapper.style.display = "none";
+    });
 
-        // --- 3. Form Submission ---
-        function handleSubmit(e) {
-            e.preventDefault();
-            
-            const btn = document.querySelector('.submit-btn');
-            const subject = document.getElementById('caseSubject').value;
-            
-            // Loading State
-            btn.innerText = "Submitting...";
-            btn.style.opacity = "0.7";
+    // ========= Evidence upload with remove =========
+    const evidenceInput = document.getElementById("evidence-input");
+    const evidenceZone = document.getElementById("upload-zone");
+    const evidenceListEl = document.getElementById("evidence-list");
+    let evidenceFiles = [];
 
-            // Mock API delay
-            setTimeout(() => {
-                alert("Case Submitted Successfully!\nTags: " + (activeTags.length ? activeTags.join(', ') : 'None'));
-                
-                // Reset Button
-                btn.innerText = "Done ✓";
-                btn.style.background = "#10b981";
-                
-                // Add to sidebar history
-                addToHistory(subject);
-                
-                // Optional: Reset form after 2 seconds
-                setTimeout(() => {
-                    btn.innerText = "Submit Case Report";
-                    btn.style.background = "var(--primary)";
-                    btn.style.opacity = "1";
-                    document.getElementById('legalForm').reset();
-                    document.getElementById('evidencePreview').style.display = 'none';
-                    // clear tags
-                    document.querySelectorAll('.tag-chip').forEach(c => c.classList.remove('selected'));
-                    activeTags = [];
-                }, 2000);
+    evidenceZone.addEventListener("click", () => {
+      evidenceInput.click();
+    });
 
-            }, 1000);
-        }
+    evidenceZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      evidenceZone.classList.add("dragover");
+    });
 
-        function addToHistory(subject) {
-            const list = document.getElementById('historyList');
-            const newItem = document.createElement('li');
-            newItem.className = 'case-item';
-            newItem.innerHTML = `
-                <div class="status-dot status-pending"></div>
-                <div class="case-info">
-                    <h4>${subject}</h4>
-                    <p>Status: <strong>Submitted</strong></p>
-                </div>
-            `;
-            list.prepend(newItem);
-        }
-    </script>
+    evidenceZone.addEventListener("dragleave", () => {
+      evidenceZone.classList.remove("dragover");
+    });
+
+    evidenceZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      evidenceZone.classList.remove("dragover");
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        addEvidenceFiles(e.dataTransfer.files);
+      }
+    });
+
+    evidenceInput.addEventListener("change", (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        addEvidenceFiles(e.target.files);
+        evidenceInput.value = "";
+      }
+    });
+
+    function addEvidenceFiles(fileList) {
+      Array.from(fileList).forEach(file => {
+        evidenceFiles.push(file);
+      });
+      renderEvidenceList();
+    }
+
+    function renderEvidenceList() {
+      if (evidenceFiles.length === 0) {
+        evidenceListEl.innerHTML = "";
+        return;
+      }
+      evidenceListEl.innerHTML = evidenceFiles.map((file, idx) => {
+        const kb = (file.size / 1024).toFixed(1);
+        return `
+          <div class="evidence-item">
+            <div class="evidence-meta">
+              <span class="evidence-name">${file.name}</span>
+              <span class="evidence-size">${kb} KB • ${file.type || "file"}</span>
+            </div>
+            <button type="button" class="evidence-remove" onclick="removeEvidence(${idx})">Remove</button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    window.removeEvidence = function(index) {
+      evidenceFiles.splice(index, 1);
+      renderEvidenceList();
+    };
+
+    // ========= Submit case =========
+    function submitCase() {
+      const selectedCategoryEl = document.querySelector(".category-card.selected");
+      const category = selectedCategoryEl ? selectedCategoryEl.dataset.category : "other";
+      const description = textarea.value.trim();
+      const language = document.getElementById("language-select").value;
+      const location = document.getElementById("user-location").value.trim();
+
+      const newCase = {
+        id: "CASE-LM-" + Math.floor(1000 + Math.random() * 90000),
+        status: Math.random() > 0.4 ? "Accepted" : "In Review",
+        fees: Math.random() > 0.5 ? "Paid" : "Pending",
+        time: new Date().toLocaleString(),
+        category,
+        descriptionLength: description.length,
+        language,
+        location,
+        acceptedBy: "Clinic Reviewer: " + (Math.random() > 0.5 ? "Rahul Jain" : "Ananya Singh")
+      };
+
+      localStorage.setItem("previousCase", JSON.stringify(newCase));
+      updatePreviousCaseUI(newCase);
+
+      document.getElementById("success-case-id").textContent = newCase.id;
+      document.getElementById("success-modal").classList.add("active");
+    }
+
+    function updatePreviousCaseUI(caseData) {
+      document.getElementById("prev-case-id").textContent = caseData.id;
+      document.getElementById("prev-case-time").textContent = caseData.time;
+
+      const feesEl = document.getElementById("prev-case-fees");
+      feesEl.textContent = caseData.fees === "Paid" ? "Fees Paid" : "Fees Pending";
+      feesEl.className = "status-pill " + (caseData.fees === "Paid" ? "status-paid" : "status-unpaid");
+
+      const statusEl = document.getElementById("prev-case-status");
+      statusEl.textContent = caseData.status;
+      statusEl.className = "status-pill " + (caseData.status === "Accepted" ? "status-closed" : "status-open");
+    }
+
+    function closeModal() {
+      document.getElementById("success-modal").classList.remove("active");
+    }
+
+    // ========= Previous case details popup =========
+    document.getElementById("prev-case-card").addEventListener("click", () => {
+      const prevCase = JSON.parse(localStorage.getItem("previousCase"));
+      if (!prevCase) return;
+
+      const body = document.getElementById("prev-details-body");
+      body.innerHTML = `
+        <div class="detail-row"><span class="detail-label">Case ID</span><span class="detail-value">${prevCase.id}</span></div>
+        <div class="detail-row"><span class="detail-label">Category</span><span class="detail-value">${prevCase.category}</span></div>
+        <div class="detail-row"><span class="detail-label">Fees</span><span class="detail-value">${prevCase.fees}</span></div>
+        <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">${prevCase.status}</span></div>
+        <div class="detail-row"><span class="detail-label">Accepted by</span><span class="detail-value">${prevCase.status === "Accepted" ? prevCase.acceptedBy : "Not assigned yet"}</span></div>
+        <div class="detail-row"><span class="detail-label">Language</span><span class="detail-value">${prevCase.language}</span></div>
+        <div class="detail-row"><span class="detail-label">Submitted from</span><span class="detail-value">${prevCase.location || "Not provided"}</span></div>
+        <div class="detail-row"><span class="detail-label">Description length</span><span class="detail-value">${prevCase.descriptionLength} characters</span></div>
+        <div class="detail-row"><span class="detail-label">Last updated</span><span class="detail-value">${prevCase.time}</span></div>
+      `;
+      document.getElementById("prev-details-modal").classList.add("active");
+    });
+
+    function closePrevDetails() {
+      document.getElementById("prev-details-modal").classList.remove("active");
+    }
+
+    window.submitCase = submitCase;
+    window.closePrevDetails = closePrevDetails;
+  </script>
 </body>
 </html>
