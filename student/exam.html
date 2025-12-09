@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Exam — Proctored Case-Study</title>
+
+<!-- TensorFlow & BlazeFace (CDN) -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7/dist/blazeface.min.js"></script>
+
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --muted:#6b7280; --text:#0f1724;
+    --accent-blue:#0a66c2; --accent-green:#10b981; --warn:#f59e0b; --danger:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:1100px;margin:28px auto;padding:20px;display:grid;gap:18px;}
+  header{display:flex;justify-content:space-between;align-items:center;gap:14px}
+  header h1{margin:0;font-size:20px}
+  .timer{font-family:monospace;color:var(--accent-blue);font-weight:700}
+
+  .grid{display:grid;grid-template-columns:360px 1fr;gap:18px;align-items:start}
+
+  .card{background:var(--card);border:1px solid #e6e9ee;border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(15,23,42,0.04)}
+  .small{font-size:13px;color:var(--muted)}
+
+  .proctor {display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+  .camera-wrap{position:relative;width:320px;height:240px;border-radius:8px;overflow:hidden;background:#111}
+  video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+  canvas{position:absolute;left:0;top:0;pointer-events:none}
+
+  .proctor-info{max-width:360px}
+  .banner{display:none;padding:10px;border-radius:8px;margin-bottom:10px}
+  .banner.warn{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
+  .banner.danger{background:#fff1f2;border:1px solid #fecaca;color:#991b1b}
+  .proctor-ready{padding:10px;border-radius:8px;background:#ecfdf5;border:1px solid #bbf7d0;color:#065f46;margin-top:8px}
+
+  .questions{display:flex;flex-direction:column;gap:12px}
+  .q{border:1px solid #eef2f6;border-radius:10px;padding:12px}
+  .q h3{margin:0;font-size:15px}
+  textarea{width:100%;min-height:140px;padding:10px;border-radius:8px;border:1px solid #e6e9ee;font-family:inherit;resize:vertical}
+
+  .controls{display:flex;gap:10px;justify-content:flex-end;margin-top:10px}
+  button{cursor:pointer;border:0;padding:10px 14px;border-radius:10px;font-weight:600}
+  .btn-primary{background:linear-gradient(90deg,var(--accent-blue),var(--accent-green));color:white}
+  .btn-ghost{background:transparent;border:1px solid #e6e9ee;color:var(--text)}
+
+  #lockOverlay,
+  #pauseOverlay{
+    position:fixed;inset:0;background:rgba(0,0,0,0.6);
+    display:none;align-items:center;justify-content:center;z-index:9999;
+  }
+  #lockOverlay .box,
+  #pauseOverlay .box{
+    background:white;padding:28px;border-radius:12px;max-width:520px;text-align:center;
+  }
+  #lockOverlay .box h2{margin:0 0 8px;color:var(--danger)}
+  #pauseOverlay .box h2{margin:0 0 8px;color:#92400e}
+
+  @media (max-width:900px){.grid{grid-template-columns:1fr;}.camera-wrap{width:100%;height:220px}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Proctored Case‑Study Exam — Case <span id="caseLabel">case-001</span></h1>
+        <div class="small">
+          5 short-answer case studies — exam starts only after proctor is ready & you click Start.
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="small">Time left</div>
+        <div class="timer" id="timer">120:00</div>
+      </div>
+    </header>
+
+    <div id="globalBanner" class="banner" role="alert" aria-live="assertive"></div>
+
+    <div class="grid">
+      <!-- proctor -->
+      <div class="card">
+        <div class="proctor">
+          <div>
+            <div class="camera-wrap" aria-hidden="false">
+              <video id="webcam" autoplay playsinline muted></video>
+              <canvas id="overlay"></canvas>
+            </div>
+            <div class="small" style="margin-top:8px">Camera required for proctoring</div>
+          </div>
+          <div class="proctor-info">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="font-weight:700">Webcam Proctor</div>
+              <div class="small" id="violationCount">Violations: 0</div>
+            </div>
+
+            <!-- proctor status area -->
+            <div id="proctorStatusArea" style="margin-top:8px">
+              <div id="proctorMessage" class="small">Initializing proctor…</div>
+              <!-- proctor ready panel will be shown when model+camera ready -->
+            </div>
+
+          </div>
+        </div>
+
+        <div style="margin-top:12px" class="small">
+          <strong>Log:</strong>
+          <div id="proctorLog" style="max-height:110px;overflow:auto;padding-top:6px;color:#475569"></div>
+        </div>
+      </div>
+
+      <!-- questions -->
+      <div>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div><strong>Instructions</strong></div>
+            <div class="small">Exam will start only after you click Start Exam.</div>
+          </div>
+          <div class="small" style="margin-bottom:8px">Answer all 5 questions concisely. Include legal basis and likely remedies.</div>
+
+          <!-- Start button & questions container -->
+          <div id="startArea" style="margin-bottom:12px">
+            <button id="startExamBtn" class="btn-primary" disabled>Start Exam</button>
+            <div id="startHint" class="small" style="margin-top:8px;color:var(--muted)">Waiting for proctor to be ready…</div>
+          </div>
+
+          <form id="examForm" class="questions" onsubmit="return false;" style="display:none;"></form>
+
+          <div class="controls">
+            <button id="saveBtn" class="btn-ghost" type="button">Save Draft</button>
+            <button id="submitBtn" class="btn-primary" type="button" disabled>Submit Exam</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- pause overlay (on each violation) -->
+  <div id="pauseOverlay" role="dialog" aria-modal="true">
+    <div class="box">
+      <h2>⚠️ Exam Paused Due to Violation</h2>
+      <p id="pauseText" class="small" style="margin-bottom:10px;"></p>
+      <p class="small" id="pauseHint">Please correct your position. Continue will be enabled after 4 seconds.</p>
+      <button id="continueBtn" class="btn-primary" disabled>Continue Exam</button>
+    </div>
+  </div>
+
+  <!-- lock overlay (final disqualification) -->
+  <div id="lockOverlay" role="dialog" aria-modal="true">
+    <div class="box">
+      <h2>❌ Exam Disqualified</h2>
+      <p id="lockReason">Repeated violations detected.</p>
+      <p style="margin-top:12px" class="small">You will be returned to the dashboard.</p>
+    </div>
+  </div>
+
+<script>
+/* =========================
+   CONFIG & QUESTIONS
+   ========================= */
+const CASE_ID = 'case-001';
+document.getElementById('caseLabel').textContent = CASE_ID;
+
+const EXAM_DURATION_SEC = 120 * 60; // 120 minutes
+let timeLeft = EXAM_DURATION_SEC;
+let examPaused = false;   // pauses timer/detection after violation
+let examStarted = false;  // becomes true when user clicks Start Exam (only then timer & detection run)
+
+const mockQuestions = [
+  { id: 'q1', title: 'A tenant stopped paying rent after repeated failures by the landlord to repair severe water leakage and a dangerously cracked balcony. The landlord served an eviction notice. Advise the tenant: legal remedies, likely defenses to eviction, and immediate steps to seek relief.' },
+  { id: 'q2', title: 'A factory worker was dismissed without notice after complaining about unsafe machinery. The worker also alleges unpaid overtime. Identify viable causes of action, interim relief to seek, and key statutes or labour provisions likely to apply.' },
+  { id: 'q3', title: 'A municipal regulation requires prior police permission for public assemblies and broadly restricts protests. Analyze whether such a rule is consistent with constitutional protections of speech and assembly; outline the tests a court will apply and possible outcomes.' },
+  { id: 'q4', title: 'Police entered private premises without a warrant, seized documents and used them to arrest the occupant. Assess admissibility of the seized documents and available remedies/procedural safeguards under criminal procedure and constitutional law.' },
+  { id: 'q5', title: 'A patient was harmed when a medical device purchased from a local supplier malfunctioned. Explain likely consumer protection and tort remedies, the factual/technical evidence that strengthens the claim, and the compensation types to pursue.' }
+];
+
+/* =========================
+   UI HELPERS
+   ========================= */
+const timerEl = document.getElementById('timer');
+const banner = document.getElementById('globalBanner');
+const proctorLog = document.getElementById('proctorLog');
+const violationCountEl = document.getElementById('violationCount');
+const lockOverlay = document.getElementById('lockOverlay');
+const lockReasonEl = document.getElementById('lockReason');
+const submitBtn = document.getElementById('submitBtn');
+const pauseOverlay = document.getElementById('pauseOverlay');
+const pauseText = document.getElementById('pauseText');
+const continueBtn = document.getElementById('continueBtn');
+
+const startExamBtn = document.getElementById('startExamBtn');
+const startHint = document.getElementById('startHint');
+const proctorMessage = document.getElementById('proctorMessage');
+const proctorStatusArea = document.getElementById('proctorStatusArea');
+const examForm = document.getElementById('examForm');
+
+function logProctor(msg){
+  const t = new Date().toLocaleTimeString();
+  proctorLog.innerHTML = `<div>[${t}] ${msg}</div>` + proctorLog.innerHTML;
+}
+
+function showBanner(message, type='warn', autoHide=6000){
+  banner.className = 'banner ' + (type==='danger' ? 'danger' : 'warn');
+  banner.textContent = message;
+  banner.style.display = 'block';
+  if(autoHide) setTimeout(()=>{ if(!currentDisqualified) banner.style.display='none'; }, autoHide);
+}
+
+/* =========================
+   TIMER (starts only after examStarted)
+   ========================= */
+function formatTime(sec){
+  const m = String(Math.floor(sec/60)).padStart(2,'0');
+  const s = String(Math.floor(sec%60)).padStart(2,'0');
+  return `${m}:${s}`;
+}
+timerEl.textContent = formatTime(timeLeft);
+let timerInterval = setInterval(()=>{
+  if(currentDisqualified || examPaused || !examStarted) return;
+  timeLeft--;
+  timerEl.textContent = formatTime(timeLeft);
+  if(timeLeft <= 0){
+    clearInterval(timerInterval);
+    showBanner('Time is up — auto submitting exam', 'warn', 4000);
+    submitExam();
+  }
+}, 1000);
+
+/* =========================
+   RENDER QUESTIONS (hidden until start)
+   ========================= */
+function renderQuestions(){
+  examForm.innerHTML = '';
+  mockQuestions.forEach((q, idx)=>{
+    const el = document.createElement('div');
+    el.className = 'q';
+    const qnum = idx + 1;
+    el.innerHTML = `
+      <h3>Q${qnum}. ${q.title}</h3>
+      <div class="small" style="margin:8px 0 6px;color:var(--muted)">
+        Answer concisely (recommended 250–450 words). Include legal basis, relevant provisions/tests and likely remedies.
+      </div>
+      <textarea name="${q.id}" placeholder="Write your answer here..."></textarea>
+    `;
+    examForm.appendChild(el);
+  });
+}
+renderQuestions(); // render but keep hidden until start
+
+/* =========================
+   SUBMIT / SAVE
+   ========================= */
+document.getElementById('saveBtn').addEventListener('click', ()=>{
+  showBanner('Answers saved locally (demo).', 'warn', 2000);
+  logProctor('Manual save by user');
+});
+
+function collectAnswers(){
+  const data = {};
+  mockQuestions.forEach(q=>{
+    const ta = examForm.querySelector(`textarea[name="${q.id}"]`);
+    data[q.id] = ta ? ta.value.trim() : '';
+  });
+  return data;
+}
+
+async function submitExam(){
+  if(currentDisqualified) return;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
+  const answers = collectAnswers();
+  logProctor('Submitting answers (lengths): ' + JSON.stringify(Object.fromEntries(Object.entries(answers).map(([k,v])=>[k, v.length]))));
+  await new Promise(r=>setTimeout(r,900)); // simulate server call
+  showBanner('Exam submitted — unlocking drafting workspace', 'warn', 3000);
+  setTimeout(()=> {
+    window.location.href = '/student/draft/' + CASE_ID;
+  }, 900);
+}
+
+submitBtn.addEventListener('click', ()=>{
+  if(currentDisqualified) return;
+  const answers = collectAnswers();
+  const empty = Object.entries(answers).filter(([k,v]) => !v || v.length < 30);
+  if(empty.length > 0){
+    const qlist = empty.map(e => e[0]).join(', ');
+    if(!confirm(`Some answers look short (or empty): ${qlist}. Submit anyway?`)) return;
+  }
+  submitExam();
+});
+
+/* =========================
+   PROCTORING — paused per violation with start gating
+   ========================= */
+const video = document.getElementById('webcam');
+const canvas = document.getElementById('overlay');
+const ctx = canvas.getContext('2d');
+
+let model = null;
+let detectionLoop = null;
+let currentDisqualified = false;
+
+// violation tracking
+let violations = 0;
+const MAX_VIOLATIONS = 3; // 3rd violation => disqualify
+violationCountEl.textContent = `Violations: ${violations}`;
+
+/* Helper: set proctor ready UI */
+let proctorReady = false;
+function setProctorReady() {
+  proctorReady = true;
+  proctorMessage.innerHTML = `<div class="proctor-ready">Proctor is ready ✓</div>`;
+  startExamBtn.disabled = false;
+  startHint.textContent = 'Click Start Exam to begin. Timer starts when you click Start.';
+  logProctor('Proctor ready — awaiting user to Start Exam.');
+}
+
+/* Start exam: show questions, enable submit, start detection & timer */
+function startExam() {
+  if (examStarted) return;
+  examStarted = true;
+  examForm.style.display = 'block';
+  startExamBtn.style.display = 'none';
+  startHint.style.display = 'none';
+  submitBtn.disabled = false;
+  showBanner('Exam started — good luck!', 'warn', 3000);
+  logProctor('Exam started by user.');
+
+  // begin detection and timer immediately
+  startDetectionLoop();
+}
+
+/* REMOVE pause/force buttons: they were not added to DOM, so no handlers for them */
+
+startExamBtn.addEventListener('click', () => {
+  // double-check proctorReady
+  if(!proctorReady) {
+    showBanner('Proctor not ready yet.', 'warn', 3000);
+    return;
+  }
+  startExam();
+});
+
+/* Proctor init: camera + model (ready when both available) */
+async function initCameraAndModel(){
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:640,height:480}, audio:false});
+    video.srcObject = stream;
+    await video.play();
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    model = await blazeface.load();
+    logProctor('Model loaded and camera started.');
+    setProctorReady(); // mark ready; questions still hidden until user clicks start
+    // DO NOT start detection until user clicks Start Exam (so exam starts only after they click)
+  } catch(err){
+    console.error(err);
+    logProctor('Error initializing camera/model: ' + (err.message || err));
+    proctorMessage.textContent = 'Cannot access camera — allow camera permissions and reload';
+    showBanner('Cannot access camera — allow camera permissions and reload', 'danger', 0);
+  }
+}
+
+/* Detection loop (runs only after examStarted & not paused) */
+function startDetectionLoop(){
+  if(detectionLoop) return;
+  if(!model){
+    // safety: if model missing, attempt init
+    initCameraAndModel();
+    return;
+  }
+  detectionLoop = setInterval(async ()=>{
+    try { await detectFrame(); } catch(e){ console.warn('detect error', e); }
+  }, 200); // 200ms interval
+}
+
+function stopDetectionLoop(){
+  if(detectionLoop){ clearInterval(detectionLoop); detectionLoop = null; }
+}
+
+async function detectFrame(){
+  if(!model || currentDisqualified || examPaused || !examStarted) return;
+  const predictions = await model.estimateFaces(video, false);
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  let issueType = null;
+  let issueMessage = '';
+
+  if(!predictions || predictions.length === 0){
+    issueType = 'no-face';
+    issueMessage = 'No face detected.';
+  } else if(predictions.length > 1){
+    issueType = 'multiple-faces';
+    issueMessage = 'Multiple faces detected.';
+  } else {
+    const face = predictions[0];
+    if(face.topLeft && face.bottomRight){
+      const [x1,y1] = face.topLeft; const [x2,y2] = face.bottomRight;
+      ctx.strokeStyle = 'rgba(16,185,129,0.9)'; ctx.lineWidth = 2;
+      ctx.strokeRect(x1,y1,x2-x1,y2-y1);
+    }
+
+    const landmarks = face.landmarks || [];
+    if(landmarks && landmarks.length >= 3){
+      const rightEye = landmarks[0]; const leftEye = landmarks[1]; const nose = landmarks[2];
+      const eyeDx = Math.abs(rightEye[0] - leftEye[0]);
+      const eyeDy = Math.abs(rightEye[1] - leftEye[1]);
+      const noseToCenterX = Math.abs(nose[0] - canvas.width/2);
+
+      if(eyeDy > eyeDx * 0.35){
+        issueType = 'look-away';
+        issueMessage = 'Head tilt / looking away detected.';
+      } else {
+        const noseThreshold = canvas.width * 0.18;
+        if(noseToCenterX > noseThreshold){
+          issueType = 'look-away';
+          issueMessage = 'You appear to be looking away from the screen.';
+        }
+      }
+    }
+  }
+
+  if(issueType){
+    handleViolation(issueType, issueMessage);
+    return;
+  }
+
+  // OK indicator
+  ctx.fillStyle = 'rgba(16,185,129,0.9)'; ctx.beginPath(); ctx.arc(12,12,6,0,2*Math.PI); ctx.fill();
+}
+
+/* ========== VIOLATIONS ========== */
+function handleViolation(issueType, message){
+  if(currentDisqualified) return;
+
+  violations++;
+  violationCountEl.textContent = `Violations: ${violations}`;
+  logProctor(`Violation #${violations}: ${issueType} — ${message}`);
+  showBanner(`Violation ${violations}/${MAX_VIOLATIONS}: ${message}`, 'warn', 5000);
+
+  // pause exam + proctor
+  examPaused = true;
+  stopDetectionLoop();
+
+  if(violations >= MAX_VIOLATIONS){
+    handleDisqualify('Maximum violations reached.');
+    return;
+  }
+
+  // show pause overlay, enable Continue after 4s
+  pauseText.textContent = `Reason: ${message}`;
+  pauseOverlay.style.display = 'flex';
+  continueBtn.disabled = true;
+  pauseHint.textContent = `This is violation ${violations} of ${MAX_VIOLATIONS}. Please correct your position. Continue will be enabled in a few seconds.`;
+
+  setTimeout(()=>{
+    continueBtn.disabled = false;
+    pauseHint.textContent = `Click "Continue Exam" to resume.`;
+  }, 4000); // 4 seconds
+}
+
+/* continue button: resume exam */
+continueBtn.addEventListener('click', ()=>{
+  if(currentDisqualified) return;
+  pauseOverlay.style.display = 'none';
+  examPaused = false;
+  // resume detection
+  startDetectionLoop();
+});
+
+/* ========== DISQUALIFY ========== */
+function handleDisqualify(reason){
+  if(currentDisqualified) return;
+  currentDisqualified = true;
+  stopDetectionLoop();
+  examPaused = true;
+
+  pauseOverlay.style.display = 'none';
+
+  lockReasonEl.textContent = reason;
+  lockOverlay.style.display = 'flex';
+  logProctor('Disqualified: ' + reason);
+  showBanner(reason, 'danger', 0);
+
+  try {
+    const s = video.srcObject;
+    if(s && s.getTracks) s.getTracks().forEach(t => t.stop());
+  } catch(e){}
+
+  setTimeout(()=> {
+    window.location.href = '/student/dashboard';
+  }, 3500);
+}
+
+/* init proctor (load camera & model). DO NOT start detection loop until startExam() */
+initCameraAndModel();
+</script>
+</body>
+</html>
