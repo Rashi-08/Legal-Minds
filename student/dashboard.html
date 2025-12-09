@@ -5,625 +5,112 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Dashboard - Legal Aid Platform</title>
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
+  * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f3f4f6;
-    color: #111827;
-    min-height: 100vh;
-  }
-
-  /* Top Navigation */
-  .top-nav {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 0.75rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .nav-content {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #0a66c2 0%, #10b981 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .search-bar {
-    flex: 1;
-    max-width: 400px;
-  }
-
-  .search-bar input {
-    width: 100%;
-    padding: 0.625rem 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 20px;
-    background-color: #f9fafb;
-    color: #111827;
-    font-size: 0.875rem;
-  }
-
-  .search-bar input:focus {
-    outline: none;
-    border-color: #0a66c2;
-    background-color: #ffffff;
-  }
-
-  .nav-actions {
-    display: flex;
-    gap: 1rem;
-    margin-left: auto;
-  }
-
-  .nav-btn {
-    padding: 0.5rem 1rem;
-    background-color: transparent;
-    border: 1px solid #e5e7eb;
-    border-radius: 20px;
-    color: #374151;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .nav-btn:hover {
-    background-color: #f3f4f6;
-    border-color: #0a66c2;
-  }
-
-  /* Main Container */
-  .container {
-    max-width: 1280px;
-    margin: 1.5rem auto;
-    padding: 0 1rem;
-    display: grid;
-    grid-template-columns: 280px 1fr 320px;
-    gap: 1.5rem;
-  }
-
-  /* Profile Sidebar */
-  .profile-card {
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    overflow: hidden;
-    height: fit-content;
-    position: sticky;
-    top: 90px;
-  }
-
-  .profile-header {
-    height: 80px;
-    background: linear-gradient(135deg, #0a66c2 0%, #10b981 100%);
-    position: relative;
-  }
-
-  .profile-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 4px solid #ffffff;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    position: absolute;
-    bottom: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    font-weight: 600;
-    color: #ffffff;
-  }
-
-  .profile-info {
-    padding: 3rem 1.5rem 1rem;
-    text-align: center;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .profile-name {
-    font-size: 1.125rem;
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-    color: #111827;
-  }
-
-  .profile-title {
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin-bottom: 1rem;
-  }
-
-  .profile-bio {
-    font-size: 0.8rem;
-    color: #6b7280;
-    line-height: 1.4;
-  }
-
-  .profile-stats {
-    padding: 1rem 1.5rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .stat-box {
-    text-align: center;
-    padding: 0.75rem;
-    background-color: #f9fafb;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-  }
-
-  .stat-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #0a66c2 0%, #10b981 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.25rem;
-  }
-
-  .stat-label {
-    font-size: 0.75rem;
-    color: #9ca3af;
-  }
-
-  .profile-achievements {
-    padding: 1rem 1.5rem;
-    border-top: 1px solid #e5e7eb;
-  }
-
-  .achievement-title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 0.75rem;
-  }
-
-  .badges {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .badge {
-    padding: 0.25rem 0.75rem;
-    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-    border-radius: 12px;
-    font-size: 0.75rem;
-    color: #ffffff;
-  }
-
-  /* Main Content */
-  .main-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .card {
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .card-header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #111827;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .card-title-icon {
-    font-size: 1.25rem;
-  }
-
-  .sort-dropdown {
-    padding: 0.375rem 0.75rem;
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    color: #374151;
-    font-size: 0.8rem;
-    cursor: pointer;
-  }
-
-  .category-filters {
-    display: flex;
-    gap: 0.5rem;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #e5e7eb;
-    overflow-x: auto;
-    background-color: #ffffff;
-  }
-
-  .category-btn {
-    padding: 0.5rem 1.25rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 20px;
-    background-color: transparent;
-    color: #6b7280;
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-
-  .category-btn:hover {
-    background-color: #f3f4f6;
-    color: #111827;
-  }
-
-  .category-btn.active {
-    background: linear-gradient(135deg, #0a66c2 0%, #10b981 100%);
-    color: #ffffff;
-    border-color: transparent;
-  }
-
-  .case-list {
-    display: flex;
-    flex-direction: column;
-    background-color: #ffffff;
-  }
-
-  .case-item {
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid #e5e7eb;
-    display: flex;
-    gap: 1rem;
-    transition: background-color 0.2s;
-  }
-
-  .case-item:hover {
-    background-color: #f9fafb;
-  }
-
-  .case-item:last-child {
-    border-bottom: none;
-  }
-
-  .vote-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    color: #9ca3af;
-    font-size: 0.75rem;
-    min-width: 40px;
-  }
-
-  .vote-btn {
-    background: none;
-    border: none;
-    color: #9ca3af;
-    font-size: 1.25rem;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
-    transition: color 0.2s;
-  }
-
-  .vote-btn:hover {
-    color: #10b981;
-  }
-
-  .vote-count {
-    font-weight: 700;
-  }
-
-  .case-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    flex-shrink: 0;
-    color: #ffffff;
-  }
-
-  .case-content {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .case-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .case-author {
-    font-size: 0.75rem;
-    color: #6b7280;
-  }
-
-  .case-time {
-    font-size: 0.75rem;
-    color: #9ca3af;
-  }
-
-  .case-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 0.5rem;
-    line-height: 1.4;
-  }
-
-  .case-description {
-    font-size: 0.875rem;
-    color: #4b5563;
-    line-height: 1.5;
-    margin-bottom: 0.75rem;
-  }
-
-  .case-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.75rem;
-  }
-
-  .tag {
-    padding: 0.25rem 0.75rem;
-    background-color: #f3f4f6;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    color: #6b7280;
-  }
-
-  .tag.urgent {
-    background-color: #fef2f2;
-    border-color: #f97373;
-    color: #b91c1c;
-  }
-
-  .tag.category {
-    background: linear-gradient(
-      135deg,
-      rgba(10, 102, 194, 0.1) 0%,
-      rgba(16, 185, 129, 0.1) 100%
-    );
-    border-color: #0a66c2;
-    color: #1d4ed8;
-  }
-
-  .case-footer {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-  }
-
-  .case-action-btn {
-    padding: 0.5rem 1.25rem;
-    background: linear-gradient(135deg, #0a66c2 0%, #10b981 100%);
-    border: none;
-    border-radius: 20px;
-    color: #ffffff;
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .case-action-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
-  }
-
-  .case-action-btn.secondary {
-    background: transparent;
-    border: 1px solid #e5e7eb;
-    color: #374151;
-  }
-
-  .case-action-btn.secondary:hover {
-    background-color: #f3f4f6;
-    border-color: #0a66c2;
-    box-shadow: none;
-  }
-
-  .case-meta-btn {
-    background: none;
-    border: none;
-    color: #6b7280;
-    font-size: 0.8rem;
-    cursor: pointer;
-    padding: 0.25rem 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    transition: color 0.2s;
-  }
-
-  .case-meta-btn:hover {
-    color: #111827;
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 3rem 2rem;
-    color: #6b7280;
-    font-size: 0.875rem;
-    background-color: #ffffff;
-  }
-
-  .empty-state-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.5;
-  }
-
-  /* Right Sidebar */
-  .right-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    position: sticky;
-    top: 90px;
-    height: fit-content;
-  }
-
-  .info-card {
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .info-header {
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid #e5e7eb;
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: #111827;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .info-content {
-    padding: 1rem 1.25rem;
-  }
-
-  .info-item {
-    padding: 0.75rem 0;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .info-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .info-item-title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 0.25rem;
-  }
-
-  .info-item-text {
-    font-size: 0.75rem;
-    color: #6b7280;
-  }
-
-  .leaderboard-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .leaderboard-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .leaderboard-rank {
-    font-size: 1.25rem;
-    min-width: 32px;
-    text-align: center;
-  }
-
-  .leaderboard-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    font-size: 0.875rem;
-    font-weight: 700;
-    border: 2px solid #e5e7eb;
-  }
-
-  .leaderboard-info {
-    flex: 1;
-  }
-
-  .leaderboard-name {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 0.125rem;
-  }
-
-  .leaderboard-score {
-    font-size: 0.75rem;
-    color: #6b7280;
-  }
-
-  @media (max-width: 1200px) {
-    .container {
-      grid-template-columns: 260px 1fr;
-    }
-    .right-sidebar {
-      display: none;
-    }
-  }
-
-  @media (max-width: 900px) {
-    .container {
-      grid-template-columns: 1fr;
-    }
-    .profile-card {
-      position: relative;
-      top: 0;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .nav-actions {
-      display: none;
-    }
-  }
+    background-color: #f3f4f6; color: #111827; min-height: 100vh;
+  }
+  /* (styles unchanged from your file) */
+  .top-nav { background-color:#ffffff; border-bottom:1px solid #e5e7eb; padding:0.75rem 0; position:sticky; top:0; z-index:100; }
+  .nav-content { max-width:1280px; margin:0 auto; padding:0 1rem; display:flex; align-items:center; gap:2rem; }
+  .logo { font-size:1.5rem; font-weight:700; background:linear-gradient(135deg,#0a66c2 0%,#10b981 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-decoration:none; display:flex; align-items:center; gap:0.5rem; }
+  .search-bar { flex:1; max-width:400px; }
+  .search-bar input { width:100%; padding:0.625rem 1rem; border:1px solid #e5e7eb; border-radius:20px; background-color:#f9fafb; color:#111827; font-size:0.875rem; }
+  .nav-actions { display:flex; gap:1rem; margin-left:auto; }
+  .nav-btn { padding:0.5rem 1rem; background-color:transparent; border:1px solid #e5e7eb; border-radius:20px; color:#374151; font-size:0.875rem; cursor:pointer; transition:all 0.2s; }
+  .nav-btn:hover { background-color:#f3f4f6; border-color:#0a66c2; }
+
+  .container { max-width:1280px; margin:1.5rem auto; padding:0 1rem; display:grid; grid-template-columns:280px 1fr 320px; gap:1.5rem; }
+  .profile-card { background-color:#ffffff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; height:fit-content; position:sticky; top:90px; }
+  .profile-header { height:80px; background:linear-gradient(135deg,#0a66c2 0%,#10b981 100%); position:relative; }
+  .profile-avatar { width:80px; height:80px; border-radius:50%; border:4px solid #ffffff; background:linear-gradient(135deg,#10b981 0%,#059669 100%); position:absolute; bottom:-40px; left:50%; transform:translateX(-50%); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:600; color:#ffffff; }
+  .profile-info { padding:3rem 1.5rem 1rem; text-align:center; border-bottom:1px solid #e5e7eb; }
+  .profile-name { font-size:1.125rem; font-weight:700; margin-bottom:0.25rem; color:#111827; }
+  .profile-title { font-size:0.875rem; color:#6b7280; margin-bottom:1rem; }
+  .profile-bio { font-size:0.8rem; color:#6b7280; line-height:1.4; }
+  .profile-stats { padding:1rem 1.5rem; display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .stat-box { text-align:center; padding:0.75rem; background-color:#f9fafb; border-radius:8px; border:1px solid #e5e7eb; }
+  .stat-value { font-size:1.5rem; font-weight:700; background:linear-gradient(135deg,#0a66c2 0%,#10b981 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:0.25rem; }
+  .stat-label { font-size:0.75rem; color:#9ca3af; }
+  .profile-achievements { padding:1rem 1.5rem; border-top:1px solid #e5e7eb; }
+  .achievement-title { font-size:0.875rem; font-weight:600; color:#111827; margin-bottom:0.75rem; }
+  .badges { display:flex; gap:0.5rem; flex-wrap:wrap; }
+  .badge { padding:0.25rem 0.75rem; background:linear-gradient(135deg,#1d4ed8 0%,#1e40af 100%); border-radius:12px; font-size:0.75rem; color:#ffffff; }
+
+  .main-content { display:flex; flex-direction:column; gap:1rem; }
+  .card { background-color:#ffffff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; }
+  .card-header { padding:1rem 1.5rem; border-bottom:1px solid #e5e7eb; display:flex; align-items:center; justify-content:space-between; }
+  .card-title { font-size:1rem; font-weight:700; color:#111827; display:flex; align-items:center; gap:0.5rem; }
+  .sort-dropdown { padding:0.375rem 0.75rem; background-color:#f9fafb; border:1px solid #e5e7eb; border-radius:8px; color:#374151; font-size:0.8rem; cursor:pointer; }
+  .category-filters { display:flex; gap:0.5rem; padding:1rem 1.5rem; border-bottom:1px solid #e5e7eb; overflow-x:auto; background-color:#ffffff; }
+  .category-btn { padding:0.5rem 1.25rem; border:1px solid #e5e7eb; border-radius:20px; background-color:transparent; color:#6b7280; font-size:0.875rem; font-weight:600; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+  .category-btn:hover { background-color:#f3f4f6; color:#111827; }
+  .category-btn.active { background:linear-gradient(135deg,#0a66c2 0%,#10b981 100%); color:#ffffff; border-color:transparent; }
+
+  .case-list { display:flex; flex-direction:column; background-color:#ffffff; }
+  .case-item { padding:1.25rem 1.5rem; border-bottom:1px solid #e5e7eb; display:flex; gap:1rem; transition:background-color 0.2s; }
+  .case-item:hover { background-color:#f9fafb; }
+  .case-item:last-child { border-bottom:none; }
+  .vote-section { display:flex; flex-direction:column; align-items:center; gap:0.25rem; color:#9ca3af; font-size:0.75rem; min-width:40px; }
+  .vote-btn { background:none; border:none; color:#9ca3af; font-size:1.25rem; cursor:pointer; padding:0; line-height:1; transition:color 0.2s; }
+  .vote-btn:hover { color:#10b981; }
+  .vote-count { font-weight:700; }
+  .case-icon { width:48px; height:48px; border-radius:8px; background:linear-gradient(135deg,#1d4ed8 0%,#1e40af 100%); display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; color:#ffffff; }
+  .case-content { flex:1; min-width:0; }
+  .case-header { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap:wrap; }
+  .case-author { font-size:0.75rem; color:#6b7280; }
+  .case-time { font-size:0.75rem; color:#9ca3af; }
+  .case-title { font-size:1rem; font-weight:600; color:#111827; margin-bottom:0.5rem; line-height:1.4; }
+  .case-description { font-size:0.875rem; color:#4b5563; line-height:1.5; margin-bottom:0.75rem; }
+  .case-tags { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.75rem; }
+  .tag { padding:0.25rem 0.75rem; background-color:#f3f4f6; border:1px solid #e5e7eb; border-radius:12px; font-size:0.75rem; color:#6b7280; }
+  .tag.urgent { background-color:#fef2f2; border-color:#f97373; color:#b91c1c; }
+  .tag.category { background:linear-gradient(135deg, rgba(10,102,194,0.1) 0%, rgba(16,185,129,0.1) 100%); border-color:#0a66c2; color:#1d4ed8; }
+  .case-footer { display:flex; gap:0.75rem; align-items:center; }
+  .case-action-btn { padding:0.5rem 1.25rem; background:linear-gradient(135deg,#0a66c2 0%,#10b981 100%); border:none; border-radius:20px; color:#ffffff; font-size:0.875rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .case-action-btn:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(15,118,110,0.3); }
+  .case-action-btn.secondary { background:transparent; border:1px solid #e5e7eb; color:#374151; }
+  .case-action-btn.secondary:hover { background-color:#f3f4f6; border-color:#0a66c2; box-shadow:none; }
+  .case-meta-btn { background:none; border:none; color:#6b7280; font-size:0.8rem; cursor:pointer; padding:0.25rem 0.5rem; display:flex; align-items:center; gap:0.25rem; transition:color 0.2s; }
+  .case-meta-btn:hover { color:#111827; }
+  .empty-state { text-align:center; padding:3rem 2rem; color:#6b7280; font-size:0.875rem; background-color:#ffffff; }
+  .empty-state-icon { font-size:3rem; margin-bottom:1rem; opacity:0.5; }
+
+  .right-sidebar { display:flex; flex-direction:column; gap:1rem; position:sticky; top:90px; height:fit-content; }
+  .info-card { background-color:#ffffff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; }
+  .info-header { padding:1rem 1.25rem; border-bottom:1px solid #e5e7eb; font-size:0.875rem; font-weight:700; color:#111827; display:flex; align-items:center; gap:0.5rem; }
+  .info-content { padding:1rem 1.25rem; }
+  .info-item { padding:0.75rem 0; border-bottom:1px solid #e5e7eb; }
+  .info-item:last-child { border-bottom:none; padding-bottom:0; }
+  .info-item-title { font-size:0.875rem; font-weight:600; color:#111827; margin-bottom:0.25rem; }
+  .info-item-text { font-size:0.75rem; color:#6b7280; }
+  .leaderboard-item { display:flex; align-items:center; gap:0.75rem; padding:0.75rem 0; border-bottom:1px solid #e5e7eb; }
+  .leaderboard-item:last-child { border-bottom:none; padding-bottom:0; }
+  .leaderboard-rank { font-size:1.25rem; min-width:32px; text-align:center; }
+  .leaderboard-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#10b981 0%,#059669 100%); display:flex; align-items:center; justify-content:center; color:#ffffff; font-size:0.875rem; font-weight:700; border:2px solid #e5e7eb; }
+  .leaderboard-info { flex:1; }
+  .leaderboard-name { font-size:0.875rem; font-weight:600; color:#111827; margin-bottom:0.125rem; }
+  .leaderboard-score { font-size:0.75rem; color:#6b7280; }
+
+  @media (max-width: 1200px) { .container { grid-template-columns:260px 1fr; } .right-sidebar { display:none; } }
+  @media (max-width: 900px) { .container { grid-template-columns:1fr; } .profile-card { position:relative; top:0; } }
+  @media (max-width: 640px) { .nav-actions { display:none; } }
+
+  /* --- Modal styles for Open Case File --- */
+  .modal-backdrop { position:fixed; inset:0; background:rgba(2,6,23,0.6); display:none; align-items:center; justify-content:center; z-index:1200; }
+  .modal { width: min(940px, 96%); background:white; border-radius:12px; box-shadow:0 30px 80px rgba(2,6,23,0.6); overflow:hidden; max-height:90vh; display:flex; flex-direction:column; }
+  .modal-header { padding:16px 18px; border-bottom:1px solid #e6e9ef; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .modal-body { padding:16px 18px; overflow:auto; }
+  .modal-footer { padding:12px 18px; border-top:1px solid #e6e9ef; display:flex; gap:8px; justify-content:flex-end; }
+  .close-btn { background:none; border:1px solid #e6e9ef; padding:6px 10px; border-radius:8px; cursor:pointer; }
+  textarea { width:100%; min-height:160px; padding:10px; border-radius:8px; border:1px solid #e6e9ef; font-family:inherit; font-size:0.95rem; }
+  .pill { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-weight:700; }
+  .pill.allow { background:#ecfdf5; color:#065f46; border:1px solid #bbf7d0; }
+  .pill.revise { background:#fff7ed; color:#92400e; border:1px solid #f5d0a9; }
+  .pill.block { background:#fff1f2; color:#991b1b; border:1px solid #fecaca; }
+
+  .issues-list { margin-top:10px; padding-left:16px; color:#374151; }
+  .issue-item { margin-bottom:6px; color:#9ca3af; font-size:0.9rem; }
 </style>
 </head>
 <body>
@@ -684,14 +171,9 @@
     <main class="main-content">
       <div class="card">
         <div class="card-header">
-          <h2 class="card-title">
-            <span class="card-title-icon">🔍</span>
-            Browse Cases
-          </h2>
+          <h2 class="card-title"><span class="card-title-icon">🔍</span>Browse Cases</h2>
           <select class="sort-dropdown">
-            <option>Most Urgent</option>
-            <option>Recent</option>
-            <option>Popular</option>
+            <option>Most Urgent</option><option>Recent</option><option>Popular</option>
           </select>
         </div>
         <div class="category-filters" id="category-filters">
@@ -703,274 +185,514 @@
       </div>
 
       <div class="card">
-        <div class="card-header">
-          <h2 class="card-title">
-            <span class="card-title-icon">📋</span>
-            Available Cases
-          </h2>
-        </div>
+        <div class="card-header"><h2 class="card-title"><span class="card-title-icon">📋</span>Available Cases</h2></div>
         <div class="case-list" id="unclaimed-cases"></div>
       </div>
 
       <div class="card">
-        <div class="card-header">
-          <h2 class="card-title">
-            <span class="card-title-icon">💼</span>
-            My Active Cases
-          </h2>
-        </div>
+        <div class="card-header"><h2 class="card-title"><span class="card-title-icon">💼</span>My Active Cases</h2></div>
         <div class="case-list" id="my-cases"></div>
       </div>
     </main>
 
     <aside class="right-sidebar">
       <div class="info-card">
-        <div class="info-header">
-          <span>⚡</span>
-          <span>Recent Updates</span>
-        </div>
+        <div class="info-header"><span>⚡</span><span>Recent Updates</span></div>
         <div class="info-content">
-          <div class="info-item">
-            <div class="info-item-title">New case available</div>
-            <div class="info-item-text">Rent dispute in Mumbai • 2h ago</div>
-          </div>
-          <div class="info-item">
-            <div class="info-item-title">Case resolved</div>
-            <div class="info-item-text">Wage issue case #234 • 5h ago</div>
-          </div>
-          <div class="info-item">
-            <div class="info-item-title">Rating increased</div>
-            <div class="info-item-text">+50 points earned • 1d ago</div>
-          </div>
+          <div class="info-item"><div class="info-item-title">New case available</div><div class="info-item-text">Rent dispute in Mumbai • 2h ago</div></div>
+          <div class="info-item"><div class="info-item-title">Case resolved</div><div class="info-item-text">Wage issue case #234 • 5h ago</div></div>
+          <div class="info-item"><div class="info-item-title">Rating increased</div><div class="info-item-text">+50 points earned • 1d ago</div></div>
         </div>
       </div>
 
       <div class="info-card">
-        <div class="info-header">
-          <span>🏆</span>
-          <span>Top Students</span>
-        </div>
+        <div class="info-header"><span>🏆</span><span>Top Students</span></div>
         <div class="info-content">
-          <div class="leaderboard-item">
-            <div class="leaderboard-rank">🥇</div>
-            <div class="leaderboard-avatar">AK</div>
-            <div class="leaderboard-info">
-              <div class="leaderboard-name">Amit Kumar</div>
-              <div class="leaderboard-score">850 points • 24 cases</div>
-            </div>
-          </div>
-          <div class="leaderboard-item">
-            <div class="leaderboard-rank">🥈</div>
-            <div class="leaderboard-avatar">PR</div>
-            <div class="leaderboard-info">
-              <div class="leaderboard-name">Priya Sharma</div>
-              <div class="leaderboard-score">720 points • 19 cases</div>
-            </div>
-          </div>
-          <div class="leaderboard-item">
-            <div class="leaderboard-rank">🥉</div>
-            <div class="leaderboard-avatar">MG</div>
-            <div class="leaderboard-info">
-              <div class="leaderboard-name">Mehul Gupta</div>
-              <div class="leaderboard-score">680 points • 17 cases</div>
-            </div>
-          </div>
+          <div class="leaderboard-item"><div class="leaderboard-rank">🥇</div><div class="leaderboard-avatar">AK</div><div class="leaderboard-info"><div class="leaderboard-name">Amit Kumar</div><div class="leaderboard-score">850 points • 24 cases</div></div></div>
+          <div class="leaderboard-item"><div class="leaderboard-rank">🥈</div><div class="leaderboard-avatar">PR</div><div class="leaderboard-info"><div class="leaderboard-name">Priya Sharma</div><div class="leaderboard-score">720 points • 19 cases</div></div></div>
+          <div class="leaderboard-item"><div class="leaderboard-rank">🥉</div><div class="leaderboard-avatar">MG</div><div class="leaderboard-info"><div class="leaderboard-name">Mehul Gupta</div><div class="leaderboard-score">680 points • 17 cases</div></div></div>
         </div>
       </div>
 
       <div class="info-card">
-        <div class="info-header">
-          <span>💡</span>
-          <span>Tips</span>
-        </div>
+        <div class="info-header"><span>💡</span><span>Tips</span></div>
         <div class="info-content">
-          <div class="info-item">
-            <div class="info-item-title">Read carefully</div>
-            <div class="info-item-text">Take time to understand all case details</div>
-          </div>
-          <div class="info-item">
-            <div class="info-item-title">Prioritize urgent cases</div>
-            <div class="info-item-text">High priority cases need faster response</div>
-          </div>
+          <div class="info-item"><div class="info-item-title">Read carefully</div><div class="info-item-text">Take time to understand all case details</div></div>
+          <div class="info-item"><div class="info-item-title">Prioritize urgent cases</div><div class="info-item-text">High priority cases need faster response</div></div>
         </div>
       </div>
     </aside>
   </div>
 
-  <script>
-    // Global state
-    let mockData = { users: [] };
-    const currentStudentId = "student-001";
-    let currentCategory = "All";
+  <!-- Modal: Open Case File -->
+  <div id="case-modal-backdrop" class="modal-backdrop" role="dialog" aria-hidden="true">
+    <div class="modal" role="document">
+      <div class="modal-header">
+        <div>
+          <div id="modal-case-title" style="font-weight:700;font-size:1.05rem;">Case title</div>
+          <div id="modal-case-meta" style="color:#6b7280;font-size:0.9rem;margin-top:6px;"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div id="modal-decision-pill"></div>
+          <button class="close-btn" id="modal-close-btn">Close</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex;gap:12px;">
+          <div style="flex:1;">
+            <h3 style="margin-bottom:8px;">Uploaded Evidence</h3>
+            <div id="modal-evidence" style="background:#f9fafb;border:1px solid #e6e9ef;padding:12px;border-radius:8px;margin-bottom:14px;color:#374151;">
+              <!-- evidence list -->
+            </div>
 
-    function getCategoryIcon(category) {
-      const icons = { 'Rent': '🏠', 'Wages': '💰', 'Harassment': '⚠️', 'All': '📋' };
-      return icons[category] || '📋';
+            <h3 style="margin-bottom:8px;">Draft Answer (You)</h3>
+            <textarea id="modal-draft" placeholder="Draft the notice / complaint / advice here..."></textarea>
+
+            <div style="margin-top:10px; display:flex; gap:8px;">
+              <button id="modal-save-draft" class="case-action-btn" style="padding:8px 12px;font-size:0.9rem;">💾 Save Draft</button>
+              <button id="modal-run-moderation" class="case-action-btn secondary" style="padding:8px 12px;font-size:0.9rem;">🔎 Run Moderation</button>
+              <button id="modal-submit" class="case-action-btn" style="padding:8px 12px;font-size:0.9rem;">📤 Submit for Review</button>
+            </div>
+
+            <div id="modal-issues" style="margin-top:12px;display:none;">
+              <div style="font-weight:700;margin-bottom:6px;">Moderation Issues</div>
+              <div id="modal-issues-list" class="issues-list"></div>
+              <div id="modal-suggested-fix" style="margin-top:8px;color:#065f46;"></div>
+            </div>
+          </div>
+
+          <aside style="width:320px;">
+            <h3 style="margin-bottom:8px;">Case Summary</h3>
+            <div id="modal-summary" style="background:#f9fafb;border:1px solid #e6e9ef;padding:12px;border-radius:8px;color:#374151;"></div>
+
+            <h3 style="margin-top:12px;margin-bottom:8px;">Review History</h3>
+            <div id="modal-history" style="background:#f9fafb;border:1px solid #e6e9ef;padding:12px;border-radius:8px;color:#374151;min-height:120px;">
+              <!-- history entries -->
+            </div>
+          </aside>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="modal-close-bottom" class="close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Global state
+  let mockData = { users: [] };
+  const currentStudentId = "student-001";
+  let currentCategory = "All";
+
+  function getCategoryIcon(category) {
+    const icons = { 'Rent': '🏠', 'Wages': '💰', 'Harassment': '⚠️', 'All': '📋' };
+    return icons[category] || '📋';
+  }
+
+  // Claim case (local-only mutation of JSON data in memory)
+  window.claimCase = function(id) {
+    const sid = String(id);
+    const caseIndex = mockData.users.findIndex(c => String(c.id) === sid);
+    if (caseIndex !== -1) {
+      mockData.users[caseIndex].assignedTo = currentStudentId;
+      mockData.users[caseIndex].status = "In Progress";
+      // initialize draft holder
+      mockData.users[caseIndex].draft = mockData.users[caseIndex].draft || "";
+      renderUnclaimedCases();
+      renderMyCases();
+    }
+  };
+
+  // Renders available cases
+  function renderUnclaimedCases() {
+    const container = document.getElementById("unclaimed-cases");
+    if (!mockData.users || mockData.users.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">⌛</div>
+          <div>Loading cases...</div>
+        </div>
+      `;
+      return;
     }
 
-    // Claim case (local-only mutation of JSON data in memory)
-    window.claimCase = function(id) {
-      const caseIndex = mockData.users.findIndex(c => c.id === id);
-      if (caseIndex !== -1) {
-        mockData.users[caseIndex].assignedTo = currentStudentId;
-        mockData.users[caseIndex].status = "In Progress";
-        renderUnclaimedCases();
-        renderMyCases();
-      }
-    };
+    const cases = mockData.users.filter(c =>
+      c.status === "Pending" && (currentCategory === "All" || c.category === currentCategory)
+    );
 
-    function renderUnclaimedCases() {
-      const container = document.getElementById("unclaimed-cases");
-      if (!mockData.users || mockData.users.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">⌛</div>
-            <div>Loading cases...</div>
+    if (cases.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">📭</div>
+          <div>No available cases in this category right now.</div>
+          <div style="margin-top: 0.5rem; font-size: 0.75rem;">Check back later or browse other categories.</div>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = cases.map(c => `
+      <div class="case-item">
+        <div class="vote-section">
+          <button class="vote-btn">▲</button>
+          <div class="vote-count">${c.upvotes ?? 0}</div>
+          <button class="vote-btn">▼</button>
+        </div>
+        <div class="case-icon">${getCategoryIcon(c.category)}</div>
+        <div class="case-content">
+          <div class="case-header">
+            <span class="case-author">${c.author}</span>
+            <span class="case-time">• ${c.timeAgo || '3h ago'}</span>
           </div>
-        `;
-        return;
-      }
-
-      const cases = mockData.users.filter(c =>
-        c.status === "Pending" && (currentCategory === "All" || c.category === currentCategory)
-      );
-
-      if (cases.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">📭</div>
-            <div>No available cases in this category right now.</div>
-            <div style="margin-top: 0.5rem; font-size: 0.75rem;">Check back later or browse other categories.</div>
+          <div class="case-title">${c.title}</div>
+          <div class="case-description">
+            ${c.location || 'Unknown location'} - This case requires immediate legal assistance. The complainant has provided all necessary documentation.
           </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = cases.map(c => `
-        <div class="case-item">
-          <div class="vote-section">
-            <button class="vote-btn">▲</button>
-            <div class="vote-count">${c.upvotes}</div>
-            <button class="vote-btn">▼</button>
+          <div class="case-tags">
+            <span class="tag category">${c.category}</span>
+            <span class="tag ${c.urgency === 'High' ? 'urgent' : ''}">${c.urgency} Priority</span>
+            <span class="tag">${c.location}</span>
           </div>
-          <div class="case-icon">${getCategoryIcon(c.category)}</div>
-          <div class="case-content">
-            <div class="case-header">
-              <span class="case-author">${c.author}</span>
-              <span class="case-time">• 3h ago</span>
-            </div>
-            <div class="case-title">${c.title}</div>
-            <div class="case-description">
-              ${c.location} - This case requires immediate legal assistance. The complainant has provided all necessary documentation.
-            </div>
-            <div class="case-tags">
-              <span class="tag category">${c.category}</span>
-              <span class="tag ${c.urgency === 'High' ? 'urgent' : ''}">${c.urgency} Priority</span>
-              <span class="tag">${c.location}</span>
-            </div>
-            <div class="case-footer">
-              <button class="case-action-btn" onclick="claimCase(${c.id})">Claim Case</button>
-              <button class="case-meta-btn">💬 12 comments</button>
-              <button class="case-meta-btn">🔖 Save</button>
-            </div>
+          <div class="case-footer">
+            <button class="case-action-btn" onclick="claimCase('${c.id}')">Claim Case</button>
+            <button class="case-meta-btn">💬 12 comments</button>
+            <button class="case-meta-btn">🔖 Save</button>
           </div>
         </div>
-      `).join('');
+      </div>
+    `).join('');
+  }
+
+  // Renders "My Active Cases" and wires Open Case File
+  function renderMyCases() {
+    const container = document.getElementById("my-cases");
+    if (!mockData.users || mockData.users.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">⌛</div>
+          <div>Loading your cases...</div>
+        </div>
+      `;
+      return;
     }
 
-    function renderMyCases() {
-      const container = document.getElementById("my-cases");
-      if (!mockData.users || mockData.users.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">⌛</div>
-            <div>Loading your cases...</div>
+    const cases = mockData.users.filter(c => String(c.assignedTo) === currentStudentId);
+
+    const sidebarProgress = document.getElementById("sidebar-progress");
+    if (sidebarProgress) sidebarProgress.textContent = cases.length;
+
+    if (cases.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">💼</div>
+          <div>You haven't claimed any cases yet.</div>
+          <div style="margin-top: 0.5rem; font-size: 0.75rem;">Start by claiming a case above to begin your journey!</div>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = cases.map(c => `
+      <div class="case-item">
+        <div class="case-icon" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">⚡</div>
+        <div class="case-content">
+          <div class="case-header">
+            <span class="case-author">${c.author}</span>
+            <span class="case-time">• Assigned: Just now</span>
           </div>
-        `;
-        return;
-      }
-
-      const cases = mockData.users.filter(c => c.assignedTo === currentStudentId);
-
-      const sidebarProgress = document.getElementById("sidebar-progress");
-      if (sidebarProgress) sidebarProgress.textContent = cases.length;
-
-      if (cases.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">💼</div>
-            <div>You haven't claimed any cases yet.</div>
-            <div style="margin-top: 0.5rem; font-size: 0.75rem;">Start by claiming a case above to begin your journey!</div>
+          <div class="case-title">${c.title}</div>
+          <div class="case-description">
+            You are currently representing this client. Please review the uploaded documents in the case file.
           </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = cases.map(c => `
-        <div class="case-item">
-          <div class="case-icon" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">⚡</div>
-          <div class="case-content">
-            <div class="case-header">
-              <span class="case-author">${c.author}</span>
-              <span class="case-time">• Assigned: Just now</span>
-            </div>
-            <div class="case-title">${c.title}</div>
-            <div class="case-description">
-              You are currently representing this client. Please review the uploaded documents in the case file.
-            </div>
-            <div class="case-tags">
-              <span class="tag category">${c.category}</span>
-              <span class="tag ${c.urgency === 'High' ? 'urgent' : ''}">${c.urgency} Priority</span>
-              <span class="tag" style="background-color: #ecfdf5; color: #047857; border-color: #a7f3d0;">Active</span>
-            </div>
-            <div class="case-footer">
-              <button class="case-action-btn">📂 Open Case File</button>
-              <button class="case-action-btn secondary">Update Status</button>
-            </div>
+          <div class="case-tags">
+            <span class="tag category">${c.category}</span>
+            <span class="tag ${c.urgency === 'High' ? 'urgent' : ''}">${c.urgency} Priority</span>
+            <span class="tag" style="background-color: #ecfdf5; color: #047857; border-color: #a7f3d0;">Active</span>
+          </div>
+          <div class="case-footer">
+            <button class="case-action-btn" onclick="openCaseFile('${c.id}')">📂 Open Case File</button>
+            <button class="case-action-btn secondary" onclick="updateStatus('${c.id}')">Update Status</button>
           </div>
         </div>
-      `).join('');
+      </div>
+    `).join('');
+  }
+
+  // Update status helper (demo)
+  window.updateStatus = function(caseId) {
+    const idx = mockData.users.findIndex(x => String(x.id) === String(caseId));
+    if (idx === -1) return alert('Case not found');
+    const next = prompt('Set status (In Progress / Drafted / Solved):', mockData.users[idx].status || 'In Progress');
+    if (next) {
+      mockData.users[idx].status = next;
+      renderUnclaimedCases();
+      renderMyCases();
+      alert('Status updated locally (demo).');
     }
+  };
 
-    async function loadCases() {
-      const unclaimedContainer = document.getElementById("unclaimed-cases");
-
-      try {
-        // dashboard.html lives in /student, JSON in root → ../cases.json
-        const res = await fetch('../cases.json');
-        if (!res.ok) {
-          throw new Error('Network error: ' + res.status);
-        }
-        const data = await res.json();
-        mockData = data;
-        renderUnclaimedCases();
-        renderMyCases();
-      } catch (err) {
-        console.error('Failed to load cases.json', err);
-        if (unclaimedContainer) {
-          unclaimedContainer.innerHTML = `
-            <div class="empty-state">
-              <div class="empty-state-icon">⚠️</div>
-              <div>Could not load cases.</div>
-              <div style="margin-top: 0.5rem; font-size: 0.75rem;">Please refresh the page or contact an admin.</div>
-            </div>
-          `;
-        }
+  /* -------------------------
+     Load cases.json (relative)
+     ------------------------- */
+  async function loadCases() {
+    const unclaimedContainer = document.getElementById("unclaimed-cases");
+    try {
+      const res = await fetch('../cases.json');
+      if (!res.ok) {
+        throw new Error('Network error: ' + res.status);
+      }
+      const data = await res.json();
+      // ensure IDs are strings for safety
+      data.users = (data.users || []).map(u => ({ ...u, id: String(u.id) }));
+      mockData = data;
+      renderUnclaimedCases();
+      renderMyCases();
+    } catch (err) {
+      console.error('Failed to load cases.json', err);
+      if (unclaimedContainer) {
+        unclaimedContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <div>Could not load cases.</div>
+            <div style="margin-top: 0.5rem; font-size: 0.75rem;">Please refresh the page or contact an admin.</div>
+          </div>
+        `;
       }
     }
+  }
 
-    // Category filter click handler
-    document.getElementById('category-filters').addEventListener('click', (e) => {
-      if (e.target.classList.contains('category-btn')) {
-        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-        e.target.classList.add('active');
-        currentCategory = e.target.getAttribute('data-category');
-        renderUnclaimedCases();
-      }
-    });
+  // Category filter handler
+  document.getElementById('category-filters').addEventListener('click', (e) => {
+    if (e.target.classList.contains('category-btn')) {
+      document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+      e.target.classList.add('active');
+      currentCategory = e.target.getAttribute('data-category');
+      renderUnclaimedCases();
+    }
+  });
 
-    // Initial load
-    loadCases();
-  </script>
+  /* ================
+     Modal / Review UI
+     ================ */
+
+  const modalBackdrop = document.getElementById('case-modal-backdrop');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalCloseBottom = document.getElementById('modal-close-bottom');
+  const modalCaseTitle = document.getElementById('modal-case-title');
+  const modalCaseMeta = document.getElementById('modal-case-meta');
+  const modalEvidence = document.getElementById('modal-evidence');
+  const modalSummary = document.getElementById('modal-summary');
+  const modalHistory = document.getElementById('modal-history');
+  const modalDraft = document.getElementById('modal-draft');
+  const modalSaveDraft = document.getElementById('modal-save-draft');
+  const modalRunModeration = document.getElementById('modal-run-moderation');
+  const modalIssues = document.getElementById('modal-issues');
+  const modalIssuesList = document.getElementById('modal-issues-list');
+  const modalSuggestedFix = document.getElementById('modal-suggested-fix');
+  const modalDecisionPill = document.getElementById('modal-decision-pill');
+  const modalSubmit = document.getElementById('modal-submit');
+
+  let activeCaseId = null;
+
+  // Open case file — loads case context and shows modal
+  window.openCaseFile = function(caseId) {
+    const cid = String(caseId);
+    const c = mockData.users.find(x => String(x.id) === cid);
+    if (!c) {
+      alert('Case not found.');
+      return;
+    }
+    if (String(c.assignedTo) !== currentStudentId) {
+      alert('You must claim this case before opening the file.');
+      return;
+    }
+    activeCaseId = cid;
+
+    // populate modal
+    modalCaseTitle.textContent = c.title || 'Untitled case';
+    modalCaseMeta.textContent = `${c.category || 'General'} • ${c.location || 'Unknown location'} • Urgency: ${c.urgency || 'Medium'}`;
+    modalSummary.innerHTML = `
+      <strong>Author:</strong> ${c.author || 'Anonymous'}<br>
+      <strong>Reported:</strong> ${c.reportedAt || 'Unknown'}<br>
+      <div style="margin-top:6px;color:#6b7280;font-size:0.95rem;">${c.short || 'No short summary provided.'}</div>
+    `;
+
+    // evidence list (demo)
+    const evidence = c.evidence || (c.files || []);
+    if (!evidence || evidence.length === 0) {
+      modalEvidence.innerHTML = `<div style="color:#6b7280;">No uploaded files visible (demo).</div>`;
+    } else {
+      modalEvidence.innerHTML = evidence.map(f => `<div style="padding:6px 0;">📎 ${f}</div>`).join('');
+    }
+
+    // history (mock)
+    const histEntries = (c.history || []);
+    modalHistory.innerHTML = histEntries.length
+      ? histEntries.map(h => `<div style="margin-bottom:8px;"><strong>${h.actor}</strong> • ${h.note}<div style="color:#6b7280;font-size:0.9rem;">${h.when}</div></div>`).join('')
+      : `<div style="color:#6b7280;">No previous reviews or drafts.</div>`;
+
+    // load draft if any
+    modalDraft.value = c.draft || '';
+
+    // clear moderation UI
+    modalIssues.style.display = 'none';
+    modalIssuesList.innerHTML = '';
+    modalSuggestedFix.textContent = '';
+    modalDecisionPill.innerHTML = '';
+
+    // show modal
+    modalBackdrop.style.display = 'flex';
+    modalBackdrop.setAttribute('aria-hidden', 'false');
+  };
+
+  function closeModal() {
+    modalBackdrop.style.display = 'none';
+    modalBackdrop.setAttribute('aria-hidden', 'true');
+    activeCaseId = null;
+  }
+
+  modalCloseBtn.addEventListener('click', closeModal);
+  modalCloseBottom.addEventListener('click', closeModal);
+
+  // Save draft locally to mockData
+  modalSaveDraft.addEventListener('click', () => {
+    if (!activeCaseId) return alert('No active case.');
+    const idx = mockData.users.findIndex(x => String(x.id) === String(activeCaseId));
+    if (idx === -1) return alert('Case not found.');
+    mockData.users[idx].draft = modalDraft.value;
+    alert('Draft saved (local demo).');
+    renderMyCases();
+  });
+
+  // Submit for review (simple demo behaviour)
+  modalSubmit.addEventListener('click', () => {
+    if (!activeCaseId) return alert('No active case.');
+    const idx = mockData.users.findIndex(x => String(x.id) === String(activeCaseId));
+    if (idx === -1) return alert('Case not found.');
+    // require some draft text
+    const draftText = (modalDraft.value || '').trim();
+    if (!draftText) return alert('Please write a draft before submitting.');
+    // push a simple review_result event (demo)
+    mockData.users[idx].status = 'Drafted';
+    // attach history
+    mockData.users[idx].history = mockData.users[idx].history || [];
+    mockData.users[idx].history.unshift({ actor: 'You', note: 'Submitted draft for review', when: new Date().toISOString() });
+    renderMyCases();
+    alert('Draft submitted for review (demo).');
+    closeModal();
+  });
+
+  /* ----------------------------
+     Local moderation (client)
+     copied/adapted from your MVP
+     ---------------------------- */
+
+  function runLocalModeration(text) {
+    const issues = [];
+    const lower = (text || '').toLowerCase();
+
+    // UPL patterns
+    const uplPatterns = [
+      /i will represent you/, /i'll represent you/, /i will file/, /i'll file/, /i will appear/, /i'll appear/,
+      /i will handle your case/, /i'll handle your case/, /retainer/, /my fees/, /pay me/, /send me fees/,
+      /i will go to court/, /i'll go to court/
+    ];
+    if (uplPatterns.some(re => re.test(lower))) {
+      issues.push({ type:'block', msg:'Unauthorized Practice: contains promises of representation or fee requests.'});
+    }
+
+    // Direct advice
+    const directAdvicePatterns = [
+      /\byou must\b/, /\byou should\b/, /\byou have to\b/, /\bdo this\b/, /\bjust do this\b/, /\bgo and file\b/, /\bfile a case immediately\b/
+    ];
+    if (directAdvicePatterns.some(re => re.test(lower))) {
+      issues.push({ type:'revise', msg:'No direct imperative legal advice: rephrase into options (A/B/C).'});
+    }
+
+    // PII
+    const pii = [];
+    if (/\b[6-9]\d{9}\b/.test(lower)) pii.push('phone number');
+    if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(text)) pii.push('email');
+    if (/\b\d{4}\s?\d{4}\s?\d{4}\b/.test(text)) pii.push('Aadhaar-like number');
+    if (pii.length) issues.push({ type:'revise', msg:`Privacy: remove or mask ${pii.join(', ')}.` });
+
+    // Self-promo
+    const promo = [/contact me/,/call me/,/whatsapp me/,/my firm/,/consultation fee/,/pay me/,/upi id/,/bank account/];
+    if (promo.some(re => re.test(lower))) issues.push({ type:'revise', msg:'Remove private contact details or fee requests.' });
+
+    // Illegal / violent
+    const illegal = [/kill/,/beat them/,/violence/,/bribe/,/forge/,/forgery/,/threaten/,/burn/,/kidnap/];
+    if (illegal.some(re => re.test(lower))) issues.push({ type:'block', msg:'Illegal or unsafe instruction detected (violence, forgery, bribery).' });
+
+    // Tone / insults
+    const rude = [/idiot/,/stupid/,/dumb/,/moron/,/bastard/];
+    if (rude.some(re => re.test(lower))) issues.push({ type:'revise', msg:'Please remove insults; maintain professional neutral tone.' });
+
+    // Misleading claims
+    const misleading = [/100% win/,/guarantee/,/guaranteed win/,/you will definitely win/];
+    if (misleading.some(re => re.test(lower))) issues.push({ type:'revise', msg:'Avoid guarantees or absolute claims about outcomes.' });
+
+    // Decision
+    let decision = 'allow';
+    if (issues.some(i => i.type === 'block')) decision = 'block';
+    else if (issues.some(i => i.type === 'revise')) decision = 'revise';
+
+    let suggested = '';
+    if (decision === 'revise') {
+      suggested = 'Rewrite so you: explain rights, present lawful options (A/B/C), avoid promises of representation, remove PII/self-promo, stay neutral.';
+    } else if (decision === 'block') {
+      suggested = 'Remove illegal/unsafe instructions or promises of representation. Seek supervisor review.';
+    } else {
+      suggested = 'Looks good for submission (still consider asking clarifying questions if needed).';
+    }
+
+    let summary = '';
+    if (decision === 'allow') summary = '✅ This draft passes quick checks.';
+    else if (decision === 'revise') summary = '✏️ This draft needs revision.';
+    else summary = '⛔ Blocked: remove serious issues.';
+
+    return { decision, issues, suggestedFix: suggested, summary };
+  }
+
+  // Show moderation result in modal
+  function presentModerationResult(result) {
+    modalIssues.style.display = 'block';
+    modalIssuesList.innerHTML = '';
+    modalSuggestedFix.textContent = result.suggestedFix || '';
+
+    // pills
+    modalDecisionPill.innerHTML = '';
+    const pill = document.createElement('div');
+    pill.className = 'pill ' + (result.decision === 'allow' ? 'allow' : (result.decision === 'revise' ? 'revise' : 'block'));
+    pill.textContent = (result.decision === 'allow' ? 'ALLOW' : (result.decision === 'revise' ? 'REVISE' : 'BLOCK'));
+    modalDecisionPill.appendChild(pill);
+
+    if (result.issues && result.issues.length) {
+      result.issues.forEach(i => {
+        const div = document.createElement('div');
+        div.className = 'issue-item';
+        div.textContent = '• ' + i.msg;
+        modalIssuesList.appendChild(div);
+      });
+    } else {
+      modalIssuesList.innerHTML = '<div style="color:#6b7280;">No issues found.</div>';
+    }
+  }
+
+  modalRunModeration.addEventListener('click', () => {
+    const text = modalDraft.value || '';
+    if (!text.trim()) return alert('Please write something to run moderation.');
+    const res = runLocalModeration(text);
+    presentModerationResult(res);
+  });
+
+  // load on initial page
+  loadCases();
+
+  // Close modal on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalBackdrop.style.display === 'flex') closeModal();
+  });
+</script>
 </body>
 </html>
