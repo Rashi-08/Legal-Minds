@@ -1,98 +1,513 @@
-<html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Living Brief – Symbiotic Justice Engine</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Define the light theme colors using CSS Custom Properties (Best Practice) */
-        :root {
-            --color-primary-blue: #007bff; /* Professional Blue Accent */
-            --color-background-white: #ffffff; /* Clean White */
-            --color-background-soft: #f8f9fa; /* Soft Gray/Off-White for sections */
-            --color-text-dark: #212529; /* Dark Text */
-            --color-text-subtle: #6c757d; /* Subtle Gray Text */
-            --color-border: #dee2e6; /* Light Border */
-        }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Living Brief – Symbiotic Justice Engine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --blue: #2563eb;
+    --blue-soft: #dbeafe;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --text-dark: #0f172a;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
 
-        /* Apply the base light theme to the body */
-        body {
-            background-color: var(--color-background-white);
-            color: var(--color-text-dark);
-        }
-        /* Custom glow/shadow effect for light theme professionalism */
-        .professional-shadow {
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05); /* Soft, subtle shadow */
-        }
-        .professional-shadow:hover {
-            /* Highlight effect on hover: subtle blue glow and stronger shadow */
-            box-shadow: 0 0.5rem 1.5rem rgba(0, 123, 255, 0.15), 0 0 0 1px rgba(0, 123, 255, 0.1);
-            border-color: var(--color-primary-blue);
-        }
-    </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.right-6{right:1.5rem}.top-0{top:0px}.top-6{top:1.5rem}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-12{margin-bottom:3rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.ml-2{margin-left:0.5rem}.mt-10{margin-top:2.5rem}.mt-20{margin-top:5rem}.inline-block{display:inline-block}.flex{display:flex}.grid{display:grid}.h-20{height:5rem}.min-h-screen{min-height:100vh}.w-full{width:100%}.max-w-3xl{max-width:48rem}.max-w-6xl{max-width:72rem}.max-w-7xl{max-width:80rem}.flex-grow{flex-grow:1}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-6{gap:1.5rem}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-\[var\(--color-border\)\]{border-color:var(--color-border)}.bg-\[var\(--color-background-soft\)\]{background-color:var(--color-background-soft)}.bg-\[var\(--color-background-white\)\]{background-color:var(--color-background-white)}.p-8{padding:2rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-8{padding-top:2rem;padding-bottom:2rem}.text-left{text-align:left}.text-center{text-align:center}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.font-sans{font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"}.text-2xl{font-size:1.5rem;line-height:2rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.leading-relaxed{line-height:1.625}.tracking-tight{letter-spacing:-0.025em}.tracking-tighter{letter-spacing:-0.05em}.text-\[var\(--color-primary-blue\)\]{color:var(--color-primary-blue)}.text-\[var\(--color-text-dark\)\]{color:var(--color-text-dark)}.text-\[var\(--color-text-subtle\)\]{color:var(--color-text-subtle)}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.hover\:-translate-y-1:hover{--tw-translate-y:-0.25rem;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.group:hover .group-hover\:scale-110{--tw-scale-x:1.1;--tw-scale-y:1.1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.group:hover .group-hover\:text-\[var\(--color-primary-blue\)\]{color:var(--color-primary-blue)}@media (min-width: 768px){.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:text-7xl{font-size:4.5rem;line-height:1}}</style></head>
-<body class="font-sans antialiased min-h-screen flex flex-col">
+  body {
+    margin:0;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: radial-gradient(circle at top, #e0f2fe 0, #f8fafc 45%, #ffffff 80%);
+    color:var(--text-dark);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    overflow-x:hidden;
+  }
 
-    <nav class="border-b border-[var(--color-border)] bg-[var(--color-background-white)] sticky top-0 z-50 professional-shadow">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="text-2xl font-bold tracking-tighter text-[var(--color-text-dark)]">
-                LEGAL<span class="text-[var(--color-primary-blue)]">MINDS</span>
-            </div>
-            <div class="text-sm text-[var(--color-text-subtle)]">
-                Symbiotic Justice Engine v1.0
-            </div>
+  /* Background blobs */
+  body::before,
+  body::after {
+    content:"";
+    position:fixed;
+    width:380px;
+    height:380px;
+    border-radius:999px;
+    filter:blur(70px);
+    opacity:0.65;
+    z-index:-1;
+  }
+  body::before {
+    top:-140px; left:-120px;
+    background:radial-gradient(circle at center, #bfdbfe 0, transparent 60%);
+  }
+  body::after {
+    top:-100px; right:-160px;
+    background:radial-gradient(circle at center, #bbf7d0 0, transparent 60%);
+  }
+
+  header {
+    padding:18px 40px;
+    border-bottom:1px solid rgba(226,232,240,0.7);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    backdrop-filter:blur(12px);
+    background:linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0));
+    position:sticky;
+    top:0;
+    z-index:10;
+  }
+  .logo {
+    font-weight:800;
+    font-size:1.4rem;
+    letter-spacing:.12em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo-word-main { color:var(--text-dark); }
+  .logo-word-accent { color:var(--blue); }
+  .logo-dot {
+    width:18px;height:18px;border-radius:6px;
+    background:linear-gradient(135deg,#2563eb,#22c55e);
+    box-shadow:0 8px 18px rgba(37,99,235,0.35);
+  }
+  .tag {
+    font-size:0.85rem;
+    color:var(--gray);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .tag span.icon { font-size:1rem; }
+
+  main {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px 60px;
+    text-align:center;
+  }
+
+  .badge {
+    background:var(--blue-soft);
+    color:var(--blue);
+    padding:6px 14px;
+    border-radius:99px;
+    font-size:0.78rem;
+    font-weight:600;
+    margin-bottom:18px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    letter-spacing:.14em;
+  }
+  .badge-dot{
+    width:6px;height:6px;border-radius:999px;background:#22c55e;
+  }
+
+  h1 {
+    font-size:3.4rem;
+    font-weight:900;
+    margin:0 0 16px;
+    line-height:1.08;
+  }
+  .blue { color:var(--blue); }
+  .subtitle {
+    font-size:1.12rem;
+    color:#4b5563;
+    margin-bottom:26px;
+  }
+
+  /* Little stats row under subtitle */
+  .stats-row {
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin-bottom:32px;
+  }
+  .stat-pill {
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:6px 12px;
+    border-radius:999px;
+    background:#ffffff;
+    border:1px solid rgba(226,232,240,0.9);
+    box-shadow:0 8px 18px rgba(15,23,42,0.03);
+    font-size:0.8rem;
+    color:#6b7280;
+  }
+  .stat-pill span.icon { font-size:1rem; }
+
+  /* Roles row – 3 in a line on desktop */
+  .roles {
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:26px;
+    max-width:1080px;
+    width:100%;
+  }
+  @media (max-width: 900px) {
+    .roles { grid-template-columns:1fr; }
+  }
+
+  .role-card {
+    position:relative;
+    background:white;
+    border-radius:24px;
+    padding:26px 24px 22px;
+    box-shadow:0 16px 40px rgba(15,23,42,0.08);
+    border:1px solid var(--border);
+    cursor:pointer;
+    transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    text-align:left;
+    max-width:340px;
+    margin:0 auto;
+    overflow:hidden;
+  }
+  .role-card::after{
+    content:"";
+    position:absolute;
+    inset:auto 0 0;
+    height:4px;
+    background:linear-gradient(90deg,#2563eb,#22c55e);
+    opacity:0;
+    transition:opacity .2s ease;
+  }
+  .role-card:hover {
+    transform:translateY(-6px);
+    box-shadow:0 22px 50px rgba(15,23,42,0.16);
+    border-color:#bfdbfe;
+    background:#ffffff;
+  }
+  .role-card:hover::after{ opacity:1; }
+
+  .role-badge {
+    font-size:0.7rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:#6b7280;
+    margin-bottom:6px;
+  }
+
+  .role-top {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .role-heading {
+    font-size:1.08rem;
+    font-weight:600;
+    color:#0f172a;
+    margin-bottom:2px;
+  }
+  .role-name {
+    font-size:0.98rem;
+    font-weight:500;
+    color:#111827;
+  }
+  .role-desc {
+    margin:10px 0 18px;
+    color:var(--gray);
+    font-size:0.93rem;
+  }
+  .emoji-wrap{
+    width:42px;height:42px;border-radius:999px;
+    background:#eff6ff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.7rem;
+    flex-shrink:0;
+  }
+
+  .role-link {
+    color:var(--blue);
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.94rem;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .role-link span.arrow { font-size:1.05rem; transform:translateY(1px); }
+
+  footer {
+    text-align:center;
+    padding:24px;
+    color:#94a3b8;
+    font-size:0.9rem;
+    border-top:1px solid var(--border);
+    background:rgba(248,250,252,0.9);
+    backdrop-filter:blur(8px);
+  }
+
+  /* Modal */
+  .modal {
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,0.45);
+    backdrop-filter:blur(8px);
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+  }
+  .modal.active { display:flex; }
+  .modal-content {
+    background:white;
+    border-radius:20px;
+    width:90%;
+    max-width:420px;
+    padding:26px 24px 22px;
+    text-align:center;
+    box-shadow:0 25px 60px rgba(0,0,0,0.2);
+    animation:pop .25s ease-out;
+    position:relative;
+  }
+  @keyframes pop {
+    from { transform:scale(0.9); opacity:0; }
+    to   { transform:scale(1); opacity:1; }
+  }
+  .modal-icon-wrap{
+    width:40px;height:40px;border-radius:999px;
+    background:#eff6ff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.5rem;
+    margin:0 auto 8px;
+  }
+  .modal-pill{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:999px;
+    background:#eff6ff;
+    color:#4b5563;
+    font-size:0.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .modal-title {
+    margin:0 0 6px;
+    font-size:1.5rem;
+    font-weight:700;
+  }
+  .modal-sub { color:var(--gray); margin-bottom:18px; font-size:0.93rem; }
+
+  input {
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    font-size:0.95rem;
+    margin-bottom:14px;
+  }
+  input:focus {
+    outline:none;
+    border-color:var(--blue);
+    box-shadow:0 0 0 1px rgba(37,99,235,0.25);
+    background:#f9fafb;
+  }
+
+  .btn {
+    background:var(--blue);
+    color:white;
+    border:none;
+    padding:12px 24px;
+    border-radius:12px;
+    font-size:0.95rem;
+    cursor:pointer;
+    width:100%;
+    font-weight:600;
+  }
+  .btn.close {
+    background:#e2e8f0;
+    color:var(--gray);
+    margin-top:10px;
+  }
+  .modal-close-x{
+    position:absolute;
+    top:10px;right:12px;
+    border:none;background:transparent;
+    font-size:1.1rem;color:#9ca3af;
+    cursor:pointer;
+  }
+  .modal-close-x:hover{color:#4b5563;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <span class="logo-word-main">LEGAL</span><span class="logo-word-accent">MINDS</span>
+  </div>
+  <div class="tag">
+    <span class="icon">⚖️</span>
+    Symbiotic Justice Engine v1.0
+  </div>
+</header>
+
+<main>
+  <div class="badge">
+    <span class="badge-dot"></span>
+    PLATFORM READY
+  </div>
+
+  <h1>The <span class="blue">Symbiotic Justice</span><br>Engine.</h1>
+  <p class="subtitle">
+    Connecting student talent with critical legal aid needs.<br>
+    Select your role to access the workspace.
+  </p>
+
+  <div class="stats-row">
+    <div class="stat-pill"><span class="icon">🎓</span> 100k+ law grads unlocked</div>
+    <div class="stat-pill"><span class="icon">📄</span> Live, supervised legal drafts</div>
+    <div class="stat-pill"><span class="icon">🤝</span> Citizens · Students · Recruiters</div>
+  </div>
+
+  <div class="roles">
+    <!-- Citizen -->
+    <div class="role-card" onclick="openModal('citizen')">
+      <div class="role-badge">CITIZEN WORKSPACE</div>
+      <div class="role-top">
+        <div>
+          <div class="role-heading">Citizen</div>
+          <div class="role-name">“I have a legal problem.”</div>
         </div>
-    </nav>
+        <div class="emoji-wrap" aria-hidden="true">📢</div>
+      </div>
+      <p class="role-desc">
+        Submit your situation once and receive structured, rights-aware support from supervised student teams.
+      </p>
+      <a class="role-link">
+        SUBMIT INTAKE <span class="arrow">→</span>
+      </a>
+    </div>
 
-    <main class="flex-grow flex flex-col items-center justify-center text-center px-4 mt-10">
-        
-        <div class="mb-12 max-w-3xl">
-            <span class="px-3 py-1 bg-[var(--color-primary-blue)]/10 text-[var(--color-primary-blue)] rounded-full text-xs font-mono mb-4 inline-block border border-[var(--color-primary-blue)]/20">
-                PLATFORM READY
-            </span>
-            <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight text-[var(--color-text-dark)]">
-                The <span class="text-[var(--color-primary-blue)]">Symbiotic</span> Justice Engine.
-            </h1>
-            <p class="text-xl text-[var(--color-text-subtle)] leading-relaxed">
-                Connecting student talent with critical legal aid needs.<br>
-                Select your role to access the workspace.
-            </p>
+    <!-- Student -->
+    <div class="role-card" onclick="openModal('student')">
+      <div class="role-badge">STUDENT HUB</div>
+      <div class="role-top">
+        <div>
+          <div class="role-heading">Student</div>
+          <div class="role-name">“I need to prove my skills.”</div>
         </div>
+        <div class="emoji-wrap" aria-hidden="true">🎓</div>
+      </div>
+      <p class="role-desc">
+        Work on real legal problems to build a verified Living Brief portfolio that showcases performance, not grades.
+      </p>
+      <a class="role-link">
+        ENTER STUDENT HUB <span class="arrow">→</span>
+      </a>
+    </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full">
-            
-            <a href="./user/portal.html" class="group relative bg-[var(--color-background-soft)] border border-[var(--color-border)] p-8 rounded-2xl text-left transition-all duration-300 professional-shadow hover:-translate-y-1">
-                <div class="absolute top-6 right-6 text-4xl group-hover:scale-110 transition text-[var(--color-primary-blue)]">📢</div>
-                <h2 class="text-2xl font-bold mb-2 text-[var(--color-text-dark)] group-hover:text-[var(--color-primary-blue)]">Citizen</h2>
-                <p class="text-[var(--color-text-subtle)] text-sm mb-6">"I have a legal problem."</p>
-                <div class="flex items-center text-sm font-bold text-[var(--color-text-dark)] group-hover:text-[var(--color-primary-blue)]">
-                    SUBMIT INTAKE <span class="ml-2">→</span>
-                </div>
-            </a>
-
-            <a href="./student/dashboard.html" class="group relative bg-[var(--color-background-soft)] border border-[var(--color-border)] p-8 rounded-2xl text-left transition-all duration-300 professional-shadow hover:-translate-y-1">
-                <div class="absolute top-6 right-6 text-4xl group-hover:scale-110 transition text-[var(--color-primary-blue)]">👨‍🎓</div>
-                <h2 class="text-2xl font-bold mb-2 text-[var(--color-text-dark)] group-hover:text-[var(--color-primary-blue)]">Student</h2>
-                <p class="text-[var(--color-text-subtle)] text-sm mb-6">"I need to prove my skills."</p>
-                <div class="flex items-center text-sm font-bold text-[var(--color-text-dark)] group-hover:text-[var(--color-primary-blue)]">
-                    ENTER STUDENT HUB <span class="ml-2">→</span>
-                </div>
-            </a>
-
-            <a href="./recruiter/portal.html" class="group relative bg-[var(--color-background-soft)] border border-[var(--color-border)] p-8 rounded-2xl text-left transition-all duration-300 professional-shadow hover:-translate-y-1">
-                <div class="absolute top-6 right-6 text-4xl group-hover:scale-110 transition text-[var(--color-primary-blue)]">💼</div>
-                <h2 class="text-2xl font-bold mb-2 text-[var(--color-text-dark)] group-hover:text-[var(--color-primary-blue)]">Recruiter</h2>
-                <p class="text-[var(--color-text-subtle)] text-sm mb-6">"I want to hire talent."</p>
-                <div class="flex items-center text-sm font-bold text-[var(--color-text-dark)] group-hover:text-[var(--color-primary-blue)]">
-                    FIND TALENT <span class="ml-2">→</span>
-                </div>
-            </a>
-
+    <!-- Recruiter -->
+    <div class="role-card" onclick="openModal('recruiter')">
+      <div class="role-badge">RECRUITER DESK</div>
+      <div class="role-top">
+        <div>
+          <div class="role-heading">Recruiter</div>
+          <div class="role-name">“I want to hire talent.”</div>
         </div>
-    </main>
+        <div class="emoji-wrap" aria-hidden="true">💼</div>
+      </div>
+      <p class="role-desc">
+        Discover candidates ranked by real-world case outcomes, complexity scores, and resolution speed.
+      </p>
+      <a class="role-link">
+        FIND TALENT <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</main>
 
-    <footer class="mt-20 py-8 text-center text-[var(--color-text-subtle)] text-sm border-t border-[var(--color-border)]">
-        © 2025 The Living Brief – Symbiotic Justice Engine. Built with purpose.
-    </footer>
+<footer>
+  © 2025 The Living Brief – Symbiotic Justice Engine. Built with purpose.
+</footer>
 
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <button class="modal-close-x" onclick="closeModal()">×</button>
+    <div id="modalIcon" class="modal-icon-wrap">📢</div>
+    <div id="modalPill" class="modal-pill">CITIZEN LOGIN</div>
+    <h2 id="modalTitle" class="modal-title">Login as <span class="blue">Citizen</span></h2>
+    <p id="modalDesc" class="modal-sub">Enter your details to continue.</p>
+    <input type="text" placeholder="Full Name" id="name">
+    <input type="email" placeholder="Email Address" id="email">
+    <button class="btn" onclick="login()">Continue →</button>
+    <button class="btn close" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
 
-</body></html>
+<script>
+  let currentRole = "citizen";
+
+  const roleMeta = {
+    citizen: {
+      title: "Citizen",
+      pill: "CITIZEN LOGIN",
+      desc: "Submit your legal issue and get help from supervised student teams.",
+      icon: "📢",
+      redirect: "user/portal.html"
+    },
+    student: {
+      title: "Student",
+      pill: "STUDENT LOGIN",
+      desc: "Solve real cases, sit Micro-Bar exams, and grow your Living Brief portfolio.",
+      icon: "🎓",
+      redirect: "student/dashboard.html"
+    },
+    recruiter: {
+      title: "Recruiter",
+      pill: "RECRUITER LOGIN",
+      desc: "Search the Living Brief index and connect with verified talent.",
+      icon: "💼",
+      redirect: "recruiter/portal.html"
+    }
+  };
+
+  function openModal(role) {
+    currentRole = role;
+    const meta = roleMeta[role];
+
+    document.getElementById("modalTitle").innerHTML =
+      `Login as <span class="blue">${meta.title}</span>`;
+    document.getElementById("modalDesc").textContent = meta.desc;
+    document.getElementById("modalPill").textContent = meta.pill;
+    document.getElementById("modalIcon").textContent = meta.icon;
+
+    document.getElementById("name").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("modal").classList.add("active");
+  }
+
+  function closeModal() {
+    document.getElementById("modal").classList.remove("active");
+  }
+
+  function login() {
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    if (!name || !email) {
+      alert("Please fill both fields.");
+      return;
+    }
+    const firstName = name.split(" ")[0] || "there";
+    alert(`Welcome, ${firstName}! 🎉`);
+    const redirect = roleMeta[currentRole]?.redirect || "index.html";
+    closeModal();
+    window.location.href = redirect;
+  }
+</script>
+</body>
+</html>
