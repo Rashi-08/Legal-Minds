@@ -3,16 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Dashboard - Legal Aid Platform (with Review Modal)</title>
-  <style>
-  /* ========== ORIGINAL DASHBOARD STYLES (kept intact) ========== */
+  <title>Student Dashboard - Legal Aid Platform</title>
+<style>
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
 
-  /* 🎨 LIGHT THEME PALETTE */
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: #f3f4f6;
@@ -626,96 +624,12 @@
       display: none;
     }
   }
-
-  /* ========== MODAL (JURIS_NET-inspired) ========== */
-  .moderation-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(2,6,23,0.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 20px;
-  }
-
-  .moderation-card {
-    width: 100%;
-    max-width: 1100px;
-    background: rgba(15,23,42,0.98);
-    color: #e5e7eb;
-    border-radius: 12px;
-    padding: 18px;
-    box-shadow: 0 18px 45px rgba(2,6,23,0.8);
-    border: 1px solid rgba(148,163,184,0.12);
-    max-height: 90vh;
-    overflow: auto;
-  }
-
-  .moderation-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 18px;
-  }
-
-  .moderation-grid label { font-size: 0.85rem; color: #9ca3af; display:block; margin-bottom:6px; }
-  .moderation-grid textarea, .moderation-grid select {
-    width: 100%;
-    box-sizing: border-box;
-    border-radius: 8px;
-    border: 1px solid rgba(148,163,184,0.05);
-    padding: 10px;
-    background: rgba(8,10,20,0.6);
-    color: #e5e7eb;
-    resize: vertical;
-    min-height: 80px;
-    font-family: inherit;
-    font-size: 0.9rem;
-    outline: none;
-  }
-  .moderation-grid textarea:focus, .moderation-grid select:focus {
-    border-color: #22c55e;
-    box-shadow: 0 0 0 1px rgba(34,197,94,0.12);
-  }
-
-  .modal-row { display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
-  .modal-row > div { flex:1; min-width:140px; }
-
-  .moderation-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; }
-  .moderation-title { display:flex; gap:10px; align-items:center; font-size:1.15rem; }
-
-  .pill { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:0.8rem; margin-right:6px; }
-  .pill .dot { width:7px; height:7px; border-radius:999px; }
-  .pill.allow { background: rgba(22,163,74,0.08); border:1px solid rgba(34,197,94,0.2); color:#bbf7d0; }
-  .pill.allow .dot { background:#22c55e; }
-  .pill.revise { background: rgba(234,179,8,0.08); border:1px solid rgba(234,179,8,0.2); color:#fef9c3; }
-  .pill.revise .dot { background:#eab308; }
-  .pill.block { background: rgba(239,68,68,0.08); border:1px solid rgba(248,113,113,0.2); color:#fecaca; }
-  .pill.block .dot { background:#ef4444; }
-
-  .result-box { margin-top:8px; padding:10px; border-radius:8px; background: rgba(12,16,24,0.6); border:1px dashed rgba(148,163,184,0.06); color:#9ca3af; }
-  .result-box.allow { background: rgba(17,46,32,0.32); border-color: rgba(34,197,94,0.14); color:#bbf7d0; }
-  .result-box.revise { background: rgba(60,47,6,0.16); border-color: rgba(234,179,8,0.18); color:#fef9c3; }
-  .result-box.block { background: rgba(51,10,10,0.12); border-color: rgba(248,113,113,0.18); color:#fecaca; }
-
-  .moderation-actions { margin-top:10px; display:flex; gap:10px; align-items:center; justify-content:flex-end; }
-  .btn { padding:10px 16px; border-radius:999px; border:none; cursor:pointer; background:linear-gradient(135deg,#22c55e,#16a34a); color:#01220f; font-weight:600; }
-  .btn.ghost { background:transparent; border:1px solid rgba(148,163,184,0.06); color:#e5e7eb; }
-  .close-x { background:transparent; border:0; color:#9ca3af; font-size:1.1rem; cursor:pointer; }
-
-  @media (max-width: 900px) {
-    .moderation-grid { grid-template-columns: 1fr; }
-  }
-
-  /* small helper */
-  .muted { color:#9ca3af; font-size:0.9rem; margin-top:6px; }
-  </style>
+</style>
 </head>
 <body>
-  <!-- ========== ORIGINAL DASHBOARD MARKUP ========== -->
   <nav class="top-nav">
     <div class="nav-content">
-      <a href="#" class="logo">
+      <a href="../index.html" class="logo">
         <span>⚖️</span>
         <span>LegalAid</span>
       </a>
@@ -883,132 +797,41 @@
     </aside>
   </div>
 
-  <!-- ========== MODERATION OVERLAY (INSPIRATION FROM JURIS_NET) ========== -->
-  <div class="moderation-overlay" id="moderationOverlay" role="dialog" aria-hidden="true">
-    <div class="moderation-card" role="document" aria-labelledby="moderationTitle">
-      <div class="moderation-header">
-        <div class="moderation-title">
-          <span class="logo-dot" style="box-shadow:0 0 12px rgba(34,197,94,0.7)"></span>
-          <div>
-            <div id="moderationTitle" style="font-weight:700">Case Review · Automated Check</div>
-            <div class="muted" id="case-subtitle">Checking draft answer for UPL, PII, tone, and safety</div>
-          </div>
-        </div>
-        <div>
-          <button class="close-x" id="modalCloseBtn" title="Close">✕</button>
-        </div>
-      </div>
-
-      <div class="moderation-grid">
-        <div>
-          <div class="modal-row">
-            <div>
-              <label for="modal-jurisdiction">Jurisdiction</label>
-              <select id="modal-jurisdiction">
-                <option value="India / General">India / General</option>
-                <option value="India / Tenancy">India / Tenancy</option>
-                <option value="India / Labour">India / Labour</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            <div>
-              <label for="modal-domain">Skill Domain</label>
-              <select id="modal-domain">
-                <option value="Tenancy law">Tenancy law</option>
-                <option value="Labour law">Labour law</option>
-                <option value="Consumer disputes">Consumer disputes</option>
-                <option value="Basic civil law">Basic civil law</option>
-                <option value="Unknown">Unknown / generic</option>
-              </select>
-            </div>
-          </div>
-
-          <div style="margin-bottom:10px;">
-            <label for="modal-question">User’s Problem (short)</label>
-            <textarea id="modal-question" placeholder="Case summary / short problem"></textarea>
-          </div>
-
-          <div>
-            <label for="modal-answer">Draft Answer by Student</label>
-            <textarea id="modal-answer" placeholder="Draft answer goes here"></textarea>
-          </div>
-
-          <div class="moderation-actions">
-            <button class="btn ghost" id="modal-run-btn">Run Moderation</button>
-            <button class="btn" id="modal-accept-btn">Accept (mark reviewed)</button>
-          </div>
-        </div>
-
-        <div>
-          <label>Moderation Result</label>
-          <div id="modal-pills" style="margin-bottom:6px;">
-            <span class="pill allow" id="modal-pill-allow" style="display:none;"><span class="dot"></span> Allow</span>
-            <span class="pill revise" id="modal-pill-revise" style="display:none;"><span class="dot"></span> Revise</span>
-            <span class="pill block" id="modal-pill-block" style="display:none;"><span class="dot"></span> Block</span>
-          </div>
-
-          <div id="modal-result-box" class="result-box muted">
-            <div id="modal-result-summary">No draft loaded. Run moderation to see results.</div>
-            <ul id="modal-issues-list" style="display:none; margin-top:8px;"></ul>
-            <div id="modal-suggested-fix" style="display:none; margin-top:8px;"></div>
-          </div>
-
-          <div class="muted" style="margin-top:10px;">
-            This is a local review demo. Use the Accept button to mark the case as reviewed (local-only).
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========== ORIGINAL + NEW SCRIPT ========== -->
   <script>
-    // 1. DATA STORE (original dataset kept)
-    const mockData = {
-      users: [
-        { id: 1, title: "Landlord refusing security deposit return", category: "Rent", location: "Mumbai", urgency: "High", status: "Pending", assignedTo: null, upvotes: 42, author: "Posted by tenant_147" },
-        { id: 2, title: "Unpaid overtime wages for 3 months", category: "Wages", location: "Delhi", urgency: "Medium", status: "Pending", assignedTo: null, upvotes: 28, author: "Posted by worker_89" },
-        { id: 3, title: "Workplace harassment complaint - urgent help needed", category: "Harassment", location: "Bangalore", urgency: "High", status: "Pending", assignedTo: null, upvotes: 67, author: "Posted by anonymous_user" },
-        { id: 4, title: "Illegal eviction notice received", category: "Rent", location: "Pune", urgency: "High", status: "In Progress", assignedTo: "student-001", upvotes: 35, author: "Posted by family_203" },
-        { id: 5, title: "Minimum wage violation at factory", category: "Wages", location: "Chennai", urgency: "Medium", status: "In Progress", assignedTo: "student-001", upvotes: 19, author: "Posted by laborer_56" },
-        { id: 6, title: "Sudden rent increase without proper notice", category: "Rent", location: "Hyderabad", urgency: "Low", status: "Pending", assignedTo: null, upvotes: 15, author: "Posted by resident_421" },
-      ]
-    };
-
+    // Global state
+    let mockData = { users: [] };
     const currentStudentId = "student-001";
     let currentCategory = "All";
 
-    // 2. HELPER FUNCTIONS (unchanged)
     function getCategoryIcon(category) {
       const icons = { 'Rent': '🏠', 'Wages': '💰', 'Harassment': '⚠️', 'All': '📋' };
       return icons[category] || '📋';
     }
 
-    // 3. LOGIC FUNCTIONS
+    // Claim case (local-only mutation of JSON data in memory)
     window.claimCase = function(id) {
-        const caseIndex = mockData.users.findIndex(c => c.id === id);
-        if (caseIndex !== -1) {
-            mockData.users[caseIndex].assignedTo = currentStudentId;
-            mockData.users[caseIndex].status = "In Progress";
-            renderUnclaimedCases();
-            renderMyCases();
-        }
+      const caseIndex = mockData.users.findIndex(c => c.id === id);
+      if (caseIndex !== -1) {
+        mockData.users[caseIndex].assignedTo = currentStudentId;
+        mockData.users[caseIndex].status = "In Progress";
+        renderUnclaimedCases();
+        renderMyCases();
+      }
     };
 
-    // Category Filtering
-    document.getElementById('category-filters').addEventListener('click', (e) => {
-      if (e.target.classList.contains('category-btn')) {
-        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-        e.target.classList.add('active');
-        currentCategory = e.target.getAttribute('data-category');
-        renderUnclaimedCases();
-      }
-    });
-
-    // 4. RENDER FUNCTIONS (modified to attach openCaseFile)
     function renderUnclaimedCases() {
       const container = document.getElementById("unclaimed-cases");
-      const cases = mockData.users.filter(c => 
+      if (!mockData.users || mockData.users.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⌛</div>
+            <div>Loading cases...</div>
+          </div>
+        `;
+        return;
+      }
+
+      const cases = mockData.users.filter(c =>
         c.status === "Pending" && (currentCategory === "All" || c.category === currentCategory)
       );
 
@@ -1057,11 +880,20 @@
 
     function renderMyCases() {
       const container = document.getElementById("my-cases");
+      if (!mockData.users || mockData.users.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⌛</div>
+            <div>Loading your cases...</div>
+          </div>
+        `;
+        return;
+      }
+
       const cases = mockData.users.filter(c => c.assignedTo === currentStudentId);
 
-      // Update sidebar counter
       const sidebarProgress = document.getElementById("sidebar-progress");
-      if(sidebarProgress) sidebarProgress.textContent = cases.length;
+      if (sidebarProgress) sidebarProgress.textContent = cases.length;
 
       if (cases.length === 0) {
         container.innerHTML = `
@@ -1083,7 +915,7 @@
               <span class="case-time">• Assigned: Just now</span>
             </div>
             <div class="case-title">${c.title}</div>
-             <div class="case-description">
+            <div class="case-description">
               You are currently representing this client. Please review the uploaded documents in the case file.
             </div>
             <div class="case-tags">
@@ -1092,8 +924,7 @@
               <span class="tag" style="background-color: #ecfdf5; color: #047857; border-color: #a7f3d0;">Active</span>
             </div>
             <div class="case-footer">
-              <!-- IMPORTANT: clicking this will open the JURIS_NET-inspired review modal -->
-              <button class="case-action-btn" onclick="openCaseFile(${c.id})">📂 Open Case File</button>
+              <button class="case-action-btn">📂 Open Case File</button>
               <button class="case-action-btn secondary">Update Status</button>
             </div>
           </div>
@@ -1101,320 +932,45 @@
       `).join('');
     }
 
-    // INITIAL RENDER
-    renderUnclaimedCases();
-    renderMyCases();
+    async function loadCases() {
+      const unclaimedContainer = document.getElementById("unclaimed-cases");
 
-    /* ============================
-       Moderation logic (copied/adapted from JURIS_NET block)
-       The modal is inspired by that UI and runs the same checks.
-       ============================ */
-
-    // Modal elements
-    const overlay = document.getElementById('moderationOverlay');
-    const modalCloseBtn = document.getElementById('modalCloseBtn');
-    const modalJurisdiction = document.getElementById('modal-jurisdiction');
-    const modalDomain = document.getElementById('modal-domain');
-    const modalQuestion = document.getElementById('modal-question');
-    const modalAnswer = document.getElementById('modal-answer');
-    const modalRunBtn = document.getElementById('modal-run-btn');
-    const modalAcceptBtn = document.getElementById('modal-accept-btn');
-
-    const pillAllow = document.getElementById('modal-pill-allow');
-    const pillRevise = document.getElementById('modal-pill-revise');
-    const pillBlock = document.getElementById('modal-pill-block');
-    const resultBox = document.getElementById('modal-result-box');
-    const resultSummary = document.getElementById('modal-result-summary');
-    const issuesList = document.getElementById('modal-issues-list');
-    const suggestedFix = document.getElementById('modal-suggested-fix');
-    const caseSubtitle = document.getElementById('case-subtitle');
-
-    function clearModalPills() {
-      pillAllow.style.display = 'none';
-      pillRevise.style.display = 'none';
-      pillBlock.style.display = 'none';
-    }
-
-    function setModalBoxMode(mode) {
-      resultBox.classList.remove('allow','revise','block','muted');
-      if (mode === 'allow') resultBox.classList.add('allow');
-      else if (mode === 'revise') resultBox.classList.add('revise');
-      else if (mode === 'block') resultBox.classList.add('block');
-      else resultBox.classList.add('muted');
-    }
-
-    function runLocalModeration(question, answer, jurisdiction, domain) {
-      const issues = [];
-
-      const lower = answer.toLowerCase();
-
-      // 1) Unauthorized Practice of Law / representation
-      const uplPatterns = [
-        /i will represent you/,
-        /i'll represent you/,
-        /i will file/,
-        /i'll file/,
-        /i will appear/,
-        /i'll appear/,
-        /i will handle your case/,
-        /i'll handle your case/,
-        /retainer/,
-        /my fees/,
-        /pay me/,
-        /send me fees/,
-        /i will go to court/,
-        /i'll go to court/
-      ];
-      let hasUPL = uplPatterns.some(re => re.test(lower));
-      if (hasUPL) {
-        issues.push({ type: 'block', msg: 'Unauthorized Practice of Law: remove language like “I will represent/file/appear for you” or fees/payment.' });
-      }
-
-      // 2) Direct advice (no options)
-      const directAdvicePatterns = [
-        /\byou must\b/,
-        /\byou should\b/,
-        /\byou have to\b/,
-        /\bdo this\b/,
-        /\bjust do this\b/,
-        /\bgo and file\b/,
-        /\bfile a case immediately\b/,
-        /\bimmediately file\b/
-      ];
-      let hasDirectAdvice = directAdvicePatterns.some(re => re.test(lower));
-      if (hasDirectAdvice) {
-        issues.push({ type: 'revise', msg: 'No Direct Legal Advice: rewrite into options language (e.g., “You may consider A/B/C…”) instead of “You must/should do X”.' });
-      }
-
-      // 3) PII detection
-      const piiIssues = [];
-      const phonePattern = /\b[6-9]\d{9}\b/;
-      const emailPattern = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
-      const aadhaarPattern = /\b\d{4}\s?\d{4}\s?\d{4}\b/;
-
-      if (phonePattern.test(answer)) piiIssues.push('phone number');
-      if (emailPattern.test(answer)) piiIssues.push('email address');
-      if (aadhaarPattern.test(answer)) piiIssues.push('Aadhaar-like number');
-
-      if (piiIssues.length > 0) {
-        issues.push({ type: 'revise', msg: `Privacy / PII: remove or mask ${piiIssues.join(', ')} and keep communication on-platform.` });
-      }
-
-      // 4) Self-promotion / conflict of interest
-      const selfPromoPatterns = [
-        /contact me/,
-        /call me/,
-        /email me/,
-        /whatsapp me/,
-        /dm me/,
-        /my firm/,
-        /my office/,
-        /consultation fee/,
-        /fees for this/,
-        /pay me/,
-        /send payment/,
-        /upi id/,
-        /bank account/
-      ];
-      let hasSelfPromo = selfPromoPatterns.some(re => re.test(lower));
-      if (hasSelfPromo) {
-        issues.push({ type: 'revise', msg: 'Conflict of Interest: remove self-promotion, private contact details, or fee discussions.' });
-      }
-
-      // 5) Safety & illegality
-      const illegalPatterns = [
-        /kill/,
-        /beat them/,
-        /violence/,
-        /bribe/,
-        /fake signature/,
-        /forge/,
-        /forgery/,
-        /threaten/,
-        /threats/,
-        /burn/,
-        /destroy their/,
-        /kidnap/
-      ];
-      let hasIllegal = illegalPatterns.some(re => re.test(lower));
-      if (hasIllegal) {
-        issues.push({ type: 'block', msg: 'Safety & Legality: remove any suggestion of violence, forgery, bribery, or illegal actions.' });
-      }
-
-      // 6) Harassment / rude tone
-      const rudePatterns = [
-        /idiot/,
-        /stupid/,
-        /dumb/,
-        /fool/,
-        /moron/,
-        /bastard/
-      ];
-      let hasRudeness = rudePatterns.some(re => re.test(lower));
-      if (hasRudeness) {
-        issues.push({ type: 'revise', msg: 'Tone & Professional Conduct: remove insults or disrespectful language; stay neutral and professional.' });
-      }
-
-      // 7) Misleading claims
-      const misleadingPatterns = [
-        /100% win/,
-        /100% guarantee/,
-        /guaranteed win/,
-        /you will definitely win/,
-        /you will surely win/,
-        /this will always work/,
-        /assured win/
-      ];
-      let hasMisleading = misleadingPatterns.some(re => re.test(lower));
-      if (hasMisleading) {
-        issues.push({ type: 'revise', msg: 'Misleading Claims: remove any guarantees of success (e.g., “100% win”, “definitely win”).' });
-      }
-
-      // 8) Context questions allowed
-      let asksQuestions = /\?/.test(answer);
-
-      // Decision logic
-      let decision = 'allow';
-      if (issues.some(i => i.type === 'block')) decision = 'block';
-      else if (issues.some(i => i.type === 'revise')) decision = 'revise';
-
-      // Suggested fix
-      let suggested = '';
-      if (decision === 'revise') {
-        suggested = 'Rewrite your answer so that you: explain the user’s rights with reasons, present lawful options (A/B/C), avoid “I will represent/file”, remove PII and self-promotion, and keep a calm, neutral tone.';
-      } else if (decision === 'block') {
-        suggested = 'This draft contains serious policy violations (UPL, illegal instructions, or highly unsafe content). Remove those parts and rewrite from a neutral, rights-explaining, options-only perspective.';
-      }
-
-      let summary;
-      if (decision === 'allow') {
-        summary = '✅ This answer passes the MVP moderation checks. It explains rights/options without UPL, unsafe content, or PII/self-promo.';
-        if (asksQuestions) summary += ' Follow-up questions for context are allowed and look fine.';
-      } else if (decision === 'revise') {
-        summary = '✏️ This answer needs revisions before it can be shown to the user.';
-      } else {
-        summary = '⛔ This answer is blocked due to serious policy violations.';
-      }
-
-      return { decision, issues, suggestedFix: suggested, summary };
-    }
-
-    // wiring for modal
-    function updateModalResult(result) {
-      clearModalPills();
-      if (result.decision === 'allow') pillAllow.style.display = 'inline-flex';
-      else if (result.decision === 'revise') pillRevise.style.display = 'inline-flex';
-      else if (result.decision === 'block') pillBlock.style.display = 'inline-flex';
-      setModalBoxMode(result.decision);
-      resultSummary.textContent = result.summary;
-
-      // Issues list
-      while (issuesList.firstChild) issuesList.removeChild(issuesList.firstChild);
-      if (result.issues.length > 0) {
-        issuesList.style.display = 'block';
-        result.issues.forEach(i => {
-          const li = document.createElement('li');
-          li.textContent = i.msg;
-          issuesList.appendChild(li);
-        });
-      } else {
-        issuesList.style.display = 'none';
-      }
-
-      // Suggested fix
-      if (result.decision === 'allow') {
-        suggestedFix.style.display = 'none';
-        suggestedFix.textContent = '';
-      } else {
-        suggestedFix.style.display = 'block';
-        suggestedFix.textContent = result.suggestedFix;
+      try {
+        // dashboard.html lives in /student, JSON in root → ../cases.json
+        const res = await fetch('../cases.json');
+        if (!res.ok) {
+          throw new Error('Network error: ' + res.status);
+        }
+        const data = await res.json();
+        mockData = data;
+        renderUnclaimedCases();
+        renderMyCases();
+      } catch (err) {
+        console.error('Failed to load cases.json', err);
+        if (unclaimedContainer) {
+          unclaimedContainer.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">⚠️</div>
+              <div>Could not load cases.</div>
+              <div style="margin-top: 0.5rem; font-size: 0.75rem;">Please refresh the page or contact an admin.</div>
+            </div>
+          `;
+        }
       }
     }
 
-    modalRunBtn.addEventListener('click', () => {
-      const q = modalQuestion.value.trim();
-      const a = modalAnswer.value.trim();
-      const j = modalJurisdiction.value;
-      const d = modalDomain.value;
-
-      if (!a) {
-        alert('Please enter a draft answer to moderate.');
-        return;
+    // Category filter click handler
+    document.getElementById('category-filters').addEventListener('click', (e) => {
+      if (e.target.classList.contains('category-btn')) {
+        document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        currentCategory = e.target.getAttribute('data-category');
+        renderUnclaimedCases();
       }
-      const result = runLocalModeration(q, a, j, d);
-      updateModalResult(result);
     });
 
-    // Mark as reviewed (local-only): annotate case with reviewedAt/time
-    modalAcceptBtn.addEventListener('click', () => {
-      if (!overlay.dataset.currentCase) {
-        alert('No open case.');
-        return;
-      }
-      const cid = Number(overlay.dataset.currentCase);
-      const idx = mockData.users.findIndex(x => x.id === cid);
-      if (idx === -1) return;
-      mockData.users[idx].reviewed = true;
-      mockData.users[idx].reviewedAt = new Date().toISOString();
-      alert('Case marked as reviewed (local demo).');
-      // close modal and optionally re-render
-      closeModal();
-      renderMyCases();
-    });
-
-    // openCaseFile: called when student clicks Open Case File
-    function openCaseFile(caseId) {
-      const c = mockData.users.find(x => x.id === caseId);
-      if (!c) return;
-      // populate modal fields with case-inspired content (not integrated into UI)
-      overlay.dataset.currentCase = caseId;
-      modalJurisdiction.value = (c.category === 'Wages') ? 'India / Labour' : (c.category === 'Rent' ? 'India / Tenancy' : 'India / General');
-      modalDomain.value = (c.category === 'Wages') ? 'Labour law' : (c.category === 'Rent' ? 'Tenancy law' : 'Basic civil law');
-      modalQuestion.value = `${c.title} — ${c.location}. Priority: ${c.urgency}. Author: ${c.author}`;
-      // Pre-fill a suggested draft answer to be reviewed (student can edit)
-      modalAnswer.value = `You may consider contacting your landlord and asking for the deposit back. You should gather receipts and any written evidence. If that fails, you can file a complaint in the local consumer forum or approach the rent authority.`;
-      // show case subtitle
-      caseSubtitle.textContent = `${c.location} • ${c.urgency} priority • Auto-populated draft answer for review.`;
-      // show overlay
-      overlay.style.display = 'flex';
-      overlay.setAttribute('aria-hidden','false');
-      // run moderation automatically on open
-      setTimeout(() => {
-        const res = runLocalModeration(modalQuestion.value, modalAnswer.value, modalJurisdiction.value, modalDomain.value);
-        updateModalResult(res);
-      }, 120);
-    }
-
-    function closeModal() {
-      overlay.style.display = 'none';
-      overlay.setAttribute('aria-hidden','true');
-      overlay.dataset.currentCase = '';
-      // clear any previous pills / messages
-      clearModalPills();
-      setModalBoxMode('muted');
-      resultSummary.textContent = 'No draft loaded. Run moderation to see results.';
-      while (issuesList.firstChild) issuesList.removeChild(issuesList.firstChild);
-      suggestedFix.style.display = 'none';
-      modalQuestion.value = '';
-      modalAnswer.value = '';
-    }
-
-    modalCloseBtn.addEventListener('click', closeModal);
-    // also close on Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && overlay.style.display === 'flex') closeModal();
-    });
-
-    // expose openCaseFile globally (so inline onclick works)
-    window.openCaseFile = openCaseFile;
-
-    // Small UX: if user claims case, open it automatically after claim
-    const originalClaim = window.claimCase;
-    window.claimCase = function(id) {
-      originalClaim(id);
-      // open the case after claiming, so student can review draft
-      setTimeout(() => openCaseFile(id), 120);
-    };
+    // Initial load
+    loadCases();
   </script>
 </body>
 </html>

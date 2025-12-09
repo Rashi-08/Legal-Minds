@@ -474,189 +474,150 @@
 </div>
 
 <script>
-    /* ========= DATA: 30 STUDENTS ========= */
-    const students = [
-        { id:"1", initials:"AK", name:"Amelia Khan", school:"Harvard Law", year:"3L", specialization:"Contract Law", completion:98, casesCount:12, rating:4.9, verified:true, cases:["Drafted indemnity clause","Negotiated vendor contract"] },
-        { id:"2", initials:"DS", name:"David Smith", school:"Yale Law", year:"2L", specialization:"IP Law", completion:96, casesCount:8, rating:4.8, verified:true, cases:["Patent search","Trademark dispute"] },
-        { id:"3", initials:"NP", name:"Nina Patel", school:"Columbia Law", year:"3L", specialization:"Constitutional Law", completion:99, casesCount:15, rating:5.0, verified:true, cases:["Free speech case","Due process petition"] },
-        { id:"4", initials:"RK", name:"Riya Kapoor", school:"NYU Law", year:"2L", specialization:"Criminal Law", completion:92, casesCount:10, rating:4.7, verified:true, cases:["Defense prep","Bail motion"] },
-        { id:"5", initials:"JS", name:"James Stewart", school:"Stanford Law", year:"3L", specialization:"Corporate Law", completion:97, casesCount:18, rating:4.9, verified:true },
-        { id:"6", initials:"ML", name:"Mason Lee", school:"UCLA Law", year:"1L", specialization:"Environmental Law", completion:89, casesCount:5, rating:4.6, verified:true },
-        { id:"7", initials:"TP", name:"Tanvi Patel", school:"Cambridge Law", year:"2L", specialization:"International Law", completion:95, casesCount:14, rating:4.9, verified:true },
-        { id:"8", initials:"OG", name:"Omar Ghani", school:"Georgetown Law", year:"3L", specialization:"Immigration Law", completion:90, casesCount:11, rating:4.7, verified:true },
-        { id:"9", initials:"SR", name:"Sophia Reyes", school:"Duke Law", year:"2L", specialization:"Civil Rights", completion:93, casesCount:9, rating:4.8, verified:true },
-        { id:"10", initials:"YL", name:"Yuki Lin", school:"Tokyo Univ", year:"LLM", specialization:"International Trade", completion:91, casesCount:7, rating:4.6, verified:true },
+    let students = [];
 
-        {id:"11", initials:"HM", name:"Hannah Moore", school:"UPenn Law", year:"3L", specialization:"Family Law", completion:93, casesCount:12, rating:4.8, verified:true},
-        {id:"12", initials:"RG", name:"Rohan Gupta", school:"NLSIU", year:"4th Year", specialization:"Cyber Law", completion:88, casesCount:9, rating:4.7, verified:true},
-        {id:"13", initials:"MB", name:"Maya Bhatt", school:"NLU Delhi", year:"3rd Year", specialization:"IPR Law", completion:97, casesCount:12, rating:4.9, verified:true},
-        {id:"14", initials:"AS", name:"Arjun Singh", school:"GNLU", year:"5th Year", specialization:"Criminal Litigation", completion:91, casesCount:14, rating:4.8, verified:true},
-        {id:"15", initials:"EV", name:"Elena Voss", school:"Oxford Law", year:"BCL", specialization:"Human Rights", completion:95, casesCount:16, rating:5.0, verified:true},
-        {id:"16", initials:"KL", name:"Karan Lal", school:"NUS Law", year:"LLM", specialization:"Corporate Law", completion:92, casesCount:11, rating:4.7, verified:true},
-        {id:"17", initials:"JT", name:"Julia Torres", school:"UCLA Law", year:"2L", specialization:"Media Law", completion:90, casesCount:7, rating:4.6, verified:true},
-        {id:"18", initials:"IZ", name:"Imran Zaki", school:"SOAS", year:"LLM", specialization:"International Law", completion:93, casesCount:10, rating:4.9, verified:true},
-        {id:"19", initials:"LK", name:"Leah Kim", school:"KCL", year:"2L", specialization:"Criminal Law", completion:91, casesCount:8, rating:4.8, verified:true},
-        {id:"20", initials:"VS", name:"Vivek Shah", school:"Jindal Law", year:"3L", specialization:"Tech Law", completion:94, casesCount:13, rating:4.9, verified:true},
-        {id:"21", initials:"JN", name:"Jaden Ng", school:"HKU Law", year:"2L", specialization:"International Arbitration", completion:92, casesCount:9, rating:4.7, verified:true},
-        {id:"22", initials:"PS", name:"Priya Sethi", school:"NLU Mumbai", year:"4th Year", specialization:"Corporate Law", completion:95, casesCount:17, rating:4.9, verified:true},
-        {id:"23", initials:"MT", name:"Mark Turner", school:"MIT Law", year:"1L", specialization:"AI Policy", completion:88, casesCount:6, rating:4.5, verified:true},
-        {id:"24", initials:"AL", name:"Aisha Lopez", school:"Harvard Law", year:"2L", specialization:"IP Law", completion:90, casesCount:10, rating:4.7, verified:true},
-        {id:"25", initials:"RR", name:"Rahul Rao", school:"IIT Kharagpur Law", year:"3rd Year", specialization:"Cyber Law", completion:92, casesCount:11, rating:4.8, verified:true},
-        {id:"26", initials:"CP", name:"Chloe Park", school:"Seoul Univ Law", year:"LLM", specialization:"International Trade", completion:93, casesCount:9, rating:4.8, verified:true},
-        {id:"27", initials:"ZB", name:"Zara Bedi", school:"NLU Bangalore", year:"5th Year", specialization:"Corporate Law", completion:96, casesCount:18, rating:4.9, verified:true},
-        {id:"28", initials:"TE", name:"Tom Edwards", school:"Cambridge Law", year:"3L", specialization:"Contract Law", completion:94, casesCount:12, rating:4.8, verified:true},
-        {id:"29", initials:"SB", name:"Sara Bloom", school:"Stanford Law", year:"1L", specialization:"Civil Rights", completion:89, casesCount:7, rating:4.6, verified:true},
-        {id:"30", initials:"AM", name:"Aman Mehra", school:"Oxford Law", year:"2L", specialization:"Human Rights", completion:95, casesCount:14, rating:5.0, verified:true},
-    ];
-
-    document.getElementById("header-count").textContent = `${students.length} candidates`;
-
-    /* ========= Filter setup ========= */
+    const headerCountEl = document.getElementById("header-count");
     const filterDomain = document.getElementById("filter-domain");
     const filterSchool = document.getElementById("filter-school");
-
-    [...new Set(students.map(s=>s.specialization))].sort().forEach(sp => {
-        const o=document.createElement("option");
-        o.value=sp; o.textContent=sp;
-        filterDomain.appendChild(o);
-    });
-
-    [...new Set(students.map(s=>s.school))].sort().forEach(sc => {
-        const o=document.createElement("option");
-        o.value=sc; o.textContent=sc;
-        filterSchool.appendChild(o);
-    });
-
-    /* ========= State ========= */
-    let searchTerm="", sortBy="name", showVerified=false, limit=12;
-
     const grid = document.getElementById("student-grid");
     const loadMoreBtn = document.getElementById("load-more-btn");
     const toolbarEl = document.querySelector(".toolbar");
 
-    /* ========= Filtering + sorting ========= */
+    let searchTerm = "";
+    let sortBy = "name";
+    let showVerified = false;
+    let limit = 12;
+
+    async function loadStudents() {
+        try {
+            const res = await fetch("../students.json");
+            const data = await res.json();
+            students = data.students || [];
+            headerCountEl.textContent = `${students.length} candidates`;
+            setupFilters();
+            renderGrid();
+        } catch (err) {
+            console.error("Failed to load students.json", err);
+            headerCountEl.textContent = "0 candidates";
+            grid.innerHTML = `<div style="grid-column:1/-1;padding:20px;background:#fee2e2;border-radius:12px;border:1px solid #fecaca;color:#991b1b;font-size:14px;">Could not load candidates. Please refresh or contact admin.</div>`;
+        }
+    }
+
+    function setupFilters() {
+        // clear old options (keep "all")
+        while (filterDomain.options.length > 1) filterDomain.remove(1);
+        while (filterSchool.options.length > 1) filterSchool.remove(1);
+
+        [...new Set(students.flatMap(s => s.specializations || []))].sort().forEach(sp => {
+            const o = document.createElement("option");
+            o.value = sp;
+            o.textContent = sp;
+            filterDomain.appendChild(o);
+        });
+
+        [...new Set(students.map(s => s.school))].sort().forEach(sc => {
+            const o = document.createElement("option");
+            o.value = sc;
+            o.textContent = sc;
+            filterSchool.appendChild(o);
+        });
+    }
+
     function applyFilters() {
-        let res=[...students];
+        let res = [...students];
 
         if (searchTerm.trim()) {
             const t = searchTerm.toLowerCase();
             res = res.filter(s =>
-                s.name.toLowerCase().includes(t) ||
-                s.school.toLowerCase().includes(t) ||
-                s.specialization.toLowerCase().includes(t)
+                (s.name || "").toLowerCase().includes(t) ||
+                (s.school || "").toLowerCase().includes(t) ||
+                (s.specializations || []).some(sp => sp.toLowerCase().includes(t))
             );
         }
 
         if (showVerified) res = res.filter(s => s.verified);
 
-        if (filterDomain.value !== "all") res = res.filter(s => s.specialization === filterDomain.value);
-        if (filterSchool.value !== "all") res = res.filter(s => s.school === filterSchool.value);
+        if (filterDomain.value !== "all") {
+            res = res.filter(s => (s.specializations || []).includes(filterDomain.value));
+        }
+        if (filterSchool.value !== "all") {
+            res = res.filter(s => s.school === filterSchool.value);
+        }
 
-        res.sort((a,b)=>{
-            if (sortBy === "rating") return b.rating - a.rating;
-            if (sortBy === "cases") return b.casesCount - a.casesCount;
-            if (sortBy === "completion") return b.completion - a.completion;
-            return a.name.localeCompare(b.name);
+        res.sort((a,b) => {
+            if (sortBy === "rating") return (b.rating || 0) - (a.rating || 0);
+            if (sortBy === "cases") return (b.casesCount || 0) - (a.casesCount || 0);
+            if (sortBy === "completion") return (b.completion || 0) - (a.completion || 0);
+            return (a.name || "").localeCompare(b.name || "");
         });
 
         return res;
     }
 
-    /* ========= Render grid ========= */
     function renderGrid() {
-        const list=applyFilters();
+        const list = applyFilters();
         grid.innerHTML = "";
 
         const visible = list.slice(0, limit);
-        visible.forEach(s=>{
-            const card=document.createElement("div");
-            card.className="card";
-            card.innerHTML = `
-            <div class="student-header">
-                <div class="student-avatar">${s.initials}</div>
-                <div>
-                    <div class="student-name">${s.name}</div>
-                    <div class="student-meta">${s.school} • ${s.year}</div>
-                </div>
-            </div>
-            <div class="badge-row">
-                <span class="badge badge-verified">VERIFIED</span>
-                <span class="badge badge-domain">${s.specialization}</span>
-                <span class="badge badge-school">${s.school}</span>
-            </div>
-            <div class="card-metrics">
-                <div><b>Completion:</b> ${s.completion}%</div>
-                <div><b>Cases:</b> ${s.casesCount}</div>
-                <div><b>Rating:</b> ${s.rating} / 5</div>
-            </div>
-            <button class="btn" onclick="goToProfile('${s.id}')">View Profile</button>
+        visible.forEach(s => {
+            const card = document.createElement("div");
+            card.className = "card";
 
-        `;
+            const initials = s.initials || (s.name ? s.name.split(" ").map(p=>p[0]).join("").slice(0,2) : "?");
+            const completion = s.completion != null ? s.completion : Math.round(((s.solvedCases || 0) / (s.totalAttempts || (s.solvedCases || 1))) * 100);
+            const casesCount = s.casesCount != null ? s.casesCount : (s.solvedCases || 0);
+            const rating = s.rating != null ? s.rating : 0;
+
+            const firstSpec = (s.specializations && s.specializations[0]) || "Legal Aid";
+            card.innerHTML = `
+                <div class="student-header">
+                    <div class="student-avatar">${initials}</div>
+                    <div>
+                        <div class="student-name">${s.name}</div>
+                        <div class="student-meta">${s.school || ""} • ${s.year || ""}</div>
+                    </div>
+                </div>
+                <div class="badge-row">
+                    ${s.verified ? '<span class="badge badge-verified">VERIFIED</span>' : ""}
+                    <span class="badge badge-domain">${firstSpec}</span>
+                    ${s.school ? `<span class="badge badge-school">${s.school}</span>` : ""}
+                </div>
+                <div class="card-metrics">
+                    <div><b>Completion:</b> ${completion}%</div>
+                    <div><b>Cases:</b> ${casesCount}</div>
+                    <div><b>Rating:</b> ${rating.toFixed ? rating.toFixed(1) : rating} / 5</div>
+                </div>
+                <button class="btn" onclick="goToProfile('${s.id}')">View Profile</button>
+            `;
             grid.appendChild(card);
         });
 
         loadMoreBtn.style.display = list.length > limit ? "inline-block" : "none";
     }
 
-    /* ========= SPA Profile (no scroll) ========= */
-    const profilePanel = document.getElementById("profile-panel");
-    const profileName = document.getElementById("profile-name");
-    const profileMeta = document.getElementById("profile-meta");
-    const profileDetails = document.getElementById("profile-details");
-    const profileCases = document.getElementById("profile-cases");
-
-    function openProfile(id) {
-        const s = students.find(st => st.id === id);
-        if (!s) return;
-        window.location.href = `../student/profile.html?id=${id}`;
-
-        profileName.textContent = s.name;
-        profileMeta.textContent = `${s.school} • ${s.year} • ${s.specialization}`;
-        profileDetails.innerHTML = `
-        <b>Completion:</b> ${s.completion}%<br>
-        <b>Cases:</b> ${s.casesCount}<br>
-        <b>Rating:</b> ${s.rating} / 5
-    `;
-
-        profileCases.innerHTML = (s.cases || [])
-            .map(c=>`<div style="padding:10px;margin-top:6px;border-radius:10px;background:#f1f5f9;border:1px solid var(--card-border);">${c}</div>`)
-            .join("");
-
-        // SPA switch: hide grid & toolbar, show profile, NO scroll movement
-        grid.style.display = "none";
-        toolbarEl.style.display = "none";
-        document.getElementById("filter-drawer").style.display = "none";
-        profilePanel.style.display = "block";
+    function goToProfile(id) {
+        // profile.html reads ?id=student-XXX and uses students.json
+        window.location.href = `../student/profile.html?id=${encodeURIComponent(id)}`;
     }
 
-    document.getElementById("back-btn").onclick = () => {
-        profilePanel.style.display = "none";
-        grid.style.display = "grid";
-        toolbarEl.style.display = "flex";
-    };
-
-    /* ========= Toolbar events ========= */
+    // Toolbar events
     document.getElementById("search-input").oninput = e => {
         searchTerm = e.target.value.toLowerCase();
         limit = 12;
         renderGrid();
     };
-
     document.getElementById("sort-select").onchange = e => {
         sortBy = e.target.value;
         renderGrid();
     };
-
     document.getElementById("filter-toggle").onclick = () => {
         const fd = document.getElementById("filter-drawer");
         fd.style.display = fd.style.display === "none" ? "block" : "none";
     };
-
     document.getElementById("filter-verified").onchange = e => {
         showVerified = e.target.checked;
         renderGrid();
     };
-
     filterDomain.onchange = renderGrid;
     filterSchool.onchange = renderGrid;
 
@@ -665,10 +626,7 @@
         renderGrid();
     };
 
-    /* ========= Initial render ========= */
-    renderGrid();
-
-    /* ========= Copilot (local AI-style logic) ========= */
+    /* ========= Copilot logic (unchanged) ========= */
     const copilotToggle = document.getElementById("copilot-toggle");
     const copilotPanel = document.getElementById("copilot-panel");
     const copilotClose = document.getElementById("copilot-close");
@@ -704,96 +662,43 @@
     function handleCopilotQuery() {
         const q = copilotInput.value.trim();
         if (!q) return;
-
         appendMessage(q, "user");
         copilotInput.value = "";
-
         const answer = localCopilotAnswer(q);
         appendMessage(answer, "bot");
-
-        // If in future you plug Gemini, you could call backend here instead of localCopilotAnswer.
-        // Example:
-        // callGeminiBackend(q).then(reply => appendMessage(reply, "bot"));
     }
 
-    /* Simple heuristic "AI" over local dataset */
     function localCopilotAnswer(q) {
         const text = q.toLowerCase();
 
-        // Summarize a student: "summarize Nina" or "profile of Arjun Singh"
         const maybeName = students.find(s =>
-            text.includes(s.name.toLowerCase()) ||
-            text.includes(s.initials.toLowerCase())
+            (s.name || "").toLowerCase().includes(text)
         );
         if (text.includes("summarize") || text.includes("profile")) {
             if (maybeName) {
                 const s = maybeName;
-                return `${s.name} (${s.school}, ${s.year}) specialises in ${s.specialization}.
-Completion rate: ${s.completion}%. Cases handled: ${s.casesCount}. Rating: ${s.rating}/5.
-They are a strong fit for matters involving ${s.specialization.toLowerCase()} and related dispute work.`;
+                const completion = s.completion ?? Math.round(((s.solvedCases || 0) / (s.totalAttempts || (s.solvedCases || 1))) * 100);
+                const casesCount = s.casesCount ?? (s.solvedCases || 0);
+                return `${s.name} (${s.school}, ${s.year}) specialises in ${(s.specializations || []).join(", ") || "public-interest matters"}.
+Completion rate: ${completion}%. Cases handled: ${casesCount}. Rating: ${(s.rating || 0).toFixed(1)}/5.
+They are a strong fit for matters involving ${(s.specializations || ["their primary domain"]).join(", ")}.`;
             }
         }
 
-        // Recommend by domain / role keywords
-        const domainKeywords = [
-            { key:"corporate", match:"Corporate Law" },
-            { key:"m&a", match:"Corporate Law" },
-            { key:"mergers", match:"Corporate Law" },
-            { key:"arbitration", match:"International Arbitration" },
-            { key:"criminal", match:"Criminal Law" },
-            { key:"litigation", match:"Criminal Litigation" },
-            { key:"ip", match:"IP Law" },
-            { key:"intellectual property", match:"IP Law" },
-            { key:"human rights", match:"Human Rights" },
-            { key:"constitutional", match:"Constitutional Law" },
-            { key:"cyber", match:"Cyber Law" },
-            { key:"tech", match:"Tech Law" }
-        ];
-
-        const matchDomain = domainKeywords.find(d => text.includes(d.key));
+        // super simple recommend: top by rating
         if (text.includes("recommend") || text.includes("best") || text.includes("top")) {
-            let pool = students;
-            if (matchDomain) {
-                pool = pool.filter(s => s.specialization.toLowerCase().includes(matchDomain.match.toLowerCase()));
-            }
-            pool = pool.sort((a,b)=>b.rating - a.rating || b.casesCount - a.casesCount).slice(0,5);
-            if (!pool.length) {
-                return "I couldn’t find strong matches for that domain yet. Try a simpler query like “best students for Corporate Law”.";
-            }
-            const lines = pool.map(s => `• ${s.name} – ${s.specialization}, ${s.school}, rating ${s.rating}/5, ${s.casesCount} cases`);
-            return `Here are strong candidates${matchDomain ? " for " + matchDomain.match : ""}:\n\n` + lines.join("\n");
+            let pool = [...students];
+            pool = pool.sort((a,b) => (b.rating || 0) - (a.rating || 0)).slice(0,4);
+            if (!pool.length) return "I don’t have candidates loaded yet. Refresh the page.";
+            const lines = pool.map(s => `• ${s.name} – ${(s.specializations || []).join(", ") || "Legal Aid"}, rating ${(s.rating || 0).toFixed(1)}/5, ${s.casesCount ?? s.solvedCases ?? 0} cases`);
+            return "Here are strong candidates based on rating:\n\n" + lines.join("\n");
         }
 
-        // Compare two students
-        if (text.includes("compare")) {
-            const found = students.filter(s => text.includes(s.name.toLowerCase().split(" ")[0]));
-            if (found.length >= 2) {
-                const [a,b] = found;
-                return `Comparison:\n\n` +
-                    `${a.name}: ${a.specialization}, rating ${a.rating}/5, completion ${a.completion}%, ${a.casesCount} cases.\n` +
-                    `${b.name}: ${b.specialization}, rating ${b.rating}/5, completion ${b.completion}%, ${b.casesCount} cases.\n\n` +
-                    `For high-stakes matters in ${a.specialization.toLowerCase()}, ${a.rating >= b.rating ? a.name : b.name} looks slightly stronger overall.`;
-            }
-        }
-
-        // Default
-        return "I’ve checked the current candidate pool. Try asking things like:\n• “Recommend top students for Corporate M&A.”\n• “Summarize Nina Patel as a candidate.”\n• “Compare Arjun Singh and Riya Kapoor.”";
+        return "I’ve checked the current candidate pool. Try asking things like:\n• “Summarize Sarah Rodriguez as a candidate.”\n• “Recommend top students for tenancy and labour.”";
     }
 
-    /* Stub example if you later add a backend with Gemini:
-    async function callGeminiBackend(prompt) {
-        const res = await fetch('/api/copilot', {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({ prompt })
-        });
-        const data = await res.json();
-        return data.reply;
-    }
-    */
-    function goToProfile(id) {
-        window.location.href = `../student/profile.html?id=${id}`;
-    }
+    // kick things off
+    loadStudents();
 </script>
 </body>
 </html>

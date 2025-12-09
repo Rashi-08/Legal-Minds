@@ -1,0 +1,70 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "title": "Landlord refusing security deposit return",
+      "category": "Rent",
+      "location": "Mumbai",
+      "urgency": "High",
+      "status": "Pending",
+      "assignedTo": null,
+      "upvotes": 42,
+      "author": "Posted by tenant_147"
+    },
+    {
+      "id": 2,
+      "title": "Unpaid overtime wages for 3 months",
+      "category": "Wages",
+      "location": "Delhi",
+      "urgency": "Medium",
+      "status": "Pending",
+      "assignedTo": null,
+      "upvotes": 28,
+      "author": "Posted by worker_89"
+    },
+    {
+      "id": 3,
+      "title": "Workplace harassment complaint - urgent help needed",
+      "category": "Harassment",
+      "location": "Bangalore",
+      "urgency": "High",
+      "status": "Pending",
+      "assignedTo": null,
+      "upvotes": 67,
+      "author": "Posted by anonymous_user"
+    },
+    {
+      "id": 4,
+      "title": "Illegal eviction notice received",
+      "category": "Rent",
+      "location": "Pune",
+      "urgency": "High",
+      "status": "In Progress",
+      "assignedTo": "student-001",
+      "upvotes": 35,
+      "author": "Posted by family_203"
+    },
+    {
+      "id": 5,
+      "title": "Minimum wage violation at factory",
+      "category": "Wages",
+      "location": "Chennai",
+      "urgency": "Medium",
+      "status": "In Progress",
+      "assignedTo": "student-001",
+      "upvotes": 19,
+      "author": "Posted by laborer_56"
+    },
+    {
+      "id": 6,
+      "title": "Sudden rent increase without proper notice",
+      "category": "Rent",
+      "location": "Hyderabad",
+      "urgency": "Low",
+      "status": "Pending",
+      "assignedTo": null,
+      "upvotes": 15,
+      "author": "Posted by resident_421"
+    }
+  ]
+}

@@ -1,0 +1,753 @@
+{
+  "students": [
+    {
+      "id": "student-001",
+      "username": "sarah",
+      "password": "sarah123",
+      "name": "Sarah Rodriguez",
+      "initials": "SR",
+      "school": "National Law University",
+      "year": "3rd Year",
+      "headline": "Focused on tenancy, labour and consumer rights. Building a verifiable public-interest portfolio through real cases.",
+      "specializations": ["Tenancy Law", "Labour & Wages", "Consumer Disputes"],
+      "justiceRating": 500,
+      "rating": 4.7,
+      "totalAttempts": 30,
+      "solvedCases": 24,
+      "completion": 80,
+      "casesCount": 24,
+      "avgTimeHours": 4.8,
+      "integrityScore": 97,
+      "examSessions": 5,
+      "verified": true,
+      "areas": {
+        "Rent / Tenancy": 11,
+        "Wages & Labour": 8,
+        "Harassment": 5,
+        "Consumer": 6
+      },
+      "badges": ["Tenant Defender", "Quick Solver", "No-Violation Streak"],
+      "recentCases": [
+        {
+          "id": "case-101",
+          "title": "Illegal rent hike and threatened eviction",
+          "icon": "🏠",
+          "area": "Rent / Tenancy",
+          "outcome": "Pre-litigation notice drafted and sent",
+          "duration": "3.1 days",
+          "link": "case.html?id=101"
+        },
+        {
+          "id": "case-102",
+          "title": "Landlord refusing to return security deposit",
+          "icon": "📄",
+          "area": "Rent / Tenancy",
+          "outcome": "Drafted legal notice and email template",
+          "duration": "2.4 days",
+          "link": "case.html?id=102"
+        },
+        {
+          "id": "case-103",
+          "title": "Overcharging for maintenance and utilities",
+          "icon": "💡",
+          "area": "Rent / Tenancy",
+          "outcome": "Explained rights and prepared complaint draft",
+          "duration": "3.8 days",
+          "link": "case.html?id=103"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Senior Student (Rating 950)",
+          "text": "Clear issue-spotting and very structured tenancy notice.",
+          "score": 9.0
+        },
+        {
+          "by": "Clinic Supervisor",
+          "text": "Good balance between legal precision and plain-language drafting.",
+          "score": 8.5
+        },
+        {
+          "by": "Peer Reviewer",
+          "text": "Strong on timelines and practical remedies; could add more citations.",
+          "score": 8.0
+        }
+      ]
+    },
+    {
+      "id": "student-002",
+      "username": "amit",
+      "password": "amit123",
+      "name": "Amit Kumar",
+      "initials": "AK",
+      "school": "National Law University",
+      "year": "4th Year",
+      "headline": "Labour and employment clinic lead, focusing on wage theft and social security issues.",
+      "specializations": ["Labour & Wages", "Industrial Disputes"],
+      "justiceRating": 850,
+      "rating": 4.9,
+      "totalAttempts": 32,
+      "solvedCases": 26,
+      "completion": 81,
+      "casesCount": 26,
+      "avgTimeHours": 4.2,
+      "integrityScore": 98,
+      "examSessions": 6,
+      "verified": true,
+      "areas": {
+        "Wages & Labour": 15,
+        "Harassment": 4,
+        "Social Security": 7
+      },
+      "badges": ["Clinic Lead", "High Impact", "Worker Rights"],
+      "recentCases": [
+        {
+          "id": "case-201",
+          "title": "Non-payment of PF contributions",
+          "icon": "📄",
+          "area": "Social Security",
+          "outcome": "Complaint draft to labour commissioner",
+          "duration": "3.8 days",
+          "link": "case.html?id=201"
+        },
+        {
+          "id": "case-202",
+          "title": "Factory workers denied overtime wages",
+          "icon": "💰",
+          "area": "Wages & Labour",
+          "outcome": "Drafted demand notice and follow-up email",
+          "duration": "4.1 days",
+          "link": "case.html?id=202"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Clinic Supervisor",
+          "text": "Very strong on statutory timelines and documentation requirements.",
+          "score": 9.2
+        },
+        {
+          "by": "Peer Reviewer",
+          "text": "Drafts are dense but extremely precise. Great for complex labour disputes.",
+          "score": 8.7
+        }
+      ]
+    },
+    {
+      "id": "student-003",
+      "username": "priya",
+      "password": "priya123",
+      "name": "Priya Sharma",
+      "initials": "PS",
+      "school": "National Law University",
+      "year": "3rd Year",
+      "headline": "Bridging consumer, tenancy and digital contracts with clear, user-friendly drafting.",
+      "specializations": ["Consumer Disputes", "Tenancy Law"],
+      "justiceRating": 720,
+      "rating": 4.6,
+      "totalAttempts": 25,
+      "solvedCases": 20,
+      "completion": 80,
+      "casesCount": 20,
+      "avgTimeHours": 5.1,
+      "integrityScore": 96,
+      "examSessions": 4,
+      "verified": true,
+      "areas": {
+        "Consumer": 10,
+        "Rent / Tenancy": 7,
+        "Digital Contracts": 3
+      },
+      "badges": ["Consumer Protector", "Plain-Language Drafting"],
+      "recentCases": [
+        {
+          "id": "case-301",
+          "title": "Defective fridge sold without proper warranty",
+          "icon": "🛒",
+          "area": "Consumer",
+          "outcome": "Complaint draft with refund and replacement remedies",
+          "duration": "3.0 days",
+          "link": "case.html?id=301"
+        },
+        {
+          "id": "case-302",
+          "title": "Gym membership with hidden charges",
+          "icon": "🏋️",
+          "area": "Consumer",
+          "outcome": "Simplified explanation of rights plus email template",
+          "duration": "2.5 days",
+          "link": "case.html?id=302"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Clinic Supervisor",
+          "text": "Excellent at explaining complex clauses in simple English.",
+          "score": 8.8
+        },
+        {
+          "by": "Client Feedback (anonymised)",
+          "text": "The draft letter helped me get a refund without going to court.",
+          "score": 9.0
+        }
+      ]
+    },
+    {
+      "id": "student-004",
+      "username": "mehul",
+      "password": "mehul123",
+      "name": "Mehul Gupta",
+      "initials": "MG",
+      "school": "National Law University",
+      "year": "5th Year",
+      "headline": "Procedural nerd with a focus on limitation, jurisdiction and drafting that survives scrutiny.",
+      "specializations": ["Civil Procedure", "Tenancy Law"],
+      "justiceRating": 680,
+      "rating": 4.8,
+      "totalAttempts": 28,
+      "solvedCases": 23,
+      "completion": 82,
+      "casesCount": 23,
+      "avgTimeHours": 4.0,
+      "integrityScore": 99,
+      "examSessions": 7,
+      "verified": true,
+      "areas": {
+        "Rent / Tenancy": 9,
+        "Civil Procedure": 11,
+        "Execution & Decrees": 3
+      },
+      "badges": ["Procedural Wizard", "No-Deadline-Missed"],
+      "recentCases": [
+        {
+          "id": "case-401",
+          "title": "Landlord filed eviction after limitation",
+          "icon": "⏱️",
+          "area": "Civil Procedure",
+          "outcome": "Draft focused on limitation objections",
+          "duration": "4.5 days",
+          "link": "case.html?id=401"
+        },
+        {
+          "id": "case-402",
+          "title": "Confusing jurisdiction for tenancy dispute",
+          "icon": "⚖️",
+          "area": "Civil Procedure",
+          "outcome": "Explained correct forum and drafted structured note",
+          "duration": "3.3 days",
+          "link": "case.html?id=402"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Faculty Mentor",
+          "text": "Very strong on procedure and limitation issues; drafts are exam-ready.",
+          "score": 9.3
+        },
+        {
+          "by": "Clinic Supervisor",
+          "text": "Occasionally over-detailed but extremely reliable in complex files.",
+          "score": 8.9
+        }
+      ]
+    },
+    {
+      "id": "student-005",
+      "username": "arjun",
+      "password": "arjun123",
+      "name": "Arjun Singh",
+      "initials": "AS",
+      "school": "National Law University",
+      "year": "4th Year",
+      "headline": "Handles harassment and workplace safety matters with a trauma-informed, rights-first approach.",
+      "specializations": ["Workplace Harassment", "Labour & Wages"],
+      "justiceRating": 710,
+      "rating": 4.8,
+      "totalAttempts": 27,
+      "solvedCases": 22,
+      "completion": 81,
+      "casesCount": 22,
+      "avgTimeHours": 4.6,
+      "integrityScore": 98,
+      "examSessions": 5,
+      "verified": true,
+      "areas": {
+        "Harassment": 12,
+        "Wages & Labour": 7,
+        "Internal Complaints Committee": 3
+      },
+      "badges": ["Safe Workplace Ally", "High Sensitivity"],
+      "recentCases": [
+        {
+          "id": "case-501",
+          "title": "Sexual harassment at small office with no ICC",
+          "icon": "⚠️",
+          "area": "Harassment",
+          "outcome": "Explained POSH requirements and options A/B/C",
+          "duration": "3.7 days",
+          "link": "case.html?id=501"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Clinic Supervisor",
+          "text": "Balances empathy with legal accuracy in harassment matters.",
+          "score": 9.1
+        }
+      ]
+    },
+    {
+      "id": "student-006",
+      "username": "riya",
+      "password": "riya123",
+      "name": "Riya Kapoor",
+      "initials": "RK",
+      "school": "National Law University",
+      "year": "3rd Year",
+      "headline": "Interested in rent control, informal housing and low-income tenant rights.",
+      "specializations": ["Tenancy Law", "Urban Poor Housing"],
+      "justiceRating": 640,
+      "rating": 4.5,
+      "totalAttempts": 22,
+      "solvedCases": 17,
+      "completion": 77,
+      "casesCount": 17,
+      "avgTimeHours": 5.3,
+      "integrityScore": 95,
+      "examSessions": 4,
+      "verified": true,
+      "areas": {
+        "Rent / Tenancy": 10,
+        "Informal Housing": 4,
+        "Municipal Notices": 3
+      },
+      "badges": ["Rent Control Track", "Community Focus"],
+      "recentCases": [
+        {
+          "id": "case-601",
+          "title": "Tenant in informal settlement received demolition notice",
+          "icon": "🏚️",
+          "area": "Informal Housing",
+          "outcome": "Drafted RTI and representation to local authority",
+          "duration": "4.9 days",
+          "link": "case.html?id=601"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Field Coordinator",
+          "text": "Works patiently with clients who have very limited documents.",
+          "score": 8.6
+        }
+      ]
+    },
+    {
+      "id": "student-007",
+      "username": "nina",
+      "password": "nina123",
+      "name": "Nina Patel",
+      "initials": "NP",
+      "school": "National Law University",
+      "year": "2nd Year",
+      "headline": "Early-stage student focused on learning solid drafting habits in consumer and tenancy matters.",
+      "specializations": ["Consumer Disputes", "Tenancy Law"],
+      "justiceRating": 520,
+      "rating": 4.3,
+      "totalAttempts": 15,
+      "solvedCases": 11,
+      "completion": 73,
+      "casesCount": 11,
+      "avgTimeHours": 6.0,
+      "integrityScore": 96,
+      "examSessions": 3,
+      "verified": true,
+      "areas": {
+        "Consumer": 7,
+        "Rent / Tenancy": 4
+      },
+      "badges": ["Rookie Drafting Badge"],
+      "recentCases": [
+        {
+          "id": "case-701",
+          "title": "Online purchase never delivered",
+          "icon": "📦",
+          "area": "Consumer",
+          "outcome": "Template complaint plus explanation of chargeback options",
+          "duration": "3.6 days",
+          "link": "case.html?id=701"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Peer Reviewer",
+          "text": "Very careful with facts and timelines; still building confidence in recommendations.",
+          "score": 8.0
+        }
+      ]
+    },
+    {
+      "id": "student-008",
+      "username": "rohan",
+      "password": "rohan123",
+      "name": "Rohan Gupta",
+      "initials": "RG",
+      "school": "National Law University",
+      "year": "4th Year",
+      "headline": "Works on cyber and tech-adjacent labour issues like platform work and gig worker rights.",
+      "specializations": ["Cyber Law", "Labour & Wages"],
+      "justiceRating": 690,
+      "rating": 4.7,
+      "totalAttempts": 24,
+      "solvedCases": 19,
+      "completion": 79,
+      "casesCount": 19,
+      "avgTimeHours": 4.4,
+      "integrityScore": 97,
+      "examSessions": 5,
+      "verified": true,
+      "areas": {
+        "Platform Work": 7,
+        "Cyber Law": 6,
+        "Wages & Labour": 6
+      },
+      "badges": ["Gig Worker Ally", "Cyber Basics"],
+      "recentCases": [
+        {
+          "id": "case-801",
+          "title": "Food delivery worker blocked from app without notice",
+          "icon": "📱",
+          "area": "Platform Work",
+          "outcome": "Drafted representation to platform and explained escalation options",
+          "duration": "3.9 days",
+          "link": "case.html?id=801"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Clinic Supervisor",
+          "text": "Understands the grey zone between contract and employment in gig work.",
+          "score": 9.0
+        }
+      ]
+    },
+    {
+      "id": "student-009",
+      "username": "maya",
+      "password": "maya123",
+      "name": "Maya Bhatt",
+      "initials": "MB",
+      "school": "National Law University",
+      "year": "3rd Year",
+      "headline": "IP-leaning student helping with digital terms and basic consumer IP overlaps.",
+      "specializations": ["IPR Law", "Consumer Disputes"],
+      "justiceRating": 610,
+      "rating": 4.6,
+      "totalAttempts": 21,
+      "solvedCases": 17,
+      "completion": 81,
+      "casesCount": 17,
+      "avgTimeHours": 4.9,
+      "integrityScore": 97,
+      "examSessions": 4,
+      "verified": true,
+      "areas": {
+        "IPR": 8,
+        "Consumer": 6,
+        "Digital Licenses": 3
+      },
+      "badges": ["IP Basics", "Clear Drafting"],
+      "recentCases": [
+        {
+          "id": "case-901",
+          "title": "Online course using content without attribution",
+          "icon": "🧠",
+          "area": "IPR",
+          "outcome": "Explained copyright basics and drafted representation email",
+          "duration": "4.2 days",
+          "link": "case.html?id=901"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Faculty Mentor",
+          "text": "Good at spotting IP issues even in simple consumer fact patterns.",
+          "score": 8.7
+        }
+      ]
+    },
+    {
+      "id": "student-010",
+      "username": "vivek",
+      "password": "vivek123",
+      "name": "Vivek Shah",
+      "initials": "VS",
+      "school": "National Law University",
+      "year": "3rd Year",
+      "headline": "Enjoys tech-law adjacent questions where tenancy, work and digital contracts intersect.",
+      "specializations": ["Tech Law", "Cyber Law"],
+      "justiceRating": 730,
+      "rating": 4.9,
+      "totalAttempts": 26,
+      "solvedCases": 22,
+      "completion": 85,
+      "casesCount": 22,
+      "avgTimeHours": 4.1,
+      "integrityScore": 98,
+      "examSessions": 5,
+      "verified": true,
+      "areas": {
+        "Tech Law": 10,
+        "Cyber Law": 7,
+        "Consumer": 5
+      },
+      "badges": ["Tech Policy Track", "Fast Turnaround"],
+      "recentCases": [
+        {
+          "id": "case-1001",
+          "title": "Freelancer locked out of SaaS dashboard",
+          "icon": "💻",
+          "area": "Tech Law",
+          "outcome": "Drafted rights-focused access restoration email",
+          "duration": "3.2 days",
+          "link": "case.html?id=1001"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Peer Reviewer",
+          "text": "Very quick with first drafts, usually needs only minor edits.",
+          "score": 9.0
+        }
+      ]
+    },
+    {
+      "id": "student-011",
+      "username": "zara",
+      "password": "zara123",
+      "name": "Zara Bedi",
+      "initials": "ZB",
+      "school": "National Law University",
+      "year": "5th Year",
+      "headline": "Corporate-leaning student who still volunteers on tenancy and wage disputes.",
+      "specializations": ["Corporate Law", "Tenancy Law"],
+      "justiceRating": 760,
+      "rating": 4.8,
+      "totalAttempts": 29,
+      "solvedCases": 24,
+      "completion": 83,
+      "casesCount": 24,
+      "avgTimeHours": 4.3,
+      "integrityScore": 99,
+      "examSessions": 6,
+      "verified": true,
+      "areas": {
+        "Corporate Contracts": 9,
+        "Rent / Tenancy": 8,
+        "Wages & Labour": 5
+      },
+      "badges": ["Corporate Drafting", "Cross-Over Volunteer"],
+      "recentCases": [
+        {
+          "id": "case-1101",
+          "title": "Employee housing clause in employment contract",
+          "icon": "📑",
+          "area": "Corporate Contracts",
+          "outcome": "Explained overlap between tenancy and employment terms",
+          "duration": "4.0 days",
+          "link": "case.html?id=1101"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Clinic Supervisor",
+          "text": "Good at spotting when corporate-style clauses hurt low-income tenants.",
+          "score": 9.1
+        }
+      ]
+    },
+    {
+      "id": "student-012",
+      "username": "aisha",
+      "password": "aisha123",
+      "name": "Aisha Khan",
+      "initials": "AK",
+      "school": "National Law University",
+      "year": "2nd Year",
+      "headline": "New to the clinic, focusing on basic rent and consumer disputes with close supervision.",
+      "specializations": ["Tenancy Law", "Consumer Disputes"],
+      "justiceRating": 540,
+      "rating": 4.2,
+      "totalAttempts": 14,
+      "solvedCases": 10,
+      "completion": 71,
+      "casesCount": 10,
+      "avgTimeHours": 6.2,
+      "integrityScore": 97,
+      "examSessions": 2,
+      "verified": true,
+      "areas": {
+        "Rent / Tenancy": 6,
+        "Consumer": 4
+      },
+      "badges": ["New Clinic Member"],
+      "recentCases": [
+        {
+          "id": "case-1201",
+          "title": "PG owner kept original ID card",
+          "icon": "🪪",
+          "area": "Rent / Tenancy",
+          "outcome": "Explained why this is risky and drafted polite retrieval request",
+          "duration": "3.4 days",
+          "link": "case.html?id=1201"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Senior Student",
+          "text": "Asks good clarifying questions and improves quickly from feedback.",
+          "score": 8.2
+        }
+      ]
+    },
+    {
+      "id": "student-013",
+      "username": "leah",
+      "password": "leah123",
+      "name": "Leah Kim",
+      "initials": "LK",
+      "school": "National Law University",
+      "year": "3rd Year",
+      "headline": "Focuses on criminal-adjacent harassment issues that overlap with workplace disputes.",
+      "specializations": ["Criminal Law", "Workplace Harassment"],
+      "justiceRating": 670,
+      "rating": 4.7,
+      "totalAttempts": 23,
+      "solvedCases": 18,
+      "completion": 78,
+      "casesCount": 18,
+      "avgTimeHours": 4.7,
+      "integrityScore": 98,
+      "examSessions": 4,
+      "verified": true,
+      "areas": {
+        "Harassment": 9,
+        "Criminal Law": 7,
+        "Police Complaints": 4
+      },
+      "badges": ["Survivor-Focused"],
+      "recentCases": [
+        {
+          "id": "case-1301",
+          "title": "Stalking by landlord's relative",
+          "icon": "🚨",
+          "area": "Harassment",
+          "outcome": "Explained options including police complaint and tenancy remedies",
+          "duration": "3.9 days",
+          "link": "case.html?id=1301"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Clinic Supervisor",
+          "text": "Handles sensitive facts carefully and avoids over-promising outcomes.",
+          "score": 9.0
+        }
+      ]
+    },
+    {
+      "id": "student-014",
+      "username": "rahul",
+      "password": "rahul123",
+      "name": "Rahul Rao",
+      "initials": "RR",
+      "school": "National Law University",
+      "year": "4th Year",
+      "headline": "Works on cyber, data and fraud cases that have strong consumer and tenancy angles.",
+      "specializations": ["Cyber Law", "Consumer Disputes"],
+      "justiceRating": 700,
+      "rating": 4.8,
+      "totalAttempts": 25,
+      "solvedCases": 21,
+      "completion": 84,
+      "casesCount": 21,
+      "avgTimeHours": 4.3,
+      "integrityScore": 99,
+      "examSessions": 5,
+      "verified": true,
+      "areas": {
+        "Cyber Fraud": 9,
+        "Consumer": 7,
+        "Data Protection": 5
+      },
+      "badges": ["Cyber Fraud Track", "Client Education"],
+      "recentCases": [
+        {
+          "id": "case-1401",
+          "title": "Fake rental listing scam online",
+          "icon": "🏢",
+          "area": "Cyber Fraud",
+          "outcome": "Explained steps for reporting and preventing further loss",
+          "duration": "3.5 days",
+          "link": "case.html?id=1401"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Faculty Mentor",
+          "text": "Very strong at combining cyber and consumer rights in a single narrative.",
+          "score": 9.2
+        }
+      ]
+    },
+    {
+      "id": "student-015",
+      "username": "aman",
+      "password": "aman123",
+      "name": "Aman Mehra",
+      "initials": "AM",
+      "school": "National Law University",
+      "year": "5th Year",
+      "headline": "Handles edge cases where housing, discrimination and basic rights collide.",
+      "specializations": ["Human Rights", "Tenancy Law"],
+      "justiceRating": 780,
+      "rating": 5.0,
+      "totalAttempts": 31,
+      "solvedCases": 27,
+      "completion": 87,
+      "casesCount": 27,
+      "avgTimeHours": 4.0,
+      "integrityScore": 99,
+      "examSessions": 7,
+      "verified": true,
+      "areas": {
+        "Human Rights": 12,
+        "Rent / Tenancy": 9,
+        "Discrimination": 6
+      },
+      "badges": ["Rights-Based Approach", "High Complexity"],
+      "recentCases": [
+        {
+          "id": "case-1501",
+          "title": "Tenant denied flat due to marital status",
+          "icon": "🏠",
+          "area": "Discrimination",
+          "outcome": "Explained realistic legal options and drafted representation letter",
+          "duration": "4.4 days",
+          "link": "case.html?id=1501"
+        }
+      ],
+      "reviews": [
+        {
+          "by": "Clinic Supervisor",
+          "text": "Handles high-conflict files calmly and keeps expectations realistic.",
+          "score": 9.4
+        },
+        {
+          "by": "Peer Reviewer",
+          "text": "Great at tying constitutional values into everyday tenancy fights.",
+          "score": 9.1
+        }
+      ]
+    }
+  ]
+}
