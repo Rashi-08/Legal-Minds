@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Report Legal Problem | JURIS_NET</title>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Arial, sans-serif;
+        background: #f3f2ef; /* LinkedIn background */
+        color: #1c1e21;
+      }
+
+      .container {
+        max-width: 720px;
+        margin: 40px auto;
+        padding: 0 16px;
+      }
+
+      .card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0 0 16px;
+        color: #5f6368;
+        font-size: 14px;
+      }
+
+      .wizard-steps {
+        display: flex;
+        gap: 8px;
+        margin: 16px 0 24px;
+      }
+
+      .step {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: #e4e6eb;
+        color: #606770;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .step.active {
+        background: #0a66c2;
+        color: #ffffff;
+      }
+
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .category-card {
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #d0d0d0;
+        background: #ffffff;
+        cursor: pointer;
+        font-size: 14px;
+        text-align: center;
+        transition: all 0.15s ease;
+      }
+
+      .category-card:hover {
+        border-color: #0a66c2;
+        background: #eef4fb;
+      }
+
+      .category-card.selected {
+        background: #0a66c2;
+        color: white;
+        border-color: #0a66c2;
+      }
+
+      .label {
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 14px;
+        margin-bottom: 6px;
+        display: block;
+      }
+
+      .input,
+      .textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+      }
+
+      .textarea {
+        resize: vertical;
+      }
+
+      .upload-box {
+        margin-top: 14px;
+        padding: 16px;
+        border: 2px dashed #b0b0b0;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 14px;
+        color: #5f6368;
+      }
+
+      .controls {
+        margin-top: 22px;
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 10px 16px;
+        border-radius: 999px;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+        background: #e4e6eb;
+      }
+
+      .btn:hover {
+        background: #d8dadf;
+      }
+
+      .btn-primary {
+        background: #0a66c2;
+        color: white;
+      }
+
+      .btn-primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .success-box {
+        margin-top: 16px;
+        padding: 14px;
+        border-radius: 8px;
+        background: #e6f0fa;
+        border: 1px solid #0a66c2;
+        font-size: 14px;
+      }
+
+      .step-panel {
+        display: none;
+      }
+
+      .step-panel.active {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>Report a Legal Problem</h1>
+        <p>
+          Describe your issue in a few simple steps. A verified law student will
+          prepare your document under supervision.
+        </p>
+
+        <div class="wizard-steps">
+          <div class="step active" id="step-circle-1">1</div>
+          <div class="step" id="step-circle-2">2</div>
+          <div class="step" id="step-circle-3">3</div>
+          <div class="step" id="step-circle-4">4</div>
+        </div>
+
+        <div class="step-panel active" id="step-1">
+          <h3>Select your issue category</h3>
+          <div class="category-grid">
+            <div class="category-card" onclick="selectCategory('rent', this)">
+              Rent / Eviction
+            </div>
+            <div class="category-card" onclick="selectCategory('wages', this)">
+              Unpaid Wages
+            </div>
+            <div
+              class="category-card"
+              onclick="selectCategory('harassment', this)"
+            >
+              Harassment
+            </div>
+            <div class="category-card" onclick="selectCategory('fraud', this)">
+              Fraud
+            </div>
+            <div class="category-card" onclick="selectCategory('family', this)">
+              Family Dispute
+            </div>
+            <div class="category-card" onclick="selectCategory('other', this)">
+              Other
+            </div>
+          </div>
+
+          <div class="controls">
+            <button
+              class="btn btn-primary"
+              onclick="nextStep()"
+              id="next1"
+              disabled
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
+        <div class="step-panel" id="step-2">
+          <h3>Describe what happened</h3>
+
+          <label class="label">Your Name (optional)</label>
+          <input class="input" id="userName" />
+
+          <label class="label">Your Situation</label>
+          <textarea
+            class="textarea"
+            rows="7"
+            id="story"
+            placeholder="Explain what happened..."
+          ></textarea>
+
+          <div class="controls">
+            <button class="btn" onclick="prevStep()">Back</button>
+            <button
+              class="btn btn-primary"
+              onclick="nextStep()"
+              id="next2"
+              disabled
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
+        <div class="step-panel" id="step-3">
+          <h3>Upload any proof (Demo)</h3>
+
+          <div class="upload-box" id="uploadBox">
+            Click below to simulate file upload
+          </div>
+
+          <div class="controls">
+            <button class="btn" onclick="prevStep()">Back</button>
+            <button
+              class="btn btn-primary"
+              onclick="submitCase()"
+              id="submitBtn"
+              disabled
+            >
+              Submit Case
+            </button>
+          </div>
+        </div>
+
+        <div class="step-panel" id="step-4">
+          <h3>✅ Case Created Successfully</h3>
+          <p>
+            Your issue has been sent to a verified legal clinic. A student will
+            prepare your document.
+          </p>
+
+          <div class="success-box" id="caseResult"></div>
+
+          <div class="controls">
+            <button class="btn" onclick="location.reload()">
+              Report Another Issue
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let step = 1;
+
+      function updateSteps() {
+        for (let i = 1; i <= 4; i++) {
+          document.getElementById("step-" + i).classList.remove("active");
+          document
+            .getElementById("step-circle-" + i)
+            .classList.remove("active");
+        }
+        document.getElementById("step-" + step).classList.add("active");
+        document
+          .getElementById("step-circle-" + step)
+          .classList.add("active");
+      }
+
+      function nextStep() {
+        if (step < 4) {
+          step++;
+          updateSteps();
+        }
+      }
+
+      function prevStep() {
+        if (step > 1) {
+          step--;
+          updateSteps();
+        }
+      }
+
+      function selectCategory(cat, el) {
+        document
+          .querySelectorAll(".category-card")
+          .forEach((c) => c.classList.remove("selected"));
+        el.classList.add("selected");
+        document.getElementById("next1").disabled = false;
+      }
+
+      document.getElementById("story").addEventListener("input", function () {
+        document.getElementById("next2").disabled =
+          this.value.trim().length < 20;
+      });
+
+      document.getElementById("uploadBox").addEventListener("click", function () {
+        this.innerHTML = "✅ Proof uploaded (demo)";
+        document.getElementById("submitBtn").disabled = false;
+      });
+
+      function submitCase() {
+        const caseId = "CASE-" + Math.floor(Math.random() * 1000);
+        document.getElementById("caseResult").innerHTML =
+          "<b>Case ID:</b> " + caseId;
+        nextStep();
+      }
+    </script>
+  </body>
+</html>
