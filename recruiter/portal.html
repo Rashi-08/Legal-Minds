@@ -589,7 +589,8 @@
                 <div><b>Cases:</b> ${s.casesCount}</div>
                 <div><b>Rating:</b> ${s.rating} / 5</div>
             </div>
-            <button class="btn" onclick="openProfile('${s.id}')">View Profile</button>
+            <button class="btn" onclick="goToProfile('${s.id}')">View Profile</button>
+
         `;
             grid.appendChild(card);
         });
@@ -607,6 +608,7 @@
     function openProfile(id) {
         const s = students.find(st => st.id === id);
         if (!s) return;
+        window.location.href = `../student/profile.html?id=${id}`;
 
         profileName.textContent = s.name;
         profileMeta.textContent = `${s.school} • ${s.year} • ${s.specialization}`;
@@ -789,6 +791,9 @@ They are a strong fit for matters involving ${s.specialization.toLowerCase()} an
         return data.reply;
     }
     */
+    function goToProfile(id) {
+        window.location.href = `../student/profile.html?id=${id}`;
+    }
 </script>
 </body>
 </html>

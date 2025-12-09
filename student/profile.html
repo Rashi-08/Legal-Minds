@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+// Read student ID from URL
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -141,6 +143,7 @@
       .stats-row{grid-template-columns:repeat(2,1fr)}
       .grid-breakdown{grid-template-columns:1fr}
     }
+
   </style>
 </head>
 <body>
@@ -262,6 +265,9 @@
 
   <!-- ---------- Script: populate with mock data (bars removed) ---------- -->
   <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentId = urlParams.get("id");
+    console.log("Student ID:", studentId);
     const profileData = {
       rating: 4.7,
       totalAttempts: 30,
