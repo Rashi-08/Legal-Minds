@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Student Portfolio — Full Screen</title>
+  <style>
+    /* ---------- Base ---------- */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:#f3f4f6;
+      color:#111827;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* ---------- Top nav (full width) ---------- */
+    header.top-nav{
+      width:100%;
+      background:#ffffff;
+      border-bottom:1px solid #e5e7eb;
+      padding:0.85rem 2rem;
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      position:sticky;
+      top:0;
+      z-index:40;
+    }
+    .logo{
+      display:flex;align-items:center;gap:0.6rem;font-weight:700;
+      background:linear-gradient(135deg,#0a66c2,#10b981);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      font-size:1.05rem;
+    }
+    .nav-right{margin-left:auto;display:flex;gap:0.6rem;align-items:center}
+    .nav-chip{padding:0.28rem 0.7rem;border-radius:999px;border:1px solid #e5e7eb;background:#f9fafb;font-size:0.8rem;color:#6b7280}
+
+    /* ---------- Page grid (full width) ---------- */
+    .page{
+      display:grid;
+      grid-template-columns:320px 1fr 360px; /* left, main, right */
+      gap:24px;
+      padding:24px 28px;
+      align-items:start;
+      width:100%;
+      min-height:calc(100vh - 74px);
+    }
+
+    /* responsive */
+    @media (max-width:1200px){
+      .page{grid-template-columns:300px 1fr; padding:18px}
+      .right-col{display:none}
+    }
+    @media (max-width:860px){
+      .page{grid-template-columns:1fr;padding:14px}
+    }
+
+    /* ---------- Card ---------- */
+    .card{
+      background:#ffffff;border:1px solid #e5e7eb;border-radius:14px;
+      padding:18px;box-shadow:0 10px 30px rgba(15,23,42,0.04);
+    }
+
+    /* ---------- Left column (profile) ---------- */
+    .profile-center{text-align:center}
+    .avatar{
+      width:96px;height:96px;border-radius:999px;margin:0 auto 10px;
+      background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;
+      color:#fff;font-weight:700;font-size:28px;border:4px solid #e5e7eb;
+    }
+    .name{font-size:1.35rem;font-weight:700;margin-bottom:4px}
+    .subtitle{color:#6b7280;font-size:0.9rem;margin-bottom:8px}
+    .bio{color:#6b7280;font-size:0.86rem;line-height:1.4;margin-bottom:10px}
+
+    .chip-row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px}
+    .chip{background:#f9fafb;border:1px solid #e5e7eb;padding:6px 10px;border-radius:999px;font-size:0.78rem;color:#374151}
+
+    .section-title{font-weight:700;color:#111827;margin-top:16px;margin-bottom:8px;font-size:0.92rem}
+    .info-table{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:8px;font-size:0.88rem}
+    .info-row{display:flex;justify-content:space-between;padding:8px 6px;border-bottom:1px solid #e5e7eb}
+    .info-row:last-child{border-bottom:none}
+    .label-small{color:#6b7280}
+    .value-strong{font-weight:700}
+
+    .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .badge{background:linear-gradient(135deg,#1d4ed8,#1e3a8a);color:#fff;padding:6px 10px;border-radius:999px;font-size:0.78rem}
+
+    /* ---------- Middle column (main) ---------- */
+    .main{
+      display:flex;flex-direction:column;gap:16px;
+    }
+    .overview{
+      display:flex;flex-direction:column;gap:12px;
+    }
+    .pill{
+      display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:#ecfdf5;border:1px solid #bbf7d0;color:#065f46;font-weight:600;font-size:0.93rem;width:100%;
+    }
+
+    .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}
+    .stat-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:12px;font-size:0.88rem}
+    .stat-label{color:#6b7280;font-size:0.82rem;margin-bottom:6px}
+    .stat-value{font-weight:800;font-size:1.12rem;background:linear-gradient(135deg,#0a66c2,#10b981);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+    /* ---------- Case breakdown (no bars, only bold numbers) ---------- */
+    .panel-head{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+    .panel-title{font-weight:700;display:flex;align-items:center;gap:8px}
+    .grid-breakdown{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:10px}
+    .area-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+    .area-name{font-weight:700;margin-bottom:6px;font-size:0.95rem}
+    .area-count{font-weight:800;font-size:1.1rem;color:#0a66c2}
+
+    /* ---------- Recent cases ---------- */
+    .case-list{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+    .case-card{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:14px;font-size:0.98rem;transition:all .18s ease}
+    .case-card:hover{background:#ffffff;border-color:#0a66c2;transform:translateY(-4px)}
+    .case-title{font-weight:800;font-size:1.02rem;margin-bottom:6px}
+    .case-meta{color:#6b7280;font-size:0.86rem;margin-bottom:8px}
+    .case-outcome{color:#374151;font-size:0.94rem;margin-bottom:10px}
+    .read-more{color:#0a66c2;font-weight:700;text-decoration:none;font-size:0.88rem;display:inline-flex;gap:8px;align-items:center}
+
+    /* ---------- Reviews ---------- */
+    .reviews{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    .review{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:10px}
+    .review-text{font-size:0.92rem;color:#111827;margin-bottom:8px}
+    .review-meta{font-size:0.82rem;color:#6b7280}
+    .stars{color:#f59e0b;font-size:1rem;margin-right:6px}
+
+    /* ---------- Right column (summary / actions) ---------- */
+    .right-card .small-row{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid #e5e7eb}
+    .right-card .small-row:last-child{border-bottom:none}
+    .download-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:linear-gradient(90deg,#0a66c2,#10b981);color:#fff;font-weight:700;text-decoration:none;margin-top:12px}
+
+    /* small screens tweak */
+    @media (max-width:1200px){
+      .stats-row{grid-template-columns:repeat(3,1fr)}
+    }
+    @media (max-width:860px){
+      .stats-row{grid-template-columns:repeat(2,1fr)}
+      .grid-breakdown{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- Top navigation (full width) -->
+  <header class="top-nav">
+    <div class="logo">⚖️ LegalAid</div>
+    <div class="nav-right">
+      <div class="nav-chip">Student Portfolio</div>
+    </div>
+  </header>
+
+  <!-- Page (full-screen grid) -->
+  <div class="page">
+    <!-- LEFT: Profile card -->
+    <aside class="card">
+      <div class="profile-center">
+        <div class="avatar">SR</div>
+        <div class="name">Sarah Rodriguez</div>
+        <div class="subtitle">3rd Year • National Law University</div>
+        <p class="bio">Focused on tenancy, labour and consumer rights. Building a verifiable public‑interest portfolio through real cases.</p>
+
+        <div class="chip-row">
+          <div class="chip">Tenancy Law</div>
+          <div class="chip">Labour & Wages</div>
+          <div class="chip">Consumer Disputes</div>
+        </div>
+      </div>
+
+      <div class="section-title">Profile Snapshot</div>
+      <div class="info-table" aria-hidden="false">
+        <div class="info-row"><div class="label-small">Justice Rating</div><div class="value-strong" id="info-rating">—</div></div>
+        <div class="info-row"><div class="label-small">Accuracy Rate</div><div class="value-strong" id="info-accuracy">—</div></div>
+        <div class="info-row"><div class="label-small">Cases Solved</div><div class="value-strong" id="info-solved">—</div></div>
+        <div class="info-row"><div class="label-small">Top Field</div><div class="value-strong" id="info-top-field">—</div></div>
+      </div>
+
+      <div class="section-title">Integrity & Exams</div>
+      <div class="info-table">
+        <div class="info-row"><div class="label-small">Proctor Integrity</div><div class="value-strong" id="info-integrity">—</div></div>
+        <div class="info-row"><div class="label-small">Exam Sessions</div><div class="value-strong" id="info-exams">—</div></div>
+      </div>
+
+      <div class="section-title">Badges</div>
+      <div class="badges">
+        <div class="badge">Tenant Defender</div>
+        <div class="badge">Quick Solver</div>
+        <div class="badge">No‑Violation Streak</div>
+      </div>
+    </aside>
+
+    <!-- MIDDLE: Main content -->
+    <main class="main">
+      <div class="card overview">
+        <div class="panel-head">
+          <div class="panel-title">📊 Portfolio Overview</div>
+          <div class="panel-sub" id="summary-line">Loading…</div>
+        </div>
+
+        <div class="pill" id="summary-pill">Solved 24 of 30 cases (80% accuracy), strongest in rent / tenancy.</div>
+
+        <div class="stats-row" style="margin-top:10px">
+          <div class="stat-box">
+            <div class="stat-label">Justice Rating</div>
+            <div class="stat-value" id="stat-rating">—</div>
+            <div style="font-size:0.78rem;color:#9ca3af;margin-top:6px">Peer‑weighted score</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Accuracy Rate</div>
+            <div class="stat-value" id="stat-accuracy">—</div>
+            <div style="font-size:0.78rem;color:#9ca3af;margin-top:6px">Solved vs attempted</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Avg. Time</div>
+            <div class="stat-value" id="stat-time">—</div>
+            <div style="font-size:0.78rem;color:#9ca3af;margin-top:6px">Claim → final draft</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case Breakdown -->
+      <div class="card">
+        <div class="panel-head">
+          <div class="panel-title">⭐ Case Breakdown</div>
+          <div class="panel-sub" id="fields-count">Fields covered: —</div>
+        </div>
+        <div class="grid-breakdown" id="case-breakdown"></div>
+      </div>
+
+      <!-- Recent Cases -->
+      <div class="card">
+        <div class="panel-head">
+          <div class="panel-title">⭐ Recent Cases</div>
+          <div class="panel-sub">Click "Read more" to open the case</div>
+        </div>
+        <div class="case-list" id="recent-cases"></div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="card">
+        <div class="panel-head">
+          <div class="panel-title">⭐ Reviews</div>
+          <div class="panel-sub" id="avg-review">Average: — / 10</div>
+        </div>
+        <div class="reviews" id="reviews"></div>
+      </div>
+    </main>
+
+    <!-- RIGHT: Quick summary / actions -->
+    <aside class="card right-col right-card">
+      <div style="font-weight:700;margin-bottom:8px">Quick Summary</div>
+      <div class="small-row"><div class="label-small">Solved</div><div class="value-strong" id="rs-solved">—</div></div>
+      <div class="small-row"><div class="label-small">Accuracy</div><div class="value-strong" id="rs-accuracy">—</div></div>
+      <div class="small-row"><div class="label-small">Integrity</div><div class="value-strong" id="rs-integrity">—</div></div>
+
+      <a class="download-btn" href="#" onclick="alert('Mock: download portfolio')">Download Portfolio</a>
+      <div style="margin-top:14px;font-size:0.85rem;color:#6b7280">Recruiter note: this page presents verified case outcomes, proctor integrity and peer reviews — useful for hiring decisions.</div>
+    </aside>
+  </div>
+
+  <!-- ---------- Script: populate with mock data (bars removed) ---------- -->
+  <script>
+    const profileData = {
+      rating: 4.7,
+      totalAttempts: 30,
+      solvedCases: 24,
+      avgTimeHours: 4.8,
+      integrityScore: 97,
+      examSessions: 5,
+      areas: {
+        "Rent / Tenancy": 11,
+        "Wages & Labour": 8,
+        "Harassment": 5,
+        "Consumer": 6
+      },
+      recentCases: [
+        { id: "case-101", title: "Illegal rent hike & threatened eviction", icon: "🏠", area: "Rent / Tenancy", outcome: "Pre‑litigation notice drafted", duration: "3.1 days", link: "case.html?id=101" },
+        { id: "case-202", title: "Unpaid overtime for factory workers", icon: "💰", area: "Wages & Labour", outcome: "Demand notice + settlement draft", duration: "4.6 days", link: "case.html?id=202" },
+        { id: "case-303", title: "Faulty inverter sold to low‑income family", icon: "🛒", area: "Consumer", outcome: "Consumer complaint draft prepared", duration: "2.9 days", link: "case.html?id=303" }
+      ],
+      reviews: [
+        { by: "Senior Student (Rating 950)", text: "Clear issue‑spotting and very structured tenancy notice.", score: 9.0 },
+        { by: "Clinic Supervisor", text: "Good balance between legal precision and plain‑language drafting.", score: 8.5 },
+        { by: "Peer Reviewer", text: "Strong on timelines and practical remedies; could add more citations.", score: 8.0 }
+      ]
+    };
+
+    // derived values
+    const accuracy = Math.round((profileData.solvedCases / profileData.totalAttempts) * 100);
+    const areaNames = Object.keys(profileData.areas);
+    let topField = '-', topCount = -1;
+    areaNames.forEach(a => { if(profileData.areas[a] > topCount){ topCount = profileData.areas[a]; topField = a; } });
+
+    // left column
+    document.getElementById('info-rating').textContent = profileData.rating.toFixed(1);
+    document.getElementById('info-accuracy').textContent = accuracy + '%';
+    document.getElementById('info-solved').textContent = profileData.solvedCases;
+    document.getElementById('info-top-field').textContent = topField;
+    document.getElementById('info-integrity').textContent = profileData.integrityScore + '%';
+    document.getElementById('info-exams').textContent = profileData.examSessions;
+
+    // overview
+    const summaryText = `Solved ${profileData.solvedCases} of ${profileData.totalAttempts} cases (${accuracy}% accuracy), strongest in ${topField.toLowerCase()}.`;
+    document.getElementById('summary-line').textContent = summaryText;
+    document.getElementById('summary-pill').textContent = summaryText;
+
+    document.getElementById('stat-rating').textContent = profileData.rating.toFixed(1);
+    document.getElementById('stat-accuracy').textContent = accuracy + '%';
+    document.getElementById('stat-time').textContent = profileData.avgTimeHours.toFixed(1) + ' hrs';
+    document.getElementById('fields-count').textContent = 'Fields covered: ' + areaNames.length;
+
+    // quick right summary
+    document.getElementById('rs-solved').textContent = profileData.solvedCases;
+    document.getElementById('rs-accuracy').textContent = accuracy + '%';
+    document.getElementById('rs-integrity').textContent = profileData.integrityScore + '%';
+
+    // case breakdown render (bars removed — show bold count)
+    const breakdownEl = document.getElementById('case-breakdown');
+    breakdownEl.innerHTML = areaNames.map(area => {
+      const count = profileData.areas[area];
+      return `
+        <div class="area-card">
+          <div class="area-name">${area}</div>
+          <div class="area-count">${count} case(s)</div>
+        </div>
+      `;
+    }).join('');
+
+    // recent cases render (bigger text + read more)
+    const recentEl = document.getElementById('recent-cases');
+    recentEl.innerHTML = profileData.recentCases.map(c => `
+      <div class="case-card">
+        <div class="case-title">${c.icon} ${c.title}</div>
+        <div class="case-meta">${c.area} • ${c.duration}</div>
+        <div class="case-outcome">${c.outcome}</div>
+        <a class="read-more" href="${c.link}" target="_blank" rel="noopener">Read more →</a>
+      </div>
+    `).join('');
+
+    // reviews render with stars
+    const avgReview = (profileData.reviews.reduce((s,r)=>s+r.score,0) / profileData.reviews.length).toFixed(1);
+    document.getElementById('avg-review').textContent = 'Average: ' + avgReview + ' / 10';
+    const reviewsEl = document.getElementById('reviews');
+    reviewsEl.innerHTML = profileData.reviews.map(r => {
+      const starCount = Math.round((r.score / 10) * 5);
+      const stars = '★'.repeat(starCount) + '☆'.repeat(5 - starCount);
+      return `
+        <div class="review">
+          <div class="review-text"><span class="stars">${stars}</span> ${r.text}</div>
+          <div class="review-meta">${r.by} • Score ${r.score.toFixed(1)}/10</div>
+        </div>
+      `;
+    }).join('');
+  </script>
+</body>
+</html>
