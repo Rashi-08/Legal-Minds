@@ -1165,10 +1165,7 @@
           <span class="side-value" id="prev-case-id">Not available</span>
         </div>
 
-        <div class="side-row">
-          <span class="side-label">Fees</span>
-          <span class="status-pill status-unpaid" id="prev-case-fees">Unknown</span>
-        </div>
+        
 
         <div class="side-row">
           <span class="side-label">Case Status</span>
@@ -1496,14 +1493,14 @@
     function updatePreviousCaseUI(caseData) {
       document.getElementById("prev-case-id").textContent = caseData.id;
       document.getElementById("prev-case-time").textContent = caseData.time;
-
+      const statusEl = document.getElementById("prev-case-status");
+      statusEl.textContent = caseData.status;
+      statusEl.className = "status-pill " + (caseData.status === "Accepted" ? "status-closed" : "status-open");
       const feesEl = document.getElementById("prev-case-fees");
       feesEl.textContent = caseData.fees === "Paid" ? "Fees Paid" : "Fees Pending";
       feesEl.className = "status-pill " + (caseData.fees === "Paid" ? "status-paid" : "status-unpaid");
 
-      const statusEl = document.getElementById("prev-case-status");
-      statusEl.textContent = caseData.status;
-      statusEl.className = "status-pill " + (caseData.status === "Accepted" ? "status-closed" : "status-open");
+
     }
 
     function closeModal() {
@@ -1519,7 +1516,6 @@
       body.innerHTML = `
         <div class="detail-row"><span class="detail-label">Case ID</span><span class="detail-value">${prevCase.id}</span></div>
         <div class="detail-row"><span class="detail-label">Category</span><span class="detail-value">${prevCase.category}</span></div>
-        <div class="detail-row"><span class="detail-label">Fees</span><span class="detail-value">${prevCase.fees}</span></div>
         <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">${prevCase.status}</span></div>
         <div class="detail-row"><span class="detail-label">Accepted by</span><span class="detail-value">${prevCase.status === "Accepted" ? prevCase.acceptedBy : "Not assigned yet"}</span></div>
         <div class="detail-row"><span class="detail-label">Language</span><span class="detail-value">${prevCase.language}</span></div>
