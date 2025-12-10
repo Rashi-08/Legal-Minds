@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Dashboard - Legal Minds Platform</title>
+  <title>Student Dashboard - Legal Aid Platform</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: #f3f4f6; color: #111827; min-height: 100vh;
   }
-  /* (styles unchanged from your file) */
   .top-nav { background-color:#ffffff; border-bottom:1px solid #e5e7eb; padding:0.75rem 0; position:sticky; top:0; z-index:100; }
   .nav-content { max-width:1280px; margin:0 auto; padding:0 1rem; display:flex; align-items:center; gap:2rem; }
   .logo { font-size:1.5rem; font-weight:700; background:linear-gradient(135deg,#0a66c2 0%,#10b981 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-decoration:none; display:flex; align-items:center; gap:0.5rem; }
@@ -60,13 +59,13 @@
   .case-header { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap:wrap; }
   .case-author { font-size:0.75rem; color:#6b7280; }
   .case-time { font-size:0.75rem; color:#9ca3af; }
-  .case-title { font-size:1rem; font-weight:600; color:#111827; margin-bottom:0.5rem; line-height:1.4; }
+  .case-title { font-size:1rem; font-weight:600; color:#111827; margin-bottom:0.5rem; line-height:1.4; cursor:pointer; }
   .case-description { font-size:0.875rem; color:#4b5563; line-height:1.5; margin-bottom:0.75rem; }
   .case-tags { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.75rem; }
   .tag { padding:0.25rem 0.75rem; background-color:#f3f4f6; border:1px solid #e5e7eb; border-radius:12px; font-size:0.75rem; color:#6b7280; }
   .tag.urgent { background-color:#fef2f2; border-color:#f97373; color:#b91c1c; }
   .tag.category { background:linear-gradient(135deg, rgba(10,102,194,0.1) 0%, rgba(16,185,129,0.1) 100%); border-color:#0a66c2; color:#1d4ed8; }
-  .case-footer { display:flex; gap:0.75rem; align-items:center; }
+  .case-footer { display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; }
   .case-action-btn { padding:0.5rem 1.25rem; background:linear-gradient(135deg,#0a66c2 0%,#10b981 100%); border:none; border-radius:20px; color:#ffffff; font-size:0.875rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
   .case-action-btn:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(15,118,110,0.3); }
   .case-action-btn.secondary { background:transparent; border:1px solid #e5e7eb; color:#374151; }
@@ -118,13 +117,13 @@
     <div class="nav-content">
       <a href="../index.html" class="logo">
         <span>⚖️</span>
-        <span>Legal Minds</span>
+        <span>LegalAid</span>
       </a>
       <div class="search-bar">
         <input type="text" placeholder="Search cases, students, categories...">
       </div>
       <div class="nav-actions">
-        <a href = './reviewer.html'><button class="nav-btn">📊 Reviews</button></a>
+        <a href="./reviewer.html"><button class="nav-btn">📊 Reviews</button></a>
         <button class="nav-btn">🔔 Alerts</button>
       </div>
     </div>
@@ -240,18 +239,39 @@
       <div class="modal-body">
         <div style="display:flex;gap:12px;">
           <div style="flex:1;">
-            <h3 style="margin-bottom:8px;">Uploaded Evidence</h3>
+            <h3 style="margin-bottom:8px;">Citizen Evidence</h3>
             <div id="modal-evidence" style="background:#f9fafb;border:1px solid #e6e9ef;padding:12px;border-radius:8px;margin-bottom:14px;color:#374151;">
               <!-- evidence list -->
             </div>
 
-            <h3 style="margin-bottom:8px;">Draft Answer (You)</h3>
-            <textarea id="modal-draft" placeholder="Draft the notice / complaint / advice here..."></textarea>
+            <h3 style="margin-bottom:8px;">Solution Text (for client)</h3>
+            <textarea id="modal-draft" placeholder="Draft the notice / complaint / advice here for the client..."></textarea>
 
-            <div style="margin-top:10px; display:flex; gap:8px;">
-              <button id="modal-save-draft" class="case-action-btn" style="padding:8px 12px;font-size:0.9rem;">💾 Save Draft</button>
+            <div style="margin-top:10px;">
+              <label style="font-size:0.85rem;font-weight:600;">Documents to request from client (optional)</label>
+              <textarea id="modal-docs-needed" style="margin-top:4px;min-height:80px;" placeholder="List any supporting documents you need the client to upload..."></textarea>
+            </div>
+
+            <div style="margin-top:10px;">
+              <label style="font-size:0.85rem;font-weight:600;">Attach Solution Files (PDF, DOC, etc.)</label>
+              <input type="file" id="modal-solution-files" multiple>
+            </div>
+
+            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+              <div>
+                <label style="font-size:0.85rem;font-weight:600;">Solution Audio (optional)</label><br>
+                <input type="file" id="modal-solution-voice" accept="audio/*">
+              </div>
+              <div>
+                <label style="font-size:0.85rem;font-weight:600;">Solution Video (optional)</label><br>
+                <input type="file" id="modal-solution-video" accept="video/*">
+              </div>
+            </div>
+
+            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+              <button id="modal-save-draft" class="case-action-btn" style="padding:8px 12px;font-size:0.9rem;">💾 Save Draft (local)</button>
               <button id="modal-run-moderation" class="case-action-btn secondary" style="padding:8px 12px;font-size:0.9rem;">🔎 Run Moderation</button>
-              <button id="modal-submit" class="case-action-btn" style="padding:8px 12px;font-size:0.9rem;">📤 Submit for Review</button>
+              <button id="modal-submit" class="case-action-btn" style="padding:8px 12px;font-size:0.9rem;">📤 Submit Solution</button>
             </div>
 
             <div id="modal-issues" style="margin-top:12px;display:none;">
@@ -265,7 +285,7 @@
             <h3 style="margin-bottom:8px;">Case Summary</h3>
             <div id="modal-summary" style="background:#f9fafb;border:1px solid #e6e9ef;padding:12px;border-radius:8px;color:#374151;"></div>
 
-            <h3 style="margin-top:12px;margin-bottom:8px;">Review History</h3>
+            <h3 style="margin-top:12px;margin-bottom:8px;">Status & History</h3>
             <div id="modal-history" style="background:#f9fafb;border:1px solid #e6e9ef;padding:12px;border-radius:8px;color:#374151;min-height:120px;">
               <!-- history entries -->
             </div>
@@ -279,48 +299,120 @@
   </div>
 
 <script>
-  // Global state
-  let mockData = { users: [] };
-  const currentStudentId = "student-001";
+  // ===== API & STATE =====
+  const API_BASE = "http://localhost:3000";
+  const currentStudentName = "Sarah Rodriguez";
+  let allCases = [];
   let currentCategory = "All";
+  let activeCaseId = null;
 
-  function getCategoryIcon(category) {
-    const icons = { 'Rent': '🏠', 'Wages': '💰', 'Harassment': '⚠️', 'All': '📋' };
-    return icons[category] || '📋';
+  // ===== HELPERS =====
+  function formatCategory(cat) {
+    if (!cat) return "Other";
+    const key = String(cat).toLowerCase();
+    const map = {
+      rent: "Rent",
+      wages: "Wages",
+      harassment: "Harassment",
+      fraud: "Fraud",
+      family: "Family",
+      other: "Other",
+      inreview: "Other"
+    };
+    return map[key] || (key.charAt(0).toUpperCase() + key.slice(1));
   }
 
-  // Claim case (local-only mutation of JSON data in memory)
-  window.claimCase = function(id) {
-    const sid = String(id);
-    const caseIndex = mockData.users.findIndex(c => String(c.id) === sid);
-    if (caseIndex !== -1) {
-      mockData.users[caseIndex].assignedTo = currentStudentId;
-      mockData.users[caseIndex].status = "In Progress";
-      // initialize draft holder
-      mockData.users[caseIndex].draft = mockData.users[caseIndex].draft || "";
+  function formatLanguage(code) {
+    if (!code) return "Not specified";
+    const map = {
+      en: "English", hi: "Hindi", bn: "Bengali", te: "Telugu",
+      mr: "Marathi", ta: "Tamil", gu: "Gujarati", kn: "Kannada",
+      ml: "Malayalam", or: "Odia", pa: "Punjabi", as: "Assamese", ur: "Urdu"
+    };
+    return map[code] || code;
+  }
+
+  function getCategoryIcon(category) {
+    const key = (category || "").toLowerCase();
+    const icons = { rent: "🏠", wages: "💰", harassment: "⚠️", fraud: "⚖️", family: "👨‍👩‍👧", other: "📋" };
+    return icons[key] || "📋";
+  }
+
+  function timeLabel(iso) {
+    if (!iso) return "Recently";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "Recently";
+    return d.toLocaleString();
+  }
+
+  // ===== LOAD CASES FROM BACKEND =====
+  async function loadCases() {
+    const unclaimedContainer = document.getElementById("unclaimed-cases");
+    try {
+      const res = await fetch(`${API_BASE}/api/get-cases`);
+      if (!res.ok) throw new Error("Network error: " + res.status);
+      const data = await res.json();
+      allCases = Array.isArray(data) ? data : [];
       renderUnclaimedCases();
       renderMyCases();
+    } catch (err) {
+      console.error("Failed to load cases", err);
+      if (unclaimedContainer) {
+        unclaimedContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <div>Could not load cases.</div>
+            <div style="margin-top: 0.5rem; font-size: 0.75rem;">Is the Node server running on http://localhost:3000 ?</div>
+          </div>
+        `;
+      }
     }
-  };
+  }
 
-  // Renders available cases
+  // ===== CLAIM / ACCEPT CASE =====
+  async function claimCase(id) {
+    try {
+      const res = await fetch(`${API_BASE}/api/accept-case`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, studentName: currentStudentName })
+      });
+      const data = await res.json();
+      if (!data.success) {
+        alert(data.message || "Server error while accepting case");
+        return;
+      }
+      alert("Case accepted and assigned to you.");
+      await loadCases();
+    } catch (e) {
+      console.error(e);
+      alert("Network error while accepting case.");
+    }
+  }
+  window.claimCase = claimCase;
+
+  // ===== RENDER AVAILABLE (UNCLAIMED) CASES =====
   function renderUnclaimedCases() {
     const container = document.getElementById("unclaimed-cases");
-    if (!mockData.users || mockData.users.length === 0) {
+    if (!allCases || allCases.length === 0) {
       container.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">⌛</div>
-          <div>Loading cases...</div>
+          <div>No cases yet. Waiting for citizens to submit.</div>
         </div>
       `;
       return;
     }
 
-    const cases = mockData.users.filter(c =>
-      c.status === "Pending" && (currentCategory === "All" || c.category === currentCategory)
-    );
+    const filtered = allCases.filter(c => {
+      const status = (c.status || "").toLowerCase();
+      const isUnclaimed = !c.acceptedBy && (status === "in review" || status === "inreview" || status === "");
+      const catOk = currentCategory === "All" ||
+        ((c.category || "").toLowerCase() === currentCategory.toLowerCase());
+      return isUnclaimed && catOk;
+    });
 
-    if (cases.length === 0) {
+    if (filtered.length === 0) {
       container.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">📭</div>
@@ -331,42 +423,50 @@
       return;
     }
 
-    container.innerHTML = cases.map(c => `
-      <div class="case-item">
-        <div class="vote-section">
-          <button class="vote-btn">▲</button>
-          <div class="vote-count">${c.upvotes ?? 0}</div>
-          <button class="vote-btn">▼</button>
+    container.innerHTML = filtered.map(c => {
+      const citizenName = c.name && c.name.trim() ? c.name.trim() : "Anonymous Citizen";
+      const catLabel = formatCategory(c.category);
+      const loc = c.location || "Unknown location";
+      const desc = (c.description || "").length > 160
+        ? c.description.slice(0, 157) + "..."
+        : (c.description || "No detailed description.");
+      const statusLabel = c.status || "In Review";
+      return `
+        <div class="case-item">
+          <div class="vote-section">
+            <button class="vote-btn">▲</button>
+            <div class="vote-count">0</div>
+            <button class="vote-btn">▼</button>
+          </div>
+          <div class="case-icon">${getCategoryIcon(c.category)}</div>
+          <div class="case-content">
+            <div class="case-header">
+              <span class="case-author">${citizenName}</span>
+              <span class="case-time">• ${timeLabel(c.createdAt)}</span>
+            </div>
+            <div class="case-title" onclick="openCaseFile('${c.id}')">${c.title || "(no title)"}</div>
+            <div class="case-description">
+              ${loc} – ${desc}
+            </div>
+            <div class="case-tags">
+              <span class="tag category">${catLabel}</span>
+              <span class="tag">Status: ${statusLabel}</span>
+              <span class="tag">${loc}</span>
+            </div>
+            <div class="case-footer">
+              <button class="case-action-btn" onclick="claimCase('${c.id}')">✔ Accept Case</button>
+              <button class="case-action-btn secondary" onclick="openCaseFile('${c.id}')">👁 Show Case</button>
+            </div>
+          </div>
         </div>
-        <div class="case-icon">${getCategoryIcon(c.category)}</div>
-        <div class="case-content">
-          <div class="case-header">
-            <span class="case-author">${c.author}</span>
-            <span class="case-time">• ${c.timeAgo || '3h ago'}</span>
-          </div>
-          <div class="case-title">${c.title}</div>
-          <div class="case-description">
-            ${c.location || 'Unknown location'} - This case requires immediate legal assistance. The complainant has provided all necessary documentation.
-          </div>
-          <div class="case-tags">
-            <span class="tag category">${c.category}</span>
-            <span class="tag ${c.urgency === 'High' ? 'urgent' : ''}">${c.urgency} Priority</span>
-            <span class="tag">${c.location}</span>
-          </div>
-          <div class="case-footer">
-            <button class="case-action-btn" onclick="claimCase('${c.id}')">Claim Case</button>
-            <button class="case-meta-btn">💬 12 comments</button>
-            <button class="case-meta-btn">🔖 Save</button>
-          </div>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join("");
   }
 
-  // Renders "My Active Cases" and wires Open Case File
+  // ===== RENDER MY ACTIVE CASES =====
   function renderMyCases() {
     const container = document.getElementById("my-cases");
-    if (!mockData.users || mockData.users.length === 0) {
+    if (!allCases || allCases.length === 0) {
       container.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">⌛</div>
@@ -376,105 +476,78 @@
       return;
     }
 
-    const cases = mockData.users.filter(c => String(c.assignedTo) === currentStudentId);
+    const mine = allCases.filter(c => c.acceptedBy === currentStudentName);
 
     const sidebarProgress = document.getElementById("sidebar-progress");
-    if (sidebarProgress) sidebarProgress.textContent = cases.length;
+    if (sidebarProgress) sidebarProgress.textContent = mine.filter(c => (c.status || "").toLowerCase() !== "solved").length;
 
-    if (cases.length === 0) {
+    if (mine.length === 0) {
       container.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">💼</div>
-          <div>You haven't claimed any cases yet.</div>
-          <div style="margin-top: 0.5rem; font-size: 0.75rem;">Start by claiming a case above to begin your journey!</div>
+          <div>You haven't accepted any cases yet.</div>
+          <div style="margin-top: 0.5rem; font-size: 0.75rem;">Start by accepting a case above to begin your journey!</div>
         </div>
       `;
       return;
     }
 
-    container.innerHTML = cases.map(c => `
-      <div class="case-item">
-        <div class="case-icon" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">⚡</div>
-        <div class="case-content">
-          <div class="case-header">
-            <span class="case-author">${c.author}</span>
-            <span class="case-time">• Assigned: Just now</span>
-          </div>
-          <div class="case-title">${c.title}</div>
-          <div class="case-description">
-            You are currently representing this client. Please review the uploaded documents in the case file.
-          </div>
-          <div class="case-tags">
-            <span class="tag category">${c.category}</span>
-            <span class="tag ${c.urgency === 'High' ? 'urgent' : ''}">${c.urgency} Priority</span>
-            <span class="tag" style="background-color: #ecfdf5; color: #047857; border-color: #a7f3d0;">Active</span>
-          </div>
-          <div class="case-footer">
-            <button class="case-action-btn" onclick="openCaseFile('${c.id}')">📂 Open Case File</button>
-            <button class="case-action-btn secondary" onclick="updateStatus('${c.id}')">Update Status</button>
+    container.innerHTML = mine.map(c => {
+      const citizenName = c.name && c.name.trim() ? c.name.trim() : "Anonymous Citizen";
+      const catLabel = formatCategory(c.category);
+      const status = c.status || "Accepted";
+      const isSolved = status.toLowerCase() === "solved";
+      const statusColor = isSolved
+        ? "background-color: #ecfdf5; color: #047857; border-color: #a7f3d0;"
+        : "background-color: #eff6ff; color: #1d4ed8; border-color: #bfdbfe;";
+      return `
+        <div class="case-item">
+          <div class="case-icon" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">⚡</div>
+          <div class="case-content">
+            <div class="case-header">
+              <span class="case-author">${citizenName}</span>
+              <span class="case-time">• Accepted: ${timeLabel(c.createdAt)}</span>
+            </div>
+            <div class="case-title" onclick="openCaseFile('${c.id}')">${c.title || "(no title)"}</div>
+            <div class="case-description">
+              You are currently representing this client. Please review the uploaded documents and submit a solution.
+            </div>
+            <div class="case-tags">
+              <span class="tag category">${catLabel}</span>
+              <span class="tag" style="${statusColor}">${status}</span>
+            </div>
+            <div class="case-footer">
+              <button class="case-action-btn" onclick="openCaseFile('${c.id}')">📂 Open Case File</button>
+              <button class="case-action-btn secondary" onclick="updateStatus('${c.id}')">Status Info</button>
+            </div>
           </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join("");
   }
 
-  // Update status helper (demo)
+  // ===== STATUS INFO (no backend change) =====
   window.updateStatus = function(caseId) {
-    const idx = mockData.users.findIndex(x => String(x.id) === String(caseId));
-    if (idx === -1) return alert('Case not found');
-    const next = prompt('Set status (In Progress / Drafted / Solved):', mockData.users[idx].status || 'In Progress');
-    if (next) {
-      mockData.users[idx].status = next;
-      renderUnclaimedCases();
-      renderMyCases();
-      alert('Status updated locally (demo).');
-    }
+    alert(
+      "Status is handled by the system:\n\n" +
+      "• 'In Review' – citizen submitted the case\n" +
+      "• 'Accepted' – you accepted the case\n" +
+      "• 'Solved' – you submitted a solution\n\n" +
+      "To change status to 'Solved', open the case file and submit your solution."
+    );
   };
 
-  /* -------------------------
-     Load cases.json (relative)
-     ------------------------- */
-  async function loadCases() {
-    const unclaimedContainer = document.getElementById("unclaimed-cases");
-    try {
-      const res = await fetch('../cases.json');
-      if (!res.ok) {
-        throw new Error('Network error: ' + res.status);
-      }
-      const data = await res.json();
-      // ensure IDs are strings for safety
-      data.users = (data.users || []).map(u => ({ ...u, id: String(u.id) }));
-      mockData = data;
-      renderUnclaimedCases();
-      renderMyCases();
-    } catch (err) {
-      console.error('Failed to load cases.json', err);
-      if (unclaimedContainer) {
-        unclaimedContainer.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">⚠️</div>
-            <div>Could not load cases.</div>
-            <div style="margin-top: 0.5rem; font-size: 0.75rem;">Please refresh the page or contact an admin.</div>
-          </div>
-        `;
-      }
-    }
-  }
-
-  // Category filter handler
+  // ===== CATEGORY FILTER HANDLER =====
   document.getElementById('category-filters').addEventListener('click', (e) => {
     if (e.target.classList.contains('category-btn')) {
       document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
       e.target.classList.add('active');
-      currentCategory = e.target.getAttribute('data-category');
+      currentCategory = e.target.getAttribute('data-category') || "All";
       renderUnclaimedCases();
     }
   });
 
-  /* ================
-     Modal / Review UI
-     ================ */
-
+  // ===== MODAL ELEMENTS =====
   const modalBackdrop = document.getElementById('case-modal-backdrop');
   const modalCloseBtn = document.getElementById('modal-close-btn');
   const modalCloseBottom = document.getElementById('modal-close-bottom');
@@ -484,6 +557,10 @@
   const modalSummary = document.getElementById('modal-summary');
   const modalHistory = document.getElementById('modal-history');
   const modalDraft = document.getElementById('modal-draft');
+  const modalDocsNeeded = document.getElementById('modal-docs-needed');
+  const modalFilesInput = document.getElementById('modal-solution-files');
+  const modalVoiceInput = document.getElementById('modal-solution-voice');
+  const modalVideoInput = document.getElementById('modal-solution-video');
   const modalSaveDraft = document.getElementById('modal-save-draft');
   const modalRunModeration = document.getElementById('modal-run-moderation');
   const modalIssues = document.getElementById('modal-issues');
@@ -492,55 +569,107 @@
   const modalDecisionPill = document.getElementById('modal-decision-pill');
   const modalSubmit = document.getElementById('modal-submit');
 
-  let activeCaseId = null;
-
-  // Open case file — loads case context and shows modal
+  // ===== OPEN CASE FILE MODAL =====
   window.openCaseFile = function(caseId) {
     const cid = String(caseId);
-    const c = mockData.users.find(x => String(x.id) === cid);
+    const c = allCases.find(x => String(x.id) === cid);
     if (!c) {
       alert('Case not found.');
       return;
     }
-    if (String(c.assignedTo) !== currentStudentId) {
-      alert('You must claim this case before opening the file.');
-      return;
-    }
+
     activeCaseId = cid;
 
-    // populate modal
-    modalCaseTitle.textContent = c.title || 'Untitled case';
-    modalCaseMeta.textContent = `${c.category || 'General'} • ${c.location || 'Unknown location'} • Urgency: ${c.urgency || 'Medium'}`;
+    const citizenName = c.name && c.name.trim() ? c.name.trim() : "Anonymous Citizen";
+    const catLabel = formatCategory(c.category);
+    const loc = c.location || "Unknown location";
+    const created = timeLabel(c.createdAt);
+    const status = c.status || "In Review";
+    const sol = c.solution || {};
+
+    // Header
+    modalCaseTitle.textContent = c.title || "(no title)";
+    modalCaseMeta.textContent = `${catLabel} • ${loc} • Status: ${status}`;
+
+    // Evidence: documents + citizen audio/video
+    const evidenceParts = [];
+    if (Array.isArray(c.proofs) && c.proofs.length) {
+      evidenceParts.push("<div style='margin-bottom:6px;font-weight:600;'>Documents:</div>");
+      evidenceParts.push(
+        c.proofs.map((p, idx) =>
+          `<div style="padding:4px 0;"><a href="${API_BASE}${p}" target="_blank">📎 Evidence ${idx + 1}</a></div>`
+        ).join("")
+      );
+    }
+    if (c.voice) {
+      evidenceParts.push("<div style='margin-top:8px;font-weight:600;'>Citizen Audio:</div>");
+      evidenceParts.push(`<audio controls src="${API_BASE}${c.voice}" style="width:100%;margin-top:4px;"></audio>`);
+    }
+    if (c.video) {
+      evidenceParts.push("<div style='margin-top:8px;font-weight:600;'>Citizen Video:</div>");
+      evidenceParts.push(`<video controls src="${API_BASE}${c.video}" style="width:100%;max-height:260px;margin-top:4px;"></video>`);
+    }
+    modalEvidence.innerHTML = evidenceParts.length
+      ? evidenceParts.join("")
+      : `<div style="color:#6b7280;">No uploaded evidence for this case.</div>`;
+
+    // Summary
+    const descHtml = (c.description || "").replace(/\n/g, "<br>");
     modalSummary.innerHTML = `
-      <strong>Author:</strong> ${c.author || 'Anonymous'}<br>
-      <strong>Reported:</strong> ${c.reportedAt || 'Unknown'}<br>
-      <div style="margin-top:6px;color:#6b7280;font-size:0.95rem;">${c.short || 'No short summary provided.'}</div>
+      <strong>Citizen:</strong> ${citizenName}<br>
+      <strong>Case ID:</strong> ${c.id}<br>
+      <strong>Language:</strong> ${formatLanguage(c.language)}<br>
+      <strong>Reported:</strong> ${created}<br>
+      <div style="margin-top:6px;color:#6b7280;font-size:0.95rem;max-height:160px;overflow:auto;">
+        ${descHtml || "No detailed description provided."}
+      </div>
     `;
 
-    // evidence list (demo)
-    const evidence = c.evidence || (c.files || []);
-    if (!evidence || evidence.length === 0) {
-      modalEvidence.innerHTML = `<div style="color:#6b7280;">No uploaded files visible (demo).</div>`;
-    } else {
-      modalEvidence.innerHTML = evidence.map(f => `<div style="padding:6px 0;">📎 ${f}</div>`).join('');
+    // History / timeline
+    const history = [];
+    history.push(`
+      <div style="margin-bottom:8px;">
+        <strong>System</strong> • Case created
+        <div style="color:#6b7280;font-size:0.9rem;">${created}</div>
+      </div>
+    `);
+    if (c.acceptedBy) {
+      history.push(`
+        <div style="margin-bottom:8px;">
+          <strong>${c.acceptedBy}</strong> • Accepted the case
+          <div style="color:#6b7280;font-size:0.9rem;">(time when accepted not stored; shown as reported time)</div>
+        </div>
+      `);
     }
+    if (sol.status === "submitted") {
+      history.push(`
+        <div style="margin-bottom:8px;">
+          <strong>${sol.studentName || c.acceptedBy || "Student"}</strong> • Submitted solution
+          <div style="color:#6b7280;font-size:0.9rem;">${timeLabel(sol.submittedAt)}</div>
+        </div>
+      `);
+    }
+    modalHistory.innerHTML = history.join("");
 
-    // history (mock)
-    const histEntries = (c.history || []);
-    modalHistory.innerHTML = histEntries.length
-      ? histEntries.map(h => `<div style="margin-bottom:8px;"><strong>${h.actor}</strong> • ${h.note}<div style="color:#6b7280;font-size:0.9rem;">${h.when}</div></div>`).join('')
-      : `<div style="color:#6b7280;">No previous reviews or drafts.</div>`;
+    // Fill solution section
+    modalDraft.value = sol.text || "";
+    modalDocsNeeded.value = sol.docsNeeded || "";
+    modalFilesInput.value = "";
+    modalVoiceInput.value = "";
+    modalVideoInput.value = "";
 
-    // load draft if any
-    modalDraft.value = c.draft || '';
+    // If solution already submitted, disable re-submission but still show content
+    const alreadySubmitted = sol.status === "submitted";
+    modalSubmit.disabled = alreadySubmitted;
+    modalSubmit.textContent = alreadySubmitted ? "Solution already submitted" : "📤 Submit Solution";
 
-    // clear moderation UI
-    modalIssues.style.display = 'none';
-    modalIssuesList.innerHTML = '';
-    modalSuggestedFix.textContent = '';
-    modalDecisionPill.innerHTML = '';
+    // Clear moderation UI
+    modalIssues.style.display = "none";
+    modalIssuesList.innerHTML = "";
+    modalSuggestedFix.textContent = "";
+    modalDecisionPill.innerHTML = "";
 
-    // show modal
+    // Show modal
     modalBackdrop.style.display = 'flex';
     modalBackdrop.setAttribute('aria-hidden', 'false');
   };
@@ -554,44 +683,21 @@
   modalCloseBtn.addEventListener('click', closeModal);
   modalCloseBottom.addEventListener('click', closeModal);
 
-  // Save draft locally to mockData
+  // Save draft locally only (doesn't touch backend)
   modalSaveDraft.addEventListener('click', () => {
     if (!activeCaseId) return alert('No active case.');
-    const idx = mockData.users.findIndex(x => String(x.id) === String(activeCaseId));
+    const idx = allCases.findIndex(x => String(x.id) === String(activeCaseId));
     if (idx === -1) return alert('Case not found.');
-    mockData.users[idx].draft = modalDraft.value;
-    alert('Draft saved (local demo).');
+    allCases[idx].draft = modalDraft.value;
+    alert('Draft saved locally (not sent to server).');
     renderMyCases();
   });
 
-  // Submit for review (simple demo behaviour)
-  modalSubmit.addEventListener('click', () => {
-    if (!activeCaseId) return alert('No active case.');
-    const idx = mockData.users.findIndex(x => String(x.id) === String(activeCaseId));
-    if (idx === -1) return alert('Case not found.');
-    // require some draft text
-    const draftText = (modalDraft.value || '').trim();
-    if (!draftText) return alert('Please write a draft before submitting.');
-    // push a simple review_result event (demo)
-    mockData.users[idx].status = 'Drafted';
-    // attach history
-    mockData.users[idx].history = mockData.users[idx].history || [];
-    mockData.users[idx].history.unshift({ actor: 'You', note: 'Submitted draft for review', when: new Date().toISOString() });
-    renderMyCases();
-    alert('Draft submitted for review (demo).');
-    closeModal();
-  });
-
-  /* ----------------------------
-     Local moderation (client)
-     copied/adapted from your MVP
-     ---------------------------- */
-
+  // ===== LOCAL MODERATION (same logic) =====
   function runLocalModeration(text) {
     const issues = [];
     const lower = (text || '').toLowerCase();
 
-    // UPL patterns
     const uplPatterns = [
       /i will represent you/, /i'll represent you/, /i will file/, /i'll file/, /i will appear/, /i'll appear/,
       /i will handle your case/, /i'll handle your case/, /retainer/, /my fees/, /pay me/, /send me fees/,
@@ -601,7 +707,6 @@
       issues.push({ type:'block', msg:'Unauthorized Practice: contains promises of representation or fee requests.'});
     }
 
-    // Direct advice
     const directAdvicePatterns = [
       /\byou must\b/, /\byou should\b/, /\byou have to\b/, /\bdo this\b/, /\bjust do this\b/, /\bgo and file\b/, /\bfile a case immediately\b/
     ];
@@ -609,30 +714,24 @@
       issues.push({ type:'revise', msg:'No direct imperative legal advice: rephrase into options (A/B/C).'});
     }
 
-    // PII
     const pii = [];
     if (/\b[6-9]\d{9}\b/.test(lower)) pii.push('phone number');
     if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(text)) pii.push('email');
     if (/\b\d{4}\s?\d{4}\s?\d{4}\b/.test(text)) pii.push('Aadhaar-like number');
     if (pii.length) issues.push({ type:'revise', msg:`Privacy: remove or mask ${pii.join(', ')}.` });
 
-    // Self-promo
     const promo = [/contact me/,/call me/,/whatsapp me/,/my firm/,/consultation fee/,/pay me/,/upi id/,/bank account/];
     if (promo.some(re => re.test(lower))) issues.push({ type:'revise', msg:'Remove private contact details or fee requests.' });
 
-    // Illegal / violent
     const illegal = [/kill/,/beat them/,/violence/,/bribe/,/forge/,/forgery/,/threaten/,/burn/,/kidnap/];
     if (illegal.some(re => re.test(lower))) issues.push({ type:'block', msg:'Illegal or unsafe instruction detected (violence, forgery, bribery).' });
 
-    // Tone / insults
     const rude = [/idiot/,/stupid/,/dumb/,/moron/,/bastard/];
     if (rude.some(re => re.test(lower))) issues.push({ type:'revise', msg:'Please remove insults; maintain professional neutral tone.' });
 
-    // Misleading claims
     const misleading = [/100% win/,/guarantee/,/guaranteed win/,/you will definitely win/];
     if (misleading.some(re => re.test(lower))) issues.push({ type:'revise', msg:'Avoid guarantees or absolute claims about outcomes.' });
 
-    // Decision
     let decision = 'allow';
     if (issues.some(i => i.type === 'block')) decision = 'block';
     else if (issues.some(i => i.type === 'revise')) decision = 'revise';
@@ -646,21 +745,14 @@
       suggested = 'Looks good for submission (still consider asking clarifying questions if needed).';
     }
 
-    let summary = '';
-    if (decision === 'allow') summary = '✅ This draft passes quick checks.';
-    else if (decision === 'revise') summary = '✏️ This draft needs revision.';
-    else summary = '⛔ Blocked: remove serious issues.';
-
-    return { decision, issues, suggestedFix: suggested, summary };
+    return { decision, issues, suggestedFix: suggested };
   }
 
-  // Show moderation result in modal
   function presentModerationResult(result) {
     modalIssues.style.display = 'block';
     modalIssuesList.innerHTML = '';
     modalSuggestedFix.textContent = result.suggestedFix || '';
 
-    // pills
     modalDecisionPill.innerHTML = '';
     const pill = document.createElement('div');
     pill.className = 'pill ' + (result.decision === 'allow' ? 'allow' : (result.decision === 'revise' ? 'revise' : 'block'));
@@ -686,7 +778,58 @@
     presentModerationResult(res);
   });
 
-  // load on initial page
+  // ===== SUBMIT SOLUTION TO BACKEND =====
+  modalSubmit.addEventListener('click', async () => {
+    if (!activeCaseId) return alert("No active case.");
+    if (modalSubmit.disabled) {
+      alert("Solution is already submitted for this case.");
+      return;
+    }
+
+    const solutionText = (modalDraft.value || "").trim();
+    if (!solutionText) {
+      alert("Please write solution text before submitting.");
+      return;
+    }
+
+    const docsNeeded = (modalDocsNeeded.value || "").trim();
+
+    const fd = new FormData();
+    fd.append("id", activeCaseId);
+    fd.append("studentName", currentStudentName);
+    fd.append("solutionText", solutionText);
+    fd.append("docsNeeded", docsNeeded);
+
+    for (const f of modalFilesInput.files) {
+      fd.append("solutionFiles", f);
+    }
+    if (modalVoiceInput.files[0]) {
+      fd.append("solutionVoice", modalVoiceInput.files[0]);
+    }
+    if (modalVideoInput.files[0]) {
+      fd.append("solutionVideo", modalVideoInput.files[0]);
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/api/submit-solution`, {
+        method: "POST",
+        body: fd
+      });
+      const data = await res.json();
+      if (!data.success) {
+        alert(data.message || "Server error while submitting solution");
+        return;
+      }
+      alert("Solution submitted successfully. Status will now be 'Solved'.");
+      closeModal();
+      await loadCases();
+    } catch (e) {
+      console.error(e);
+      alert("Network error while submitting solution.");
+    }
+  });
+
+  // Load on initial page
   loadCases();
 
   // Close modal on ESC

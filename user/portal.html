@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LegalMinds | Report Legal Problem</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -18,7 +14,6 @@
       min-height: 100vh;
     }
 
-    /* ================= NAVIGATION ================= */
     .navbar {
       background: #ffffff;
       border-bottom: 1px solid #00000024;
@@ -39,12 +34,7 @@
       gap: 12px;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
+    .logo { display: flex; align-items: center; gap: 8px; }
     .logo-emoji {
       font-size: 22px;
       background: linear-gradient(115deg, #0a66c2, #2563eb, #1d4ed8);
@@ -54,12 +44,7 @@
       color: transparent;
     }
 
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
-
+    .logo-text { display: flex; flex-direction: column; line-height: 1.1; }
     .logo-text h1 {
       font-size: 18px;
       font-weight: 700;
@@ -71,7 +56,6 @@
       background-clip: text;
       color: transparent;
     }
-
     .logo-text span {
       font-size: 10px;
       color: #00000099;
@@ -106,11 +90,7 @@
       border-radius: 50%;
       animation: pulse 2s ease-in-out infinite;
     }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
+    @keyframes pulse { 0%,100% {opacity:1;} 50% {opacity:.5;} }
 
     .icon-btn {
       width: 32px;
@@ -125,15 +105,9 @@
       font-size: 16px;
       transition: all 0.15s ease;
     }
+    .icon-btn:hover { background:#f3f4f6; border-color:#0a66c2; }
 
-    .icon-btn:hover {
-      background: #f3f4f6;
-      border-color: #0a66c2;
-    }
-
-    .profile-wrapper {
-      position: relative;
-    }
+    .profile-wrapper { position: relative; }
 
     .avatar-btn {
       width: 32px;
@@ -158,21 +132,16 @@
       color: transparent;
     }
 
-    .notif-dot {
-      position: relative;
-    }
+    .notif-dot { position: relative; }
     .notif-dot::after {
       content:"";
       position:absolute;
-      top:6px;
-      right:6px;
-      width:7px;
-      height:7px;
+      top:6px; right:6px;
+      width:7px; height:7px;
       border-radius:999px;
       background:#ef4444;
     }
 
-    /* Profile dropdown */
     .profile-menu {
       position: absolute;
       top: 40px;
@@ -186,746 +155,424 @@
       display: none;
       z-index: 150;
     }
-
-    .profile-wrapper.open .profile-menu {
-      display: block;
-    }
+    .profile-wrapper.open .profile-menu { display:block; }
 
     .profile-header {
       padding: 8px 14px 10px;
       border-bottom: 1px solid #f3f4f6;
     }
-
-    .profile-name {
-      font-size: 14px;
-      font-weight: 600;
-      color: #111827;
-    }
-
-    .profile-email {
-      font-size: 12px;
-      color: #6b7280;
-      margin-top: 2px;
-    }
+    .profile-name { font-size:14px; font-weight:600; color:#111827; }
+    .profile-email { font-size:12px; color:#6b7280; margin-top:2px; }
 
     .profile-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      font-size: 13px;
-      color: #111827;
-      cursor: pointer;
+      display:flex; align-items:center; gap:8px;
+      padding:8px 14px;
+      font-size:13px; color:#111827;
+      cursor:pointer;
     }
+    .profile-item:hover { background:#f3f4f6; }
+    .profile-item span.icon { width:18px; text-align:center; }
 
-    .profile-item:hover {
-      background: #f3f4f6;
-    }
-
-    .profile-item span.icon {
-      width: 18px;
-      text-align: center;
-    }
-
-    /* ================= MAIN CONTAINER ================= */
     .container {
       max-width: 1128px;
       margin: 24px auto;
       padding: 0 24px;
     }
 
-    .layout {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .layout .main-card {
-      flex: 2;
-    }
+    .layout { display:flex; gap:16px; align-items:flex-start; }
+    .layout .main-card { flex:2; }
 
     .main-card {
-      background: #ffffff;
-      border-radius: 8px;
-      border: 1px solid #00000024;
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.08);
-      overflow: hidden;
+      background:#ffffff;
+      border-radius:8px;
+      border:1px solid #00000024;
+      box-shadow:0 0 0 1px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.08);
+      overflow:hidden;
     }
 
-    /* Previous Case Sidebar */
     .side-card {
-      flex: 1;
-      background: #ffffff;
-      border-radius: 8px;
-      border: 1px solid #00000024;
-      box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.08);
-      padding: 16px 16px 18px;
-      position: sticky;
-      top: 72px;
-      cursor: pointer;
+      flex:1;
+      background:#ffffff;
+      border-radius:8px;
+      border:1px solid #00000024;
+      box-shadow:0 0 0 1px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.08);
+      padding:16px 16px 18px;
+      position:sticky;
+      top:72px;
     }
 
-    .side-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #000000de;
-      margin-bottom: 4px;
-    }
+    .side-title { font-size:16px; font-weight:600; color:#000000de; margin-bottom:4px; }
+    .side-sub { font-size:12px; color:#00000099; margin-bottom:8px; }
 
-    .side-sub {
-      font-size: 12px;
-      color: #00000099;
-      margin-bottom: 12px;
-    }
+    .side-divider { border-top:1px solid #0000001f; margin:12px 0; }
+    .side-note { font-size:11px; color:#00000099; line-height:1.4; }
 
     .side-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      font-size: 13px;
+      display:flex; justify-content:space-between;
+      align-items:center; margin-bottom:8px; font-size:13px;
     }
-
-    .side-label {
-      color: #00000099;
-    }
-
-    .side-value {
-      font-weight: 600;
-      color: #000000de;
-    }
+    .side-label { color:#00000099; }
+    .side-value { font-weight:600; color:#000000de; }
 
     .status-pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      padding:4px 10px; border-radius:999px;
+      font-size:12px; font-weight:600;
+      display:inline-flex; align-items:center; gap:6px;
     }
-
     .status-pill::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+      content:""; width:8px; height:8px; border-radius:50%;
     }
 
-    .status-open {
-      background: #e7f3ff;
-      color: #0a66c2;
-    }
+    .status-open { background:#e7f3ff; color:#0a66c2; }
+    .status-open::before { background:#0a66c2; }
 
-    .status-open::before {
-      background: #0a66c2;
-    }
+    .status-closed { background:#e8f5e9; color:#2e7d32; }
+    .status-closed::before { background:#2e7d32; }
 
-    .status-closed {
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-
-    .status-closed::before {
-      background: #2e7d32;
-    }
-
-    .status-unpaid {
-      background: #fff3e0;
-      color: #ef6c00;
-    }
-
-    .status-unpaid::before {
-      background: #ef6c00;
-    }
-
-    .status-paid {
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-
-    .status-paid::before {
-      background: #2e7d32;
-    }
-
-    .side-divider {
-      border-top: 1px solid #0000001f;
-      margin: 12px 0;
-    }
-
-    .side-note {
-      font-size: 11px;
-      color: #00000099;
-      line-height: 1.4;
-    }
-
-    /* ================= HEADER ================= */
     .card-header {
-      padding: 24px 24px 20px;
-      border-bottom: 1px solid #00000024;
+      padding:24px 24px 20px;
+      border-bottom:1px solid #00000024;
     }
+    .card-header h2 { font-size:24px; font-weight:600; color:#000000de; margin-bottom:8px; }
+    .card-header p { font-size:14px; color:#00000099; line-height:1.5; }
 
-    .card-header h2 {
-      font-size: 24px;
-      font-weight: 600;
-      color: #000000de;
-      margin-bottom: 8px;
-    }
-
-    .card-header p {
-      font-size: 14px;
-      color: #00000099;
-      line-height: 1.5;
-    }
-
-    .trust-row {
-      display: flex;
-      gap: 16px;
-      margin-top: 16px;
-      flex-wrap: wrap;
-    }
-
+    .trust-row { display:flex; gap:16px; margin-top:16px; flex-wrap:wrap; }
     .trust-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      background: #f3f2ef;
-      border-radius: 4px;
-      font-size: 12px;
-      color: #00000099;
+      display:inline-flex; align-items:center; gap:6px;
+      padding:4px 10px; background:#f3f2ef;
+      border-radius:4px; font-size:12px; color:#00000099;
     }
+    .trust-badge::before { content:"✓"; color:#057642; font-weight:700; }
 
-    .trust-badge::before {
-      content: "✓";
-      color: #057642;
-      font-weight: 700;
-    }
+    .card-body { padding:24px; }
 
-    /* ================= FORM BODY ================= */
-    .card-body {
-      padding: 24px;
-    }
+    .form-section { margin-bottom:32px; }
+    .form-section:last-child { margin-bottom:0; }
 
-    .form-section {
-      margin-bottom: 32px;
-    }
-
-    .form-section:last-child {
-      margin-bottom: 0;
-    }
-
-    .section-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #000000de;
-      margin-bottom: 4px;
-    }
-
-    .section-desc {
-      font-size: 13px;
-      color: #00000099;
-      margin-bottom: 16px;
-    }
+    .section-title { font-size:16px; font-weight:600; color:#000000de; margin-bottom:4px; }
+    .section-desc { font-size:13px; color:#00000099; margin-bottom:16px; }
 
     .form-label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: #000000de;
-      margin-bottom: 6px;
+      display:block;
+      font-size:14px;
+      font-weight:600;
+      color:#000000de;
+      margin-bottom:6px;
     }
 
-    .optional {
-      font-weight: 400;
-      color: #00000099;
-      font-size: 13px;
-    }
+    .optional { font-weight:400; color:#00000099; font-size:13px; }
 
     .input, .select, .textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #00000066;
-      border-radius: 4px;
-      font-size: 14px;
-      color: #000000de;
-      background: #ffffff;
-      font-family: inherit;
-      transition: all 0.2s ease;
+      width:100%; padding:10px 12px;
+      border:1px solid #00000066;
+      border-radius:4px;
+      font-size:14px;
+      color:#000000de;
+      background:#ffffff;
+      font-family:inherit;
+      transition:all .2s ease;
     }
-
-    .input:hover, .select:hover, .textarea:hover {
-      border-color: #000000de;
-    }
-
+    .input:hover, .select:hover, .textarea:hover { border-color:#000000de; }
     .input:focus, .select:focus, .textarea:focus {
-      outline: none;
-      border-color: #0a66c2;
-      border-width: 2px;
-      padding: 9px 11px;
+      outline:none; border-color:#0a66c2; border-width:2px; padding:9px 11px;
     }
 
-    .textarea {
-      resize: vertical;
-      min-height: 120px;
-      line-height: 1.5;
-    }
+    .textarea { resize:vertical; min-height:120px; line-height:1.5; }
 
-    .field-group {
-      margin-bottom: 16px;
-    }
+    .field-group { margin-bottom:16px; }
 
-    .helper-text {
-      font-size: 12px;
-      color: #00000099;
-      margin-top: 4px;
-    }
+    .helper-text { font-size:12px; color:#00000099; margin-top:4px; }
 
-    /* ================= CATEGORY GRID ================= */
     .category-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap:12px;
     }
-
     .category-card {
-      padding: 16px;
-      border: 1px solid #00000066;
-      border-radius: 8px;
-      background: #ffffff;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      position: relative;
+      padding:16px; border:1px solid #00000066;
+      border-radius:8px; background:#ffffff;
+      cursor:pointer; transition:all .2s ease; position:relative;
     }
-
-    .category-card:hover {
-      border-color: #0a66c2;
-      box-shadow: 0 0 0 1px #0a66c2;
-    }
-
-    .category-card.selected {
-      border-color: #0a66c2;
-      border-width: 2px;
-      padding: 15px;
-      background: #e7f3ff;
-    }
-
+    .category-card:hover { border-color:#0a66c2; box-shadow:0 0 0 1px #0a66c2; }
+    .category-card.selected { border-color:#0a66c2; border-width:2px; padding:15px; background:#e7f3ff; }
     .category-card.selected::after {
-      content: "✓";
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 20px;
-      height: 20px;
-      background: #0a66c2;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
+      content:"✓"; position:absolute; top:8px; right:8px;
+      width:20px; height:20px; background:#0a66c2; color:white;
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      font-size:12px; font-weight:700;
     }
 
-    .category-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #000000de;
-      margin-bottom: 4px;
-    }
+    .category-title { font-size:14px; font-weight:600; color:#000000de; margin-bottom:4px; }
+    .category-desc { font-size:12px; color:#00000099; line-height:1.4; }
 
-    .category-desc {
-      font-size: 12px;
-      color: #00000099;
-      line-height: 1.4;
-    }
-
-    /* ================= INPUT MODE SELECTOR ================= */
-    .input-mode-selector {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
+    .input-mode-selector { display:flex; gap:12px; margin-bottom:12px; }
     .mode-btn {
-      flex: 1;
-      padding: 12px;
-      border: 2px solid #00000024;
-      border-radius: 8px;
-      background: #ffffff;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
+      flex:1; padding:12px;
+      border:2px solid #00000024;
+      border-radius:8px;
+      background:#ffffff;
+      cursor:pointer;
+      transition:all .2s ease;
+      display:flex; flex-direction:column; align-items:center; gap:4px;
     }
+    .mode-btn:hover { border-color:#0a66c2; }
+    .mode-btn.active { border-color:#0a66c2; background:#e7f3ff; }
 
-    .mode-btn:hover {
-      border-color: #0a66c2;
-    }
+    .mode-icon { font-size:24px; margin-bottom:4px; }
+    .mode-label { font-size:13px; font-weight:600; color:#000000de; }
+    .mode-hint { font-size:11px; color:#00000099; }
 
-    .mode-btn.active {
-      border-color: #0a66c2;
-      background: #e7f3ff;
-    }
+    .input-area { display:block; }
 
-    .mode-icon {
-      font-size: 24px;
-      margin-bottom: 4px;
-    }
-
-    .mode-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #000000de;
-    }
-
-    .mode-hint {
-      font-size: 11px;
-      color: #00000099;
-    }
-
-    /* ================= RECORDER AREAS ================= */
     .recorder-area {
-      display: none;
-      padding: 24px;
-      background: #f3f2ef;
-      border: 2px dashed #00000066;
-      border-radius: 8px;
-      text-align: center;
+      display:none;
+      padding:24px;
+      background:#f3f2ef;
+      border:2px dashed #00000066;
+      border-radius:8px;
+      text-align:center;
     }
+    .recorder-area.active { display:block; }
 
-    .recorder-area.active {
-      display: block;
-    }
-
-    .record-icon {
-      font-size: 48px;
-      margin-bottom: 12px;
-    }
-
-    .record-text {
-      font-size: 14px;
-      color: #000000de;
-      margin-bottom: 16px;
-    }
+    .record-icon { font-size:48px; margin-bottom:12px; }
+    .record-text { font-size:14px; color:#000000de; margin-bottom:16px; }
 
     .record-btn {
-      padding: 10px 24px;
-      background: #0a66c2;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      padding:10px 24px;
+      background:#0a66c2;
+      color:white;
+      border:none;
+      border-radius:20px;
+      font-size:14px;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .2s ease;
     }
-
-    .record-btn:hover {
-      background: #004182;
-    }
-
-    .record-btn.recording {
-      background: #c92a2a;
-    }
+    .record-btn:hover { background:#004182; }
+    .record-btn.recording { background:#c92a2a; }
 
     .playback-wrapper {
-      margin-top: 14px;
-      padding: 10px;
-      border-radius: 8px;
-      background: #ffffff;
-      border: 1px solid #d1d5db;
-      text-align: left;
+      margin-top:14px;
+      padding:10px;
+      border-radius:8px;
+      background:#ffffff;
+      border:1px solid #d1d5db;
+      text-align:left;
     }
-
-    .playback-header {
-      font-size: 12px;
-      color: #4b5563;
-      margin-bottom: 6px;
-    }
+    .playback-header { font-size:12px; color:#4b5563; margin-bottom:6px; }
 
     .small-ghost-btn {
-      margin-top: 8px;
-      padding: 4px 10px;
-      font-size: 12px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: #ffffff;
-      cursor: pointer;
-      color: #374151;
+      margin-top:8px;
+      padding:4px 10px;
+      font-size:12px;
+      border-radius:999px;
+      border:1px solid #d1d5db;
+      background:#ffffff;
+      cursor:pointer;
+      color:#374151;
     }
+    .small-ghost-btn:hover { border-color:#b91c1c; color:#b91c1c; }
 
-    .small-ghost-btn:hover {
-      border-color: #b91c1c;
-      color: #b91c1c;
-    }
-
-    /* ================= UPLOAD AREA ================= */
     .upload-zone {
-      display: block;
-      padding: 32px;
-      border: 2px dashed #00000066;
-      border-radius: 8px;
-      background: #fafafa;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      display:block;
+      padding:32px;
+      border:2px dashed #00000066;
+      border-radius:8px;
+      background:#fafafa;
+      text-align:center;
+      cursor:pointer;
+      transition:all .2s ease;
     }
-
     .upload-zone:hover,
     .upload-zone.dragover {
-      border-color: #0a66c2;
-      background: #e7f3ff;
+      border-color:#0a66c2;
+      background:#e7f3ff;
     }
 
-    .upload-icon {
-      font-size: 40px;
-      margin-bottom: 12px;
-      color: #00000099;
-    }
+    .upload-icon { font-size:40px; margin-bottom:12px; color:#00000099; }
+    .upload-text { font-size:14px; color:#000000de; margin-bottom:4px; }
+    .upload-hint { font-size:12px; color:#00000099; }
 
-    .upload-text {
-      font-size: 14px;
-      color: #000000de;
-      margin-bottom: 4px;
-    }
-
-    .upload-hint {
-      font-size: 12px;
-      color: #00000099;
-    }
-
-    .evidence-list {
-      margin-top: 10px;
-      font-size: 12px;
-    }
-
+    .evidence-list { margin-top:10px; font-size:12px; }
     .evidence-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 8px;
-      border-radius: 6px;
-      background: #f3f4f6;
-      margin-bottom: 4px;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:6px 8px; border-radius:6px; background:#f3f4f6; margin-bottom:4px;
     }
-
-    .evidence-meta {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .evidence-name {
-      font-weight: 500;
-      color: #111827;
-    }
-
-    .evidence-size {
-      color: #6b7280;
-      font-size: 11px;
-    }
-
+    .evidence-meta { display:flex; flex-direction:column; }
+    .evidence-name { font-weight:500; color:#111827; }
+    .evidence-size { color:#6b7280; font-size:11px; }
     .evidence-remove {
-      border: none;
-      border-radius: 999px;
-      padding: 4px 8px;
-      font-size: 11px;
-      cursor: pointer;
-      background: #fee2e2;
-      color: #b91c1c;
+      border:none; border-radius:999px;
+      padding:4px 8px; font-size:11px;
+      cursor:pointer; background:#fee2e2; color:#b91c1c;
     }
+    .evidence-remove:hover { background:#fecaca; }
 
-    .evidence-remove:hover {
-      background:#fecaca;
-    }
-
-    /* ================= SUBMIT BUTTON ================= */
     .submit-section {
-      padding: 20px 24px;
-      background: #f3f2ef;
-      border-top: 1px solid #00000024;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
+      padding:20px 24px;
+      background:#f3f2ef;
+      border-top:1px solid #00000024;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
     }
 
     .btn-submit {
-      padding: 12px 24px;
-      background: #0a66c2;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 0 0 1px transparent;
-      white-space: nowrap;
+      padding:12px 24px;
+      background:#0a66c2;
+      color:white;
+      border:none;
+      border-radius:20px;
+      font-size:16px;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .2s ease;
+      box-shadow:0 0 0 1px transparent;
+      white-space:nowrap;
     }
-
     .btn-submit:hover {
-      background: #004182;
-      box-shadow: 0 0 0 1px #0a66c2, 0 4px 8px rgba(0,0,0,0.15);
+      background:#004182;
+      box-shadow:0 0 0 1px #0a66c2,0 4px 8px rgba(0,0,0,0.15);
     }
+    .btn-submit:active { transform:scale(0.98); }
 
-    .btn-submit:active {
-      transform: scale(0.98);
-    }
+    .submit-note { font-size:12px; color:#00000099; flex:1; }
 
-    .submit-note {
-      font-size: 12px;
-      color: #00000099;
-      flex: 1;
-    }
-
-    /* ================= CHAR COUNTER ================= */
     .char-counter {
-      text-align: right;
-      font-size: 12px;
-      color: #00000099;
-      margin-top: 4px;
+      text-align:right;
+      font-size:12px;
+      color:#00000099;
+      margin-top:4px;
     }
 
-    /* ================= SUCCESS MODAL ================= */
     .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.6);
+      z-index:200;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
     }
-
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display:flex; }
 
     .modal-content {
-      background: white;
-      border-radius: 8px;
-      padding: 32px;
-      max-width: 500px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      background:white;
+      border-radius:8px;
+      padding:32px;
+      max-width:500px;
+      width:100%;
+      text-align:center;
+      box-shadow:0 8px 24px rgba(0,0,0,0.15);
     }
 
-    .modal-icon {
-      font-size: 64px;
-      margin-bottom: 16px;
-    }
-
-    .modal-content h3 {
-      font-size: 24px;
-      font-weight: 600;
-      color: #000000de;
-      margin-bottom: 8px;
-    }
-
-    .modal-content p {
-      font-size: 14px;
-      color: #00000099;
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
+    .modal-icon { font-size:64px; margin-bottom:16px; }
+    .modal-content h3 { font-size:24px; font-weight:600; color:#000000de; margin-bottom:8px; }
+    .modal-content p { font-size:14px; color:#00000099; margin-bottom:20px; line-height:1.5; }
 
     .case-id-box {
-      padding: 16px;
-      background: #e7f3ff;
-      border-radius: 8px;
-      margin-bottom: 24px;
+      padding:16px;
+      background:#e7f3ff;
+      border-radius:8px;
+      margin-bottom:24px;
     }
-
-    .case-id-label {
-      font-size: 12px;
-      color: #00000099;
-      margin-bottom: 4px;
-    }
-
+    .case-id-label { font-size:12px; color:#00000099; margin-bottom:4px; }
     .case-id-value {
-      font-size: 20px;
-      font-weight: 600;
-      color: #0a66c2;
-      font-family: monospace;
+      font-size:20px;
+      font-weight:600;
+      color:#0a66c2;
+      font-family:monospace;
     }
 
     .btn-close {
-      padding: 10px 24px;
-      background: #0a66c2;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
+      padding:10px 24px;
+      background:#0a66c2;
+      color:white;
+      border:none;
+      border-radius:20px;
+      font-size:14px;
+      font-weight:600;
+      cursor:pointer;
     }
+    .btn-close:hover { background:#004182; }
 
-    .btn-close:hover {
-      background: #004182;
-    }
-
-    /* Previous case detail modal */
-    .modal-content-left {
-      text-align:left;
-    }
+    .modal-content-left { text-align:left; }
     .detail-row {
-      display:flex;
-      justify-content:space-between;
-      margin-bottom:8px;
-      font-size:13px;
+      display:flex; justify-content:space-between;
+      margin-bottom:8px; font-size:13px;
     }
     .detail-label { color:#6b7280; }
     .detail-value { font-weight:600; }
 
-    /* ================= RESPONSIVE ================= */
-    @media (max-width: 768px) {
-      .nav-status {
-        display: none;
-      }
+    /* === Community solved styles in sidebar === */
+    .forum-search {
+      margin:8px 0;
+    }
+    .forum-search input {
+      width:100%;
+      padding:6px 8px;
+      border-radius:6px;
+      border:1px solid #d1d5db;
+      font-size:12px;
+    }
+    .forum-list {
+      list-style:none;
+      margin-top:4px;
+      max-height:180px;
+      overflow-y:auto;
+    }
+    .forum-item {
+      padding:6px 8px;
+      border-radius:6px;
+      background:#f3f4f6;
+      margin-bottom:6px;
+      cursor:pointer;
+      transition:background 0.15s;
+      font-size:12px;
+    }
+    .forum-item:hover { background:#e5f0ff; }
+    .f-cat {
+      display:inline-block;
+      font-size:10px;
+      font-weight:700;
+      text-transform:uppercase;
+      color:#0a66c2;
+      background:#e7f3ff;
+      padding:1px 4px;
+      border-radius:3px;
+      margin-bottom:2px;
+    }
+    .f-title {
+      font-size:12px;
+      font-weight:600;
+      margin-bottom:2px;
+      color:#111827;
+    }
+    .f-meta {
+      font-size:11px;
+      color:#6b7280;
+    }
+    .f-snippet {
+      font-size:11px;
+      color:#6b7280;
+      margin-top:2px;
+    }
 
-      .category-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card-body {
-        padding: 16px;
-      }
-
-      .submit-section {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .btn-submit {
-        width: 100%;
-      }
-
-      .input-mode-selector {
-        flex-direction: column;
-      }
-
-      .layout {
-        flex-direction: column;
-      }
-
-      .side-card {
-        position: static;
-      }
+    @media (max-width:768px) {
+      .nav-status { display:none; }
+      .category-grid { grid-template-columns:1fr; }
+      .card-body { padding:16px; }
+      .submit-section { flex-direction:column; align-items:stretch; }
+      .btn-submit { width:100%; }
+      .input-mode-selector { flex-direction:column; }
+      .layout { flex-direction:column; }
+      .side-card { position:static; }
     }
   </style>
 </head>
 <body>
-
-
-    <nav class="navbar">
-        <div class="brand">
-             
-  <!-- Navigation -->
   <nav class="navbar">
     <div class="nav-inner">
       <div class="logo">
@@ -933,7 +580,6 @@
         <div class="logo-text">
           <h1>LEGALMINDS</h1>
           <span>Symbiotic Justice Engine</span>
-
         </div>
       </div>
 
@@ -971,12 +617,9 @@
     </div>
   </nav>
 
-  <!-- Main Container -->
   <div class="container">
     <div class="layout">
-      <!-- Current Case Form -->
       <div class="main-card">
-        <!-- Header -->
         <div class="card-header">
           <h2>Report a Legal Problem</h2>
           <p>Fill in the details below. A verified law student will draft a document under supervision. Do not share one-time passwords, full card numbers, or any information you are not comfortable sharing.</p>
@@ -988,9 +631,7 @@
           </div>
         </div>
 
-        <!-- Form Body -->
         <div class="card-body">
-          <!-- Category Selection -->
           <div class="form-section">
             <div class="section-title">Issue Category</div>
             <div class="section-desc">Select the category that best describes your legal issue</div>
@@ -1028,10 +669,24 @@
             </div>
           </div>
 
-          <!-- Personal Details -->
           <div class="form-section">
             <div class="section-title">Your Information</div>
             <div class="section-desc">Optional but helps us serve you better</div>
+
+            <div class="field-group">
+              <label class="form-label">
+                Your Name <span class="optional">(optional)</span>
+              </label>
+              <input class="input" type="text" id="user-name" placeholder="e.g., Rohan Sharma">
+            </div>
+
+            <div class="field-group">
+              <label class="form-label">
+                Mobile Number <span class="optional">(optional)</span>
+              </label>
+              <input class="input" type="tel" id="user-mobile" placeholder="e.g., 9876543210">
+              <div class="helper-text">We will store only a masked version, like 98xxxx10.</div>
+            </div>
 
             <div class="field-group">
               <label class="form-label">
@@ -1061,12 +716,10 @@
             </div>
           </div>
 
-          <!-- Case Description -->
           <div class="form-section">
             <div class="section-title">Issue Description</div>
             <div class="section-desc">Choose how you want to describe your case</div>
 
-            <!-- Input Mode Selector -->
             <div class="input-mode-selector">
               <div class="mode-btn active" data-mode="text">
                 <div class="mode-icon">📝</div>
@@ -1087,8 +740,7 @@
               </div>
             </div>
 
-            <!-- Text Input -->
-            <div id="text-input" class="input-area active">
+            <div id="text-input" class="input-area">
               <textarea
                 class="textarea"
                 id="case-description"
@@ -1100,12 +752,11 @@
               </div>
             </div>
 
-            <!-- Voice Recorder -->
             <div id="voice-input" class="recorder-area">
               <div class="record-icon">🎤</div>
               <div class="record-text">Click the button below to start recording your voice message</div>
               <button class="record-btn" id="voice-record-btn" type="button">Start Recording</button>
-              <div class="helper-text" style="margin-top: 12px;">Maximum 5 minutes</div>
+              <div class="helper-text" style="margin-top: 12px;">Maximum ~5 minutes</div>
 
               <div id="voice-playback-wrapper" class="playback-wrapper" style="display:none;">
                 <div class="playback-header">Recorded voice message:</div>
@@ -1114,12 +765,11 @@
               </div>
             </div>
 
-            <!-- Video Recorder -->
             <div id="video-input" class="recorder-area">
               <div class="record-icon">🎥</div>
               <div class="record-text">Click the button below to start recording your video message</div>
               <button class="record-btn" id="video-record-btn" type="button">Start Recording</button>
-              <div class="helper-text" style="margin-top: 12px;">Maximum 5 minutes</div>
+              <div class="helper-text" style="margin-top: 12px;">Maximum ~5 minutes</div>
 
               <div id="video-playback-wrapper" class="playback-wrapper" style="display:none;">
                 <div class="playback-header">Recorded video message:</div>
@@ -1129,7 +779,6 @@
             </div>
           </div>
 
-          <!-- Evidence Upload -->
           <div class="form-section">
             <div class="section-title">Proof / Evidence <span class="optional">(optional)</span></div>
             <div class="section-desc">Upload supporting documents, photos, or chat screenshots</div>
@@ -1146,7 +795,6 @@
           </div>
         </div>
 
-        <!-- Submit Section -->
         <div class="submit-section">
           <div class="submit-note">
             By submitting, you agree to our Terms of Service. Your information will be handled confidentially.
@@ -1155,37 +803,46 @@
         </div>
       </div>
 
-      <!-- Previous Case Sidebar (dynamic) -->
-      <aside class="side-card" id="prev-case-card">
-        <div class="side-title">Previous Case</div>
-        <div class="side-sub">Overview of your last submitted case</div>
-
-        <div class="side-row">
-          <span class="side-label">Case ID</span>
-          <span class="side-value" id="prev-case-id">Not available</span>
+      <aside class="side-card" id="side-card">
+        <!-- Community solved block -->
+        <div class="side-title">Community Solved Cases</div>
+        <div class="side-sub">Real examples resolved by our clinics</div>
+        <div class="forum-search">
+          <input type="text" id="forum-search" placeholder="Search by topic..." oninput="filterForum()" />
         </div>
-
-        
-
-        <div class="side-row">
-          <span class="side-label">Case Status</span>
-          <span class="status-pill status-open" id="prev-case-status">No previous case</span>
-        </div>
-
-        <div class="side-row">
-          <span class="side-label">Last Updated</span>
-          <span class="side-value" id="prev-case-time">—</span>
-        </div>
+        <ul class="forum-list" id="forum-list"></ul>
 
         <div class="side-divider"></div>
-        <div class="side-note">
-          This information updates automatically when you submit a new case. Click to see full details. It is only visible to you.
+
+        <!-- Previous case block -->
+        <div id="prev-case-card" style="cursor:pointer;">
+          <div class="side-title">Previous Case</div>
+          <div class="side-sub">Overview of your last submitted case</div>
+
+          <div class="side-row">
+            <span class="side-label">Case ID</span>
+            <span class="side-value" id="prev-case-id">Not available</span>
+          </div>
+
+          <div class="side-row">
+            <span class="side-label">Case Status</span>
+            <span class="status-pill status-open" id="prev-case-status">No previous case</span>
+          </div>
+
+          <div class="side-row">
+            <span class="side-label">Last Updated</span>
+            <span class="side-value" id="prev-case-time">—</span>
+          </div>
+
+          <div class="side-divider"></div>
+          <div class="side-note">
+            This information updates automatically when you submit a new case. Click to see full details. It is only visible to you.
+          </div>
         </div>
       </aside>
     </div>
   </div>
 
-  <!-- Success Modal -->
   <div class="modal-overlay" id="success-modal">
     <div class="modal-content">
       <div class="modal-icon">✅</div>
@@ -1205,333 +862,515 @@
     </div>
   </div>
 
-  <!-- Previous case detail modal -->
   <div class="modal-overlay" id="prev-details-modal">
     <div class="modal-content modal-content-left">
       <div class="modal-icon">📂</div>
       <h3>Previous Case Details</h3>
-      <p style="font-size:13px;margin-bottom:16px;">Snapshot of your last case and who accepted it.</p>
+      <p style="font-size:13px;margin-bottom:16px;">Snapshot of your last case.</p>
 
-      <div id="prev-details-body">
-        <!-- filled by JS -->
-      </div>
+      <div id="prev-details-body"></div>
 
       <button class="btn-close" style="margin-top:18px;" onclick="closePrevDetails()">Close</button>
     </div>
   </div>
 
+  <!-- Community solved case detail modal -->
+  <div class="modal-overlay" id="forum-modal">
+    <div class="modal-content modal-content-left">
+      <div class="modal-icon">🎓</div>
+      <h3 id="forum-modal-title">Solved Case</h3>
+      <p style="font-size:12px;color:#6b7280;" id="forum-modal-meta"></p>
+      <div style="margin-top:12px;font-size:13px;white-space:pre-wrap;" id="forum-modal-body"></div>
+      <button class="btn-close" style="margin-top:18px;" onclick="closeForumModal()">Close</button>
+    </div>
+  </div>
+
   <script>
-    // ========= Load previous case from localStorage on page load =========
-    window.addEventListener("load", () => {
-      const prevCase = JSON.parse(localStorage.getItem("previousCase"));
-      if (prevCase) {
-        updatePreviousCaseUI(prevCase);
-      }
-    });
+  // ========= Load previous case from localStorage & refresh from backend =========
+  window.addEventListener("load", async () => {
+    const prevCaseRaw = localStorage.getItem("previousCase");
+    if (!prevCaseRaw) return;
 
-    // ========= Profile dropdown =========
-    const profileWrapper = document.getElementById("profile-wrapper");
-    const avatarBtn = document.getElementById("avatar-btn");
-
-    avatarBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      profileWrapper.classList.toggle("open");
-    });
-
-    window.addEventListener("click", () => {
-      profileWrapper.classList.remove("open");
-    });
-
-    // ========= Category selection =========
-    document.querySelectorAll(".category-card").forEach(card => {
-      card.addEventListener("click", function() {
-        document.querySelectorAll(".category-card").forEach(c => c.classList.remove("selected"));
-        this.classList.add("selected");
-      });
-    });
-
-    // ========= Input mode selection =========
-    document.querySelectorAll(".mode-btn").forEach(btn => {
-      btn.addEventListener("click", function() {
-        const mode = this.dataset.mode;
-
-        document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
-        this.classList.add("active");
-
-        document.getElementById("text-input").style.display = mode === "text" ? "block" : "none";
-        document.getElementById("voice-input").classList.toggle("active", mode === "voice");
-        document.getElementById("video-input").classList.toggle("active", mode === "video");
-      });
-    });
-
-    // ========= Character counter =========
-    const textarea = document.getElementById("case-description");
-    const counter = document.getElementById("char-counter");
-
-    textarea.addEventListener("input", () => {
-      const length = textarea.value.length;
-      counter.textContent = `${length} / 1000 characters`;
-    });
-
-    // ========= VOICE RECORDING =========
-    let voiceRecorder = null;
-    let voiceChunks = [];
-    let voiceBlob = null;
-    let voiceStream = null;
-
-    const voiceBtn = document.getElementById("voice-record-btn");
-    const voicePlaybackWrapper = document.getElementById("voice-playback-wrapper");
-    const voiceAudio = document.getElementById("voice-playback");
-    const voiceDeleteBtn = document.getElementById("voice-delete-btn");
-
-    voiceBtn.addEventListener("click", async () => {
-      if (!voiceRecorder || voiceRecorder.state === "inactive") {
-        // Start recording
-        try {
-          voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-          voiceRecorder = new MediaRecorder(voiceStream);
-          voiceChunks = [];
-
-          voiceRecorder.ondataavailable = (e) => {
-            if (e.data.size > 0) voiceChunks.push(e.data);
-          };
-
-          voiceRecorder.onstop = () => {
-            if (voiceStream) {
-              voiceStream.getTracks().forEach(t => t.stop());
-              voiceStream = null;
-            }
-            if (voiceChunks.length > 0) {
-              voiceBlob = new Blob(voiceChunks, { type: "audio/webm" });
-              const url = URL.createObjectURL(voiceBlob);
-              voiceAudio.src = url;
-              voicePlaybackWrapper.style.display = "block";
-            }
-            voiceBtn.textContent = "Start Recording";
-            voiceBtn.classList.remove("recording");
-          };
-
-          voiceRecorder.start();
-          voiceBtn.textContent = "Stop Recording";
-          voiceBtn.classList.add("recording");
-          voicePlaybackWrapper.style.display = "none";
-          if (voiceAudio.src) URL.revokeObjectURL(voiceAudio.src);
-          voiceAudio.removeAttribute("src");
-          voiceBlob = null;
-        } catch (err) {
-          console.error(err);
-          alert("Unable to access microphone. Please allow mic permissions.");
-        }
-      } else if (voiceRecorder.state === "recording") {
-        voiceRecorder.stop();
-      }
-    });
-
-    voiceDeleteBtn.addEventListener("click", () => {
-      if (voiceAudio.src) {
-        URL.revokeObjectURL(voiceAudio.src);
-      }
-      voiceAudio.removeAttribute("src");
-      voiceBlob = null;
-      voicePlaybackWrapper.style.display = "none";
-    });
-
-    // ========= VIDEO RECORDING =========
-    let videoRecorder = null;
-    let videoChunks = [];
-    let videoBlob = null;
-    let videoStream = null;
-
-    const videoBtn = document.getElementById("video-record-btn");
-    const videoPlaybackWrapper = document.getElementById("video-playback-wrapper");
-    const videoEl = document.getElementById("video-playback");
-    const videoDeleteBtn = document.getElementById("video-delete-btn");
-
-    videoBtn.addEventListener("click", async () => {
-      if (!videoRecorder || videoRecorder.state === "inactive") {
-        try {
-          videoStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-          videoRecorder = new MediaRecorder(videoStream);
-          videoChunks = [];
-
-          videoRecorder.ondataavailable = (e) => {
-            if (e.data.size > 0) videoChunks.push(e.data);
-          };
-
-          videoRecorder.onstop = () => {
-            if (videoStream) {
-              videoStream.getTracks().forEach(t => t.stop());
-              videoStream = null;
-            }
-            if (videoChunks.length > 0) {
-              videoBlob = new Blob(videoChunks, { type: "video/webm" });
-              const url = URL.createObjectURL(videoBlob);
-              videoEl.src = url;
-              videoPlaybackWrapper.style.display = "block";
-            }
-            videoBtn.textContent = "Start Recording";
-            videoBtn.classList.remove("recording");
-          };
-
-          videoRecorder.start();
-          videoBtn.textContent = "Stop Recording";
-          videoBtn.classList.add("recording");
-          videoPlaybackWrapper.style.display = "none";
-          if (videoEl.src) URL.revokeObjectURL(videoEl.src);
-          videoEl.removeAttribute("src");
-          videoBlob = null;
-        } catch (err) {
-          console.error(err);
-          alert("Unable to access camera. Please allow camera & mic permissions.");
-        }
-      } else if (videoRecorder.state === "recording") {
-        videoRecorder.stop();
-      }
-    });
-
-    videoDeleteBtn.addEventListener("click", () => {
-      if (videoEl.src) {
-        URL.revokeObjectURL(videoEl.src);
-      }
-      videoEl.removeAttribute("src");
-      videoBlob = null;
-      videoPlaybackWrapper.style.display = "none";
-    });
-
-    // ========= Evidence upload with remove =========
-    const evidenceInput = document.getElementById("evidence-input");
-    const evidenceZone = document.getElementById("upload-zone");
-    const evidenceListEl = document.getElementById("evidence-list");
-    let evidenceFiles = [];
-
-    evidenceZone.addEventListener("click", () => {
-      evidenceInput.click();
-    });
-
-    evidenceZone.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      evidenceZone.classList.add("dragover");
-    });
-
-    evidenceZone.addEventListener("dragleave", () => {
-      evidenceZone.classList.remove("dragover");
-    });
-
-    evidenceZone.addEventListener("drop", (e) => {
-      e.preventDefault();
-      evidenceZone.classList.remove("dragover");
-      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-        addEvidenceFiles(e.dataTransfer.files);
-      }
-    });
-
-    evidenceInput.addEventListener("change", (e) => {
-      if (e.target.files && e.target.files.length > 0) {
-        addEvidenceFiles(e.target.files);
-        evidenceInput.value = "";
-      }
-    });
-
-    function addEvidenceFiles(fileList) {
-      Array.from(fileList).forEach(file => {
-        evidenceFiles.push(file);
-      });
-      renderEvidenceList();
+    let prevCase;
+    try {
+      prevCase = JSON.parse(prevCaseRaw);
+    } catch {
+      return;
     }
 
-    function renderEvidenceList() {
-      if (evidenceFiles.length === 0) {
-        evidenceListEl.innerHTML = "";
+    updatePreviousCaseUI(prevCase);
+
+    // Refresh from backend: status, acceptedBy, solution
+    if (prevCase.id) {
+      try {
+        const res = await fetch(`/api/get-case?id=${encodeURIComponent(prevCase.id)}`);
+        if (res.ok) {
+          const fresh = await res.json();
+          const updatedPrev = {
+            id: fresh.id,
+            name: fresh.name || "",
+            category: fresh.category || "",
+            status: fresh.status || prevCase.status,
+            time: new Date(fresh.createdAt || prevCase.time).toLocaleString(),
+            language: fresh.language || "",
+            location: fresh.location || "",
+            descriptionLength: (fresh.description || "").length,
+            acceptedBy: fresh.acceptedBy || "",
+            solutionStatus: fresh.solution && fresh.solution.status ? fresh.solution.status : "pending",
+          };
+          localStorage.setItem("previousCase", JSON.stringify(updatedPrev));
+          updatePreviousCaseUI(updatedPrev);
+        }
+      } catch (e) {
+        console.error("Could not refresh previous case:", e);
+      }
+    }
+  });
+
+  // ========= Profile dropdown =========
+  const profileWrapper = document.getElementById("profile-wrapper");
+  const avatarBtn = document.getElementById("avatar-btn");
+
+  avatarBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    profileWrapper.classList.toggle("open");
+  });
+
+  window.addEventListener("click", () => {
+    profileWrapper.classList.remove("open");
+  });
+
+  // ========= Category selection =========
+  document.querySelectorAll(".category-card").forEach(card => {
+    card.addEventListener("click", function() {
+      document.querySelectorAll(".category-card").forEach(c => c.classList.remove("selected"));
+      this.classList.add("selected");
+    });
+  });
+
+  // ========= Input mode selection =========
+  document.querySelectorAll(".mode-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+      const mode = this.dataset.mode;
+
+      document.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+      this.classList.add("active");
+
+      document.getElementById("text-input").style.display = mode === "text" ? "block" : "none";
+      document.getElementById("voice-input").classList.toggle("active", mode === "voice");
+      document.getElementById("video-input").classList.toggle("active", mode === "video");
+    });
+  });
+
+  // ========= Character counter =========
+  const textarea = document.getElementById("case-description");
+  const counter = document.getElementById("char-counter");
+
+  textarea.addEventListener("input", () => {
+    const length = textarea.value.length;
+    counter.textContent = `${length} / 1000 characters`;
+  });
+
+  // ========= VOICE RECORDING =========
+  let voiceRecorder = null;
+  let voiceChunks = [];
+  let voiceBlob = null;
+  let voiceStream = null;
+
+  const voiceBtn = document.getElementById("voice-record-btn");
+  const voicePlaybackWrapper = document.getElementById("voice-playback-wrapper");
+  const voiceAudio = document.getElementById("voice-playback");
+  const voiceDeleteBtn = document.getElementById("voice-delete-btn");
+
+  voiceBtn.addEventListener("click", async () => {
+    if (!voiceRecorder || voiceRecorder.state === "inactive") {
+      try {
+        voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        voiceRecorder = new MediaRecorder(voiceStream);
+        voiceChunks = [];
+
+        voiceRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) voiceChunks.push(e.data);
+        };
+
+        voiceRecorder.onstop = () => {
+          if (voiceStream) {
+            voiceStream.getTracks().forEach(t => t.stop());
+            voiceStream = null;
+          }
+          if (voiceChunks.length > 0) {
+            voiceBlob = new Blob(voiceChunks, { type: "audio/webm" });
+            const url = URL.createObjectURL(voiceBlob);
+            voiceAudio.src = url;
+            voicePlaybackWrapper.style.display = "block";
+          }
+          voiceBtn.textContent = "Start Recording";
+          voiceBtn.classList.remove("recording");
+        };
+
+        voiceRecorder.start();
+        voiceBtn.textContent = "Stop Recording";
+        voiceBtn.classList.add("recording");
+        voicePlaybackWrapper.style.display = "none";
+        if (voiceAudio.src) URL.revokeObjectURL(voiceAudio.src);
+        voiceAudio.removeAttribute("src");
+        voiceBlob = null;
+      } catch (err) {
+        console.error(err);
+        alert("Unable to access microphone. Please allow mic permissions.");
+      }
+    } else if (voiceRecorder.state === "recording") {
+      voiceRecorder.stop();
+    }
+  });
+
+  voiceDeleteBtn.addEventListener("click", () => {
+    if (voiceAudio.src) URL.revokeObjectURL(voiceAudio.src);
+    voiceAudio.removeAttribute("src");
+    voiceBlob = null;
+    voicePlaybackWrapper.style.display = "none";
+  });
+
+  // ========= VIDEO RECORDING =========
+  let videoRecorder = null;
+  let videoChunks = [];
+  let videoBlob = null;
+  let videoStream = null;
+
+  const videoBtn = document.getElementById("video-record-btn");
+  const videoPlaybackWrapper = document.getElementById("video-playback-wrapper");
+  const videoEl = document.getElementById("video-playback");
+  const videoDeleteBtn = document.getElementById("video-delete-btn");
+
+  videoBtn.addEventListener("click", async () => {
+    if (!videoRecorder || videoRecorder.state === "inactive") {
+      try {
+        videoStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+        videoRecorder = new MediaRecorder(videoStream);
+        videoChunks = [];
+
+        videoRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) videoChunks.push(e.data);
+        };
+
+        videoRecorder.onstop = () => {
+          if (videoStream) {
+            videoStream.getTracks().forEach(t => t.stop());
+            videoStream = null;
+          }
+          if (videoChunks.length > 0) {
+            videoBlob = new Blob(videoChunks, { type: "video/webm" });
+            const url = URL.createObjectURL(videoBlob);
+            videoEl.src = url;
+            videoPlaybackWrapper.style.display = "block";
+          }
+          videoBtn.textContent = "Start Recording";
+          videoBtn.classList.remove("recording");
+        };
+
+        videoRecorder.start();
+        videoBtn.textContent = "Stop Recording";
+        videoBtn.classList.add("recording");
+        videoPlaybackWrapper.style.display = "none";
+        if (videoEl.src) URL.revokeObjectURL(videoEl.src);
+        videoEl.removeAttribute("src");
+        videoBlob = null;
+      } catch (err) {
+        console.error(err);
+        alert("Unable to access camera. Please allow camera & mic permissions.");
+      }
+    } else if (videoRecorder.state === "recording") {
+      videoRecorder.stop();
+    }
+  });
+
+  videoDeleteBtn.addEventListener("click", () => {
+    if (videoEl.src) URL.revokeObjectURL(videoEl.src);
+    videoEl.removeAttribute("src");
+    videoBlob = null;
+    videoPlaybackWrapper.style.display = "none";
+  });
+
+  // ========= Evidence upload with remove =========
+  const evidenceInput = document.getElementById("evidence-input");
+  const evidenceZone = document.getElementById("upload-zone");
+  const evidenceListEl = document.getElementById("evidence-list");
+  let evidenceFiles = [];
+
+  evidenceZone.addEventListener("click", () => {
+    evidenceInput.click();
+  });
+
+  evidenceZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    evidenceZone.classList.add("dragover");
+  });
+
+  evidenceZone.addEventListener("dragleave", () => {
+    evidenceZone.classList.remove("dragover");
+  });
+
+  evidenceZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    evidenceZone.classList.remove("dragover");
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      addEvidenceFiles(e.dataTransfer.files);
+    }
+  });
+
+  evidenceInput.addEventListener("change", (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      addEvidenceFiles(e.target.files);
+      evidenceInput.value = "";
+    }
+  });
+
+  function addEvidenceFiles(fileList) {
+    Array.from(fileList).forEach(file => {
+      evidenceFiles.push(file);
+    });
+    renderEvidenceList();
+  }
+
+  function renderEvidenceList() {
+    if (evidenceFiles.length === 0) {
+      evidenceListEl.innerHTML = "";
+      return;
+    }
+    evidenceListEl.innerHTML = evidenceFiles.map((file, idx) => {
+      const kb = (file.size / 1024).toFixed(1);
+      return `
+        <div class="evidence-item">
+          <div class="evidence-meta">
+            <span class="evidence-name">${file.name}</span>
+            <span class="evidence-size">${kb} KB • ${file.type || "file"}</span>
+          </div>
+          <button type="button" class="evidence-remove" onclick="removeEvidence(${idx})">Remove</button>
+        </div>
+      `;
+    }).join("");
+  }
+
+  window.removeEvidence = function(index) {
+    evidenceFiles.splice(index, 1);
+    renderEvidenceList();
+  };
+
+  // ========= Submit case (FormData: text + files) =========
+  async function submitCase() {
+    const selectedCategoryEl = document.querySelector(".category-card.selected");
+    const category = selectedCategoryEl ? selectedCategoryEl.dataset.category : "other";
+
+    const description = textarea.value.trim();
+    const language = document.getElementById("language-select").value;
+    const location = document.getElementById("user-location").value.trim();
+    const name = document.getElementById("user-name").value.trim();
+    const mobile = ""; // TODO: add a mobile input if you want real value
+
+    if (!description) {
+      alert("Please enter case description");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("category", category);
+    formData.append("description", description);
+    formData.append("language", language);
+    formData.append("location", location);
+    formData.append("name", name);
+    formData.append("mobile", mobile);
+
+    if (voiceBlob) {
+      const voiceFile = new File(
+        [voiceBlob],
+        `voice-${Date.now()}.webm`,
+        { type: "audio/webm" }
+      );
+      formData.append("voice", voiceFile);
+    }
+
+    if (videoBlob) {
+      const videoFile = new File(
+        [videoBlob],
+        `video-${Date.now()}.webm`,
+        { type: "video/webm" }
+      );
+      formData.append("video", videoFile);
+    }
+
+    evidenceFiles.forEach(file => {
+      formData.append("proofs", file);
+    });
+
+    try {
+      const res = await fetch("/api/submit-case", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (!data.success) {
+        alert(data.message || "Server Error");
         return;
       }
-      evidenceListEl.innerHTML = evidenceFiles.map((file, idx) => {
-        const kb = (file.size / 1024).toFixed(1);
-        return `
-          <div class="evidence-item">
-            <div class="evidence-meta">
-              <span class="evidence-name">${file.name}</span>
-              <span class="evidence-size">${kb} KB • ${file.type || "file"}</span>
-            </div>
-            <button type="button" class="evidence-remove" onclick="removeEvidence(${idx})">Remove</button>
-          </div>
-        `;
-      }).join("");
-    }
 
-    window.removeEvidence = function(index) {
-      evidenceFiles.splice(index, 1);
-      renderEvidenceList();
-    };
+      const caseData = data.caseData;
 
-    // ========= Submit case =========
-    function submitCase() {
-      const selectedCategoryEl = document.querySelector(".category-card.selected");
-      const category = selectedCategoryEl ? selectedCategoryEl.dataset.category : "other";
-      const description = textarea.value.trim();
-      const language = document.getElementById("language-select").value;
-      const location = document.getElementById("user-location").value.trim();
-
-      const newCase = {
-        id: "CASE-LM-" + Math.floor(1000 + Math.random() * 90000),
-        status: Math.random() > 0.4 ? "Accepted" : "In Review",
-        fees: Math.random() > 0.5 ? "Paid" : "Pending",
-        time: new Date().toLocaleString(),
-        category,
-        descriptionLength: description.length,
-        language,
-        location,
-        acceptedBy: "Clinic Reviewer: " + (Math.random() > 0.5 ? "Rahul Jain" : "Ananya Singh")
+      const prev = {
+        id: caseData.id,
+        name: caseData.name || "",
+        status: caseData.status,
+        time: new Date(caseData.createdAt).toLocaleString(),
+        category: caseData.category,
+        language: caseData.language,
+        location: caseData.location,
+        descriptionLength: caseData.description ? caseData.description.length : 0,
+        acceptedBy: caseData.acceptedBy || "",
+        solutionStatus: caseData.solution ? caseData.solution.status : "pending",
       };
 
-      localStorage.setItem("previousCase", JSON.stringify(newCase));
-      updatePreviousCaseUI(newCase);
+      localStorage.setItem("previousCase", JSON.stringify(prev));
+      updatePreviousCaseUI(prev);
 
-      document.getElementById("success-case-id").textContent = newCase.id;
+      document.getElementById("success-case-id").textContent = caseData.id;
       document.getElementById("success-modal").classList.add("active");
+
+      textarea.value = "";
+      counter.textContent = "0 / 1000 characters";
+    } catch (error) {
+      console.error(error);
+      alert("Network error. Is the server running?");
+    }
+  }
+
+  function updatePreviousCaseUI(caseData) {
+    document.getElementById("prev-case-id").textContent = caseData.id;
+    document.getElementById("prev-case-time").textContent = caseData.time;
+
+    const statusEl = document.getElementById("prev-case-status");
+    statusEl.textContent = `${caseData.status}${
+      caseData.solutionStatus === "submitted" ? " (Solution provided)" : ""
+    }`;
+    statusEl.className =
+      "status-pill " +
+      (caseData.status === "Accepted" || caseData.status === "Solved"
+        ? "status-closed"
+        : "status-open");
+  }
+
+  function closeModal() {
+    document.getElementById("success-modal").classList.remove("active");
+  }
+
+  // ========= Previous case details popup =========
+  document.getElementById("prev-case-card").addEventListener("click", async () => {
+    const prevCaseRaw = localStorage.getItem("previousCase");
+    if (!prevCaseRaw) return;
+    let prevCase = JSON.parse(prevCaseRaw);
+
+    // Try to fetch full case right now
+    try {
+      const res = await fetch(`/api/get-case?id=${encodeURIComponent(prevCase.id)}`);
+      if (res.ok) {
+        const fresh = await res.json();
+        prevCase = {
+          ...prevCase,
+          name: fresh.name || prevCase.name,
+          status: fresh.status || prevCase.status,
+          acceptedBy: fresh.acceptedBy || "",
+          solutionStatus: fresh.solution ? fresh.solution.status : "pending",
+        };
+      }
+    } catch (e) {
+      console.error(e);
     }
 
-    function updatePreviousCaseUI(caseData) {
-      document.getElementById("prev-case-id").textContent = caseData.id;
-      document.getElementById("prev-case-time").textContent = caseData.time;
-      const statusEl = document.getElementById("prev-case-status");
-      statusEl.textContent = caseData.status;
-      statusEl.className = "status-pill " + (caseData.status === "Accepted" ? "status-closed" : "status-open");
-      const feesEl = document.getElementById("prev-case-fees");
-      feesEl.textContent = caseData.fees === "Paid" ? "Fees Paid" : "Fees Pending";
-      feesEl.className = "status-pill " + (caseData.fees === "Paid" ? "status-paid" : "status-unpaid");
+    const body = document.getElementById("prev-details-body");
 
-
+    let solutionHtml = "Not yet provided.";
+    let viewSolutionBtn = "";
+    if (prevCase.solutionStatus === "submitted") {
+      solutionHtml = "Solution has been uploaded by the student.";
+      viewSolutionBtn = `
+        <div style="margin-top:8px;">
+          <button class="btn-close" style="padding:6px 16px;font-size:12px;" onclick="viewSolution('${prevCase.id}')">
+            View Solution
+          </button>
+        </div>
+      `;
     }
 
-    function closeModal() {
-      document.getElementById("success-modal").classList.remove("active");
-    }
+    body.innerHTML = `
+      <div class="detail-row"><span class="detail-label">Case ID</span><span class="detail-value">${prevCase.id}</span></div>
+      <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">${prevCase.name || "Not provided"}</span></div>
+      <div class="detail-row"><span class="detail-label">Category</span><span class="detail-value">${prevCase.category}</span></div>
+      <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">${prevCase.status}</span></div>
+      <div class="detail-row"><span class="detail-label">Accepted by</span><span class="detail-value">${prevCase.acceptedBy || "Not yet assigned"}</span></div>
+      <div class="detail-row"><span class="detail-label">Language</span><span class="detail-value">${prevCase.language}</span></div>
+      <div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">${prevCase.location || "Not provided"}</span></div>
+      <div class="detail-row"><span class="detail-label">Description length</span><span class="detail-value">${prevCase.descriptionLength} characters</span></div>
+      <div class="detail-row"><span class="detail-label">Solution</span><span class="detail-value">${solutionHtml}</span></div>
+      ${viewSolutionBtn}
+      <div class="detail-row"><span class="detail-label">Last updated</span><span class="detail-value">${prevCase.time}</span></div>
+    `;
+    document.getElementById("prev-details-modal").classList.add("active");
+  });
 
-    // ========= Previous case details popup =========
-    document.getElementById("prev-case-card").addEventListener("click", () => {
-      const prevCase = JSON.parse(localStorage.getItem("previousCase"));
-      if (!prevCase) return;
+  async function viewSolution(id) {
+    try {
+      const res = await fetch(`/api/get-case?id=${encodeURIComponent(id)}`);
+      if (!res.ok) {
+        alert("Could not load solution yet.");
+        return;
+      }
+      const c = await res.json();
+      const sol = c.solution;
+      if (!sol || sol.status !== "submitted") {
+        alert("Solution not available yet.");
+        return;
+      }
+
+      let filesHtml = "No files attached.";
+      if (Array.isArray(sol.files) && sol.files.length) {
+        filesHtml = sol.files
+          .map((p, idx) => `<div><a href="${p}" target="_blank">Solution File ${idx + 1}</a></div>`)
+          .join("");
+      }
+
+      let voiceHtml = "No solution audio.";
+      if (sol.voice) {
+        voiceHtml = `<audio controls src="${sol.voice}"></audio>`;
+      }
+
+      let videoHtml = "No solution video.";
+      if (sol.video) {
+        videoHtml = `<video controls style="max-width:100%;" src="${sol.video}"></video>`;
+      }
 
       const body = document.getElementById("prev-details-body");
-      body.innerHTML = `
-        <div class="detail-row"><span class="detail-label">Case ID</span><span class="detail-value">${prevCase.id}</span></div>
-        <div class="detail-row"><span class="detail-label">Category</span><span class="detail-value">${prevCase.category}</span></div>
-        <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">${prevCase.status}</span></div>
-        <div class="detail-row"><span class="detail-label">Accepted by</span><span class="detail-value">${prevCase.status === "Accepted" ? prevCase.acceptedBy : "Not assigned yet"}</span></div>
-        <div class="detail-row"><span class="detail-label">Language</span><span class="detail-value">${prevCase.language}</span></div>
-        <div class="detail-row"><span class="detail-label">Submitted from</span><span class="detail-value">${prevCase.location || "Not provided"}</span></div>
-        <div class="detail-row"><span class="detail-label">Description length</span><span class="detail-value">${prevCase.descriptionLength} characters</span></div>
-        <div class="detail-row"><span class="detail-label">Last updated</span><span class="detail-value">${prevCase.time}</span></div>
+      body.innerHTML += `
+        <hr style="margin:10px 0;">
+        <div class="detail-row"><span class="detail-label">Solution Text</span><span class="detail-value">${sol.text || ""}</span></div>
+        <div class="detail-row"><span class="detail-label">Documentation Needed</span><span class="detail-value">${sol.docsNeeded || ""}</span></div>
+        <div class="detail-row"><span class="detail-label">Solution Files</span><span class="detail-value">${filesHtml}</span></div>
+        <div class="detail-row"><span class="detail-label">Solution Audio</span><span class="detail-value">${voiceHtml}</span></div>
+        <div class="detail-row"><span class="detail-label">Solution Video</span><span class="detail-value">${videoHtml}</span></div>
       `;
-      document.getElementById("prev-details-modal").classList.add("active");
-    });
-
-    function closePrevDetails() {
-      document.getElementById("prev-details-modal").classList.remove("active");
+    } catch (e) {
+      console.error(e);
+      alert("Error loading solution.");
     }
+  }
 
-    window.submitCase = submitCase;
-    window.closePrevDetails = closePrevDetails;
-  </script>
+  function closePrevDetails() {
+    document.getElementById("prev-details-modal").classList.remove("active");
+  }
+
+  window.submitCase = submitCase;
+  window.closePrevDetails = closePrevDetails;
+  window.closeModal = closeModal;
+  window.viewSolution = viewSolution;
+</script>
 </body>
 </html>
