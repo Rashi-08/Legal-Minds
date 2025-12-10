@@ -6,19 +6,19 @@ Overview
 
 1)Lawyer Portal
 
-    (i)Access to case details, client information, and workflow views.
+    Access to case details, client information, and workflow views.
 
 2)Student Portal
 
-    (i)Case listings, learning materials, and research-focused interfaces.
+    Case listings, learning materials, and research-focused interfaces.
 
 3)Recruiter Portal
 
-    (i)Student profiles and evaluation-related information.
+    Student profiles and evaluation-related information.
 
 4)User Portal
 
-    (i)General legal information and entry-level access to the system.
+    General legal information and entry-level access to the system.
 
 Technology Stack
 
@@ -64,19 +64,19 @@ Recommended Future Enhancements
 
 1)Backend Development
 
-->Possible options: Firebase, Node.js (Express), Python FastAPI
+   ->Possible options: Firebase, Node.js (Express), Python FastAPI
 
 2)Database Integration
 
-->Replace JSON with a persistent database such as Firestore, MongoDB, PostgreSQL, or MySQL
+   ->Replace JSON with a persistent database such as Firestore, MongoDB, PostgreSQL, or MySQL
 
 3)Authentication and Role Management
 
-->Add secure login, registration, and role-based access
+   ->Add secure login, registration, and role-based access
 
 4)API Development
 
-->Create endpoints for cases, user profiles, recruiter operations, and submissions
+   ->Create endpoints for cases, user profiles, recruiter operations, and submissions
 
 5)Administrative Dashboard
 
