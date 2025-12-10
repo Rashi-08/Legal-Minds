@@ -1,1385 +1,948 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>JURIS_NET · Anti-Cheat Engine Demo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>JURIS_NET · Anti-Cheat Engine Demo (Enhanced)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* BASE & TYPOGRAPHY ENHANCEMENTS */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #f3f4f6;
+            color: #111827;
+            min-height: 100vh;
+            /* Base font size increase for overall readability */
+            font-size: 17px; 
+        }
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
-      min-height: 100vh;
-      padding: 24px;
-    }
+        .app {
+            max-width: 1280px; /* Increased max width */
+            margin: 0 auto;
+            padding: 32px 24px 60px; /* Increased top/bottom padding */
+        }
 
-    .app {
-      max-width: 1140px;
-      margin: 0 auto;
-    }
+        /* Top bar */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px; /* Increased margin */
+        }
 
-    .card {
-      background: rgba(15,23,42,0.97);
-      border-radius: 16px;
-      padding: 18px 20px 20px;
-      border: 1px solid rgba(148,163,184,0.3);
-      box-shadow: 0 18px 40px rgba(15,23,42,0.8);
-      margin-bottom: 18px;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px; /* Increased gap */
+            font-weight: 800;
+            font-size: 1.6rem; /* Increased size */
+            background: linear-gradient(135deg, #0a66c2, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    h1 {
-      font-size: 1.6rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
+        .logo-icon {
+            font-size: 1.8rem; /* Increased size */
+        }
 
-    h1 span.dot {
-      width: 11px;
-      height: 11px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 16px rgba(34,197,94,0.9);
-    }
+        .top-pill {
+            font-size: 1rem; /* Increased size */
+            padding: 8px 14px; /* Increased padding */
+            border-radius: 999px;
+            background: #e5f3ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            font-weight: 600; /* Added weight */
+        }
 
-    .subtitle {
-      color: #9ca3af;
-      font-size: 0.9rem;
-      margin-bottom: 16px;
-    }
+        /* Cards */
+        .card {
+            background: #ffffff;
+            border-radius: 18px; /* Slightly larger radius */
+            border: 2px solid #e5e7eb; /* Slightly stronger border */
+            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08); /* Stronger shadow */
+            padding: 24px 24px 24px; /* Increased padding */
+            margin-bottom: 24px; /* Increased margin */
+        }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 16px;
-    }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
 
-    @media (max-width: 900px) {
-      .grid { grid-template-columns: 1fr; }
-    }
+        .card-title {
+            font-size: 1.3rem; /* Increased size */
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    h2 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+        .card-title span.icon {
+            font-size: 1.5rem; /* Increased size */
+        }
 
-    .section-sub {
-      font-size: 0.8rem;
-      color: #9ca3af;
-      margin-bottom: 10px;
-    }
+        .card-subtitle {
+            font-size: 0.95rem; /* Increased size */
+            color: #4b5563; /* Darker for contrast */
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
 
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      font-size: 0.75rem;
-      border-radius: 999px;
-      border: 1px solid;
-      margin-right: 6px;
-      margin-bottom: 6px;
-    }
+        /* Hero layout */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1.1fr;
+            gap: 24px; /* Increased gap */
+            margin-top: 8px;
+        }
 
-    .pill span.dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-    }
+        @media (max-width: 900px) {
+            .hero-grid { grid-template-columns: 1fr; }
+            .top-bar { flex-direction: column; align-items: flex-start; gap: 12px; }
+        }
 
-    .pill-low {
-      border-color: #22c55e;
-      background: rgba(22,163,74,0.1);
-      color: #bbf7d0;
-    }
-    .pill-med {
-      border-color: #eab308;
-      background: rgba(234,179,8,0.1);
-      color: #fef9c3;
-    }
-    .pill-high {
-      border-color: #ef4444;
-      background: rgba(239,68,68,0.1);
-      color: #fecaca;
-    }
+        /* Scan button */
+        .primary-btn {
+            border: none;
+            outline: none;
+            border-radius: 999px;
+            padding: 10px 20px; /* Increased padding */
+            background: linear-gradient(135deg, #0a66c2, #10b981);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem; /* Increased size */
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); /* Added shadow */
+        }
 
-    button {
-      border: none;
-      outline: none;
-      border-radius: 999px;
-      padding: 8px 14px;
-      background: linear-gradient(135deg,#22c55e,#16a34a);
-      color: #022c22;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 4px;
-    }
+        .hint-text {
+            font-size: 0.9rem; /* Increased size */
+            color: #6b7280;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
 
-    button span.btn-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #022c22;
-    }
+        /* Summary tiles */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px; /* Increased gap */
+            margin-top: 8px;
+        }
 
-    button:active {
-      transform: translateY(1px);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.6) inset;
-    }
+        .summary-tile {
+            border-radius: 14px;
+            padding: 16px; /* Increased padding */
+            border: 1px solid #d1d5db;
+            background: #f9fafb;
+        }
 
-    .table-wrap {
-      margin-top: 10px;
-      border-radius: 12px;
-      border: 1px solid rgba(148,163,184,0.4);
-      overflow: hidden;
-      background: rgba(15,23,42,0.96);
-    }
+        .summary-label {
+            font-size: 0.85rem; /* Increased size */
+            color: #4b5563;
+            margin-bottom: 4px;
+            font-weight: 600; /* Added weight */
+        }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8rem;
-    }
+        .summary-score-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
 
-    thead {
-      background: rgba(15,23,42,0.9);
-    }
+        .summary-score {
+            font-size: 1.5rem; /* Increased size */
+            font-weight: 800;
+            background: linear-gradient(135deg, #0a66c2, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    th, td {
-      padding: 7px 8px;
-      border-bottom: 1px solid rgba(55,65,81,0.7);
-      text-align: left;
-      vertical-align: top;
-    }
+        .summary-chip {
+            font-size: 0.8rem; /* Increased size */
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid;
+            font-weight: 500;
+        }
 
-    th {
-      font-weight: 600;
-      color: #e5e7eb;
-    }
+        .summary-desc {
+            font-size: 0.85rem; /* Increased size */
+            color: #6b7280;
+            line-height: 1.3;
+        }
 
-    td {
-      color: #cbd5f5;
-    }
+        /* Legend */
+        .legend-row {
+            margin-top: 8px;
+            font-size: 0.85rem; /* Increased size */
+        }
 
-    tbody tr:nth-child(even) {
-      background: rgba(15,23,42,0.9);
-    }
+        /* Tables */
+        .table-wrap {
+            margin-top: 12px;
+            border-radius: 14px;
+            border: 1px solid #d1d5db;
+            overflow: hidden;
+        }
 
-    tbody tr.clickable-row {
-      cursor: pointer;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem; /* Increased body text size */
+            background: #ffffff;
+        }
 
-    tbody tr.clickable-row:hover {
-      background: rgba(55,65,81,0.9);
-    }
+        thead {
+            background: #eef1f3; /* Lighter shade for header */
+        }
 
-    .reason {
-      font-size: 0.75rem;
-      color: #9ca3af;
-      margin-bottom: 3px;
-    }
+        th, td {
+            padding: 12px 14px; /* Increased padding */
+            border-bottom: 1px solid #d1d5db; /* Stronger border */
+            text-align: left;
+            vertical-align: middle;
+        }
 
-    .score-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      border-radius: 999px;
-      padding: 2px 8px;
-      font-size: 0.72rem;
-      border: 1px solid;
-    }
+        th {
+            font-weight: 700;
+            color: #374151;
+            font-size: 1rem; /* Increased header size */
+        }
 
-    .score-low {
-      border-color: #22c55e;
-      color: #bbf7d0;
-      background: rgba(22,163,74,0.08);
-    }
+        td {
+            color: #4b5563;
+        }
 
-    .score-med {
-      border-color: #eab308;
-      color: #fef9c3;
-      background: rgba(234,179,8,0.08);
-    }
+        /* HOVER EFFECT FOR READABILITY */
+        tbody tr:hover {
+            background-color: #f5f8fa; /* Subtle hover effect */
+            transition: background-color 0.15s ease;
+        }
 
-    .score-high {
-      border-color: #ef4444;
-      color: #fecaca;
-      background: rgba(239,68,68,0.08);
-    }
+        tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
 
-    .score-badge span.dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-    }
+        .reason {
+            font-size: 0.85rem; /* Increased size */
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
 
-    .score-low span.dot { background: #22c55e; }
-    .score-med span.dot { background: #eab308; }
-    .score-high span.dot { background: #ef4444; }
-
-    .small {
-      font-size: 0.75rem;
-      color: #9ca3af;
-      margin-top: 4px;
-    }
-
-    .code-tag {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-      font-size: 0.75rem;
-      background: rgba(15,23,42,0.9);
-      border-radius: 8px;
-      padding: 3px 6px;
-      display: inline-block;
-      border: 1px solid rgba(148,163,184,0.5);
-      margin-top: 4px;
-    }
-
-    /* Settings panel */
-    .settings-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 6px 10px;
-      margin-top: 6px;
-      font-size: 0.75rem;
-    }
-
-    .settings-grid label {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      color: #9ca3af;
-    }
-
-    .settings-grid input {
-      padding: 4px 6px;
-      border-radius: 8px;
-      border: 1px solid rgba(148,163,184,0.6);
-      background: rgba(15,23,42,0.9);
-      color: #e5e7eb;
-      font-size: 0.75rem;
-    }
-
-    .settings-grid input:focus {
-      outline: none;
-      border-color: #22c55e;
-    }
-
-    /* Flags */
-    .flag-status {
-      font-size: 0.75rem;
-      color: #9ca3af;
-    }
-
-    /* Timeline modal */
-    #timeline-modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(15,23,42,0.7);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 50;
-    }
-
-    #timeline-modal {
-      background: rgba(15,23,42,0.98);
-      border-radius: 16px;
-      border: 1px solid rgba(148,163,184,0.6);
-      max-width: 680px;
-      width: 100%;
-      max-height: 80vh;
-      padding: 14px 16px 16px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.9);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    #timeline-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-
-    #timeline-modal-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    #timeline-modal-close {
-      border: none;
-      background: transparent;
-      color: #9ca3af;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    #timeline-modal-body {
-      border-radius: 10px;
-      border: 1px solid rgba(55,65,81,0.9);
-      background: rgba(15,23,42,0.95);
-      padding: 8px 10px;
-      overflow-y: auto;
-      font-size: 0.78rem;
-    }
-
-    .timeline-entry {
-      padding: 6px 4px;
-      border-bottom: 1px solid rgba(31,41,55,0.9);
-    }
-
-    .timeline-entry:last-child {
-      border-bottom: none;
-    }
-
-    .timeline-entry-type {
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .timeline-entry-meta {
-      color: #9ca3af;
-    }
-  </style>
+        .score-badge {
+            padding: 4px 10px; /* Increased padding */
+            font-size: 0.85rem; /* Increased size */
+            font-weight: 600; /* Added weight */
+        }
+        
+        /* Reused Color Classes (chip-low/med/high, score-low/med/high remain unchanged) */
+        .chip-low { border-color: #22c55e; background: #ecfdf5; color: #166534; }
+        .chip-low span.dot { background: #22c55e; }
+        .chip-med { border-color: #eab308; background: #fffbeb; color: #a16207; }
+        .chip-med span.dot { background: #eab308; }
+        .chip-high { border-color: #ef4444; background: #fef2f2; color: #b91c1c; }
+        .chip-high span.dot { background: #ef4444; }
+        .score-low { border-color: #22c55e; background: #ecfdf5; color: #166534; }
+        .score-low span.dot { background: #22c55e; }
+        .score-med { border-color: #eab308; background: #fffbeb; color: #a16207; }
+        .score-med span.dot { background: #eab308; }
+        .score-high { border-color: #ef4444; background: #fef2f2; color: #b91c1c; }
+        .score-high span.dot { background: #ef4444; }
+        
+        .score-badge span.dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+        }
+    </style>
 </head>
 <body>
 <div class="app">
-  <div class="card">
-    <h1>
-      <span class="dot"></span>
-      JURIS_NET · Anti-Cheat Engine
-    </h1>
-    <div class="subtitle">
-      Detects suspicious reporters, students and reviewers to prevent farming, boosting and fake activity.
+    <div class="top-bar">
+        <div class="logo">
+            <span class="logo-icon">⚖️</span>
+            <span>JURIS_NET · Anti-Cheat Engine</span>
+        </div>
+        <div class="top-pill">Live demo · Risk scoring only · No bans</div>
     </div>
 
-    <div class="grid">
-      <!-- LEFT: Controls + Description -->
-      <div>
-        <h2>⚙️ Engine Controls</h2>
-        <div class="section-sub">
-          Click once to recompute all suspicion scores from the event & review logs.
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="icon">🧠</span>
+                <span>How we prevent farming, boosting & fake activity</span>
+            </div>
         </div>
-        <button id="run-detectors-btn">
-          <span class="btn-dot"></span>
-          Run Anti-Cheat Scan
-        </button>
-        <div class="small">
-          Heuristics used:
-          <ul style="padding-left: 18px; margin-top: 4px;">
-            <li>Reporter: case volume + unrealistic mix of categories</li>
-            <li>Student: review send-backs + low-complexity farming</li>
-            <li>Reviewer: consistent score inflation vs peers on same drafts</li>
-          </ul>
+        <div class="card-subtitle">
+            Every click, draft and review becomes an event. This engine replays the last 30–90 days and scores how “human”
+            each pattern looks for reporters, students and reviewers.
         </div>
 
-        <h2 style="margin-top:16px;">🛠 Engine Settings</h2>
-        <div class="section-sub">
-          Tunable thresholds (persisted in this browser only).
-        </div>
-        <div class="settings-grid" id="settings-grid">
-          <label>
-            Reporter lookback (days)
-            <input type="number" step="1" id="cfg-reporterLookbackDays">
-          </label>
-          <label>
-            Reporter volume ≥
-            <input type="number" step="1" id="cfg-reporterTotalThresh">
-          </label>
-          <label>
-            Reporter categories ≥
-            <input type="number" step="1" id="cfg-reporterCategoryThresh">
-          </label>
-          <label>
-            Student lookback (days)
-            <input type="number" step="1" id="cfg-studentLookbackDays">
-          </label>
-          <label>
-            Student revise count ≥
-            <input type="number" step="1" id="cfg-reviseThresh">
-          </label>
-          <label>
-            Low-complexity ratio ≥
-            <input type="number" step="0.05" id="cfg-lowComplexThresh">
-          </label>
-          <label>
-            Fast turnaround (hrs) &lt;
-            <input type="number" step="0.5" id="cfg-fastHoursThresh">
-          </label>
-          <label>
-            Reviewer lookback (days)
-            <input type="number" step="1" id="cfg-reviewerLookbackDays">
-          </label>
-          <label>
-            Flag threshold (Medium)
-            <input type="number" step="0.05" id="cfg-flagThreshMedium">
-          </label>
-          <label>
-            Flag threshold (High)
-            <input type="number" step="0.05" id="cfg-flagThreshHigh">
-          </label>
-        </div>
-        <button id="save-settings-btn" style="margin-top:8px;">
-          <span class="btn-dot"></span>
-          Save Settings
-        </button>
-        <div class="small">
-          Settings are stored in <code>localStorage</code>. Use this to tune thresholds during testing.
-        </div>
+        <div class="hero-grid">
+            <div>
+                <button class="primary-btn" id="run-detectors-btn">
+                    <span class="dot"></span>
+                    Run Anti-Cheat Scan
+                </button>
+                <div class="hint-text">
+                    In production this would run in the background. For the demo, you click once and we recompute all three scores:
+                    <b>Reporter abuse</b>, <b>Student farming</b>, <b>Reviewer boosting</b>.
+                </div>
+                <div class="hint-text" style="margin-top:10px;">
+                    What we look at:
+                    <ul style="margin-top:6px; margin-left:20px;">
+                        <li>Reporter: unrealistic case volume & category mix</li>
+                        <li>Student: repeated “revise” decisions & low-complexity spam</li>
+                        <li>Reviewer: scoring bias vs peers on the same draft</li>
+                    </ul>
+                </div>
+            </div>
 
-        <h2 style="margin-top:16px;">📚 Logic Snapshot</h2>
-        <div class="section-sub">
-          All detectors run purely on event history. This is where you’d plug in a real DB later.
+            <div>
+                <div class="card-subtitle" style="margin-bottom:6px; padding-top: 4px;">
+                    Latest scan · Max suspicion per role (0 = clean, 1 = very suspicious)
+                </div>
+                <div class="summary-grid" id="summary-grid">
+                    </div>
+                <div class="legend-row">
+                    <span><span class="legend-dot" style="background:#22c55e;"></span>Low</span>
+                    <span><span class="legend-dot" style="background:#eab308;"></span>Medium</span>
+                    <span><span class="legend-dot" style="background:#ef4444;"></span>High</span>
+                </div>
+            </div>
         </div>
-        <div class="code-tag">
-          reporter_score ≈ f(volume, distinct_categories)<br>
-          student_score ≈ f(revise_count, low_complex_ratio, avg_turnaround)<br>
-          reviewer_score ≈ f(mean_diff_vs_peers, z_score)
-        </div>
-      </div>
+    </div>
 
-      <!-- RIGHT: Suspicion Summary -->
-      <div>
-        <h2>📊 Suspicion Summary</h2>
-        <div class="section-sub">
-          Current max scores across each role (0 = clean, 1 = very suspicious).
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="icon">🙋</span>
+                <span>Reporter / User Abuse Detector</span>
+            </div>
         </div>
-        <div id="summary-pills"></div>
-        <div class="small">
-          These are simple heuristic scores. In a full system you’d add thresholds, moderator workflow, and human audit.
-        </div>
-
-        <h2 style="margin-top:16px;">🚨 Open Flags</h2>
-        <div class="section-sub">
-          Actors whose suspicion score crossed the configured thresholds in the latest scan.
+        <div class="card-subtitle">
+            “One person cannot be in a land dispute, traffic case, bonds dispute and defamation fight at the same time.”
+            We flag accounts that file
+            <b>too many cases</b> or an <b>unrealistic mix of categories</b> in a short window.
         </div>
         <div class="table-wrap">
-          <table>
-            <thead>
-            <tr>
-              <th>Subject</th>
-              <th>Type</th>
-              <th>Score</th>
-              <th>Level</th>
-              <th>Reasons</th>
-            </tr>
-            </thead>
-            <tbody id="flags-body"></tbody>
-          </table>
+            <table>
+                <thead>
+                <tr>
+                    <th>Reporter ID</th>
+                    <th>Total Cases (30d)</th>
+                    <th>Distinct Categories</th>
+                    <th>Suspicion</th>
+                    <th>Why flagged</th>
+                </tr>
+                </thead>
+                <tbody id="reporter-body"></tbody>
+            </table>
         </div>
-        <div class="small flag-status" id="flags-status"></div>
-      </div>
     </div>
-  </div>
 
-  <!-- Reporter Table -->
-  <div class="card">
-    <h2>🙋 Reporter / User Abuse Detector</h2>
-    <div class="section-sub">
-      Flags reporters who file too many cases or unrealistically diverse disputes (land + traffic + bonds + defamation etc).
-      <br>Click a row to see that reporter's timeline.
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="icon">🎓</span>
+                <span>Student Anti-Cheat / Farming Detector</span>
+            </div>
+        </div>
+        <div class="card-subtitle">
+            Students get flagged if they are repeatedly sent back for review, or if they farm only
+            <b>low-complexity, copy-pasteable cases</b> at suspicious speed.
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Submissions (30d)</th>
+                    <th>Revise Count</th>
+                    <th>Low-Complexity %</th>
+                    <th>Avg Turnaround (hrs)</th>
+                    <th>Suspicion</th>
+                    <th>Why flagged</th>
+                </tr>
+                </thead>
+                <tbody id="student-body"></tbody>
+            </table>
+        </div>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-        <tr>
-          <th>Reporter ID</th>
-          <th>Total Cases<br>(last window)</th>
-          <th>Distinct Categories</th>
-          <th>Suspicion</th>
-          <th>Reasons</th>
-        </tr>
-        </thead>
-        <tbody id="reporter-body">
-        <!-- filled by JS -->
-        </tbody>
-      </table>
-    </div>
-  </div>
 
-  <!-- Student Table -->
-  <div class="card">
-    <h2>🎓 Student Anti-Cheat / Farming Detector</h2>
-    <div class="section-sub">
-      Flags students who are repeatedly sent back for review or farm only low-level (low complexity) cases at high volume.
-      <br>Click a row to see that student’s timeline.
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <span class="icon">🧪</span>
+                <span>Reviewer Boosting / Collusion Detector</span>
+            </div>
+        </div>
+        <div class="card-subtitle">
+            When five reviewers give a draft 5/10 and one person always gives 10/10, we treat that as a
+            <b>bias pattern</b>.
+            We compare each reviewer’s scores against the peer average on the same cases.
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Reviewer ID</th>
+                    <th>Cases Reviewed</th>
+                    <th>Avg Bias vs Peers</th>
+                    <th>Bias z-Score</th>
+                    <th>Suspicion</th>
+                    <th>Why flagged</th>
+                </tr>
+                </thead>
+                <tbody id="reviewer-body"></tbody>
+            </table>
+        </div>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-        <tr>
-          <th>Student ID</th>
-          <th>Submissions<br>(last window)</th>
-          <th>Revise Count</th>
-          <th>Low-Complexity %</th>
-          <th>Avg Turnaround (hrs)</th>
-          <th>Suspicion</th>
-          <th>Reasons</th>
-        </tr>
-        </thead>
-        <tbody id="student-body">
-        <!-- filled by JS -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Reviewer Table -->
-  <div class="card">
-    <h2>🧪 Reviewer Boosting / Collusion Detector</h2>
-    <div class="section-sub">
-      Looks for reviewers whose scores are systematically inflated vs peers (e.g., 5 people give 5/10, 1 gives 10/10 repeatedly).
-      <br>Click a row to see that reviewer’s review history.
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-        <tr>
-          <th>Reviewer ID</th>
-          <th>Cases Reviewed</th>
-          <th>Avg Bias vs Peers</th>
-          <th>Bias z-Score</th>
-          <th>Suspicion</th>
-          <th>Reasons</th>
-        </tr>
-        </thead>
-        <tbody id="reviewer-body">
-        <!-- filled by JS -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- Timeline Modal -->
-<div id="timeline-modal-backdrop">
-  <div id="timeline-modal">
-    <div id="timeline-modal-header">
-      <div id="timeline-modal-title"></div>
-      <button id="timeline-modal-close">✕</button>
-    </div>
-    <div id="timeline-modal-body"></div>
-    <div class="small">
-      This is a synthetic log built from in-memory events/reviews. In production, this would come from your audit DB.
-    </div>
-  </div>
 </div>
 
 <script>
-  /***********************
-   * 0. CONFIG STORAGE   *
-   ***********************/
-  const defaultConfig = {
-    reporterLookbackDays: 30,
-    reporterTotalThresh: 7,
-    reporterCategoryThresh: 4,
-    studentLookbackDays: 30,
-    reviseThresh: 3,
-    lowComplexThresh: 0.7,
-    fastHoursThresh: 6,
-    reviewerLookbackDays: 90,
-    flagThreshMedium: 0.5,
-    flagThreshHigh: 0.75
-  };
-
-  function loadConfig() {
-    try {
-      const raw = localStorage.getItem('ac_config');
-      if (!raw) return { ...defaultConfig };
-      const parsed = JSON.parse(raw);
-      return { ...defaultConfig, ...parsed };
-    } catch (e) {
-      return { ...defaultConfig };
-    }
-  }
-
-  function saveConfig(cfg) {
-    localStorage.setItem('ac_config', JSON.stringify(cfg));
-  }
-
-  let acConfig = loadConfig();
-
-  function bindConfigToUI() {
-    const setVal = (id, key) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.value = acConfig[key];
+    /***********************
+     * 1. SIMPLE CONFIG    *
+     ***********************/
+    const CONFIG = {
+        reporterLookbackDays: 30,
+        reporterTotalThresh: 7,
+        reporterCategoryThresh: 4,
+        studentLookbackDays: 30,
+        reviseThresh: 3,
+        lowComplexThresh: 0.7,
+        fastHoursThresh: 6,
+        reviewerLookbackDays: 90
     };
-    setVal('cfg-reporterLookbackDays', 'reporterLookbackDays');
-    setVal('cfg-reporterTotalThresh', 'reporterTotalThresh');
-    setVal('cfg-reporterCategoryThresh', 'reporterCategoryThresh');
-    setVal('cfg-studentLookbackDays', 'studentLookbackDays');
-    setVal('cfg-reviseThresh', 'reviseThresh');
-    setVal('cfg-lowComplexThresh', 'lowComplexThresh');
-    setVal('cfg-fastHoursThresh', 'fastHoursThresh');
-    setVal('cfg-reviewerLookbackDays', 'reviewerLookbackDays');
-    setVal('cfg-flagThreshMedium', 'flagThreshMedium');
-    setVal('cfg-flagThreshHigh', 'flagThreshHigh');
-  }
 
-  function readConfigFromUI() {
-    const getNum = (id, fallback) => {
-      const el = document.getElementById(id);
-      if (!el) return fallback;
-      const v = parseFloat(el.value);
-      return isNaN(v) ? fallback : v;
-    };
-    acConfig = {
-      reporterLookbackDays: getNum('cfg-reporterLookbackDays', defaultConfig.reporterLookbackDays),
-      reporterTotalThresh: getNum('cfg-reporterTotalThresh', defaultConfig.reporterTotalThresh),
-      reporterCategoryThresh: getNum('cfg-reporterCategoryThresh', defaultConfig.reporterCategoryThresh),
-      studentLookbackDays: getNum('cfg-studentLookbackDays', defaultConfig.studentLookbackDays),
-      reviseThresh: getNum('cfg-reviseThresh', defaultConfig.reviseThresh),
-      lowComplexThresh: getNum('cfg-lowComplexThresh', defaultConfig.lowComplexThresh),
-      fastHoursThresh: getNum('cfg-fastHoursThresh', defaultConfig.fastHoursThresh),
-      reviewerLookbackDays: getNum('cfg-reviewerLookbackDays', defaultConfig.reviewerLookbackDays),
-      flagThreshMedium: getNum('cfg-flagThreshMedium', defaultConfig.flagThreshMedium),
-      flagThreshHigh: getNum('cfg-flagThreshHigh', defaultConfig.flagThreshHigh)
-    };
-    saveConfig(acConfig);
-  }
-
-  /***********************
-   * 1. MOCK EVENT DATA  *
-   ***********************/
-
-  // Reporter/user events: case_created
-  const events = [
-    // Reporter U1: realistic 2 land disputes
-    { id: 'e1', type: 'case_created', actorId: 'user-001', actorRole:'reporter', caseId:'c1', caseCategory:'Land', timestamp:'2025-12-05T10:00:00Z' },
-    { id: 'e2', type: 'case_created', actorId: 'user-001', actorRole:'reporter', caseId:'c2', caseCategory:'Land', timestamp:'2025-12-06T11:00:00Z' },
-
-    // Reporter U2: clearly farming many categories
-    { id: 'e3', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c3', caseCategory:'Land', timestamp:'2025-12-01T09:00:00Z' },
-    { id: 'e4', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c4', caseCategory:'Traffic', timestamp:'2025-12-01T09:05:00Z' },
-    { id: 'e5', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c5', caseCategory:'Bonds', timestamp:'2025-12-01T09:10:00Z' },
-    { id: 'e6', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c6', caseCategory:'Defamation', timestamp:'2025-12-01T09:15:00Z' },
-    { id: 'e7', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c7', caseCategory:'Wages', timestamp:'2025-12-02T12:00:00Z' },
-    { id: 'e8', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c8', caseCategory:'Family', timestamp:'2025-12-03T13:00:00Z' },
-
-    // Reporter U3: lots of cases but same type (volume suspicious)
-    { id: 'e9',  type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c9',  caseCategory:'Traffic', timestamp:'2025-12-01T08:00:00Z' },
-    { id: 'e10', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c10', caseCategory:'Traffic', timestamp:'2025-12-02T08:00:00Z' },
-    { id: 'e11', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c11', caseCategory:'Traffic', timestamp:'2025-12-03T08:00:00Z' },
-    { id: 'e12', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c12', caseCategory:'Traffic', timestamp:'2025-12-04T08:00:00Z' },
-    { id: 'e13', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c13', caseCategory:'Traffic', timestamp:'2025-12-05T08:00:00Z' },
-    { id: 'e14', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c14', caseCategory:'Traffic', timestamp:'2025-12-06T08:00:00Z' },
-    { id: 'e15', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c15', caseCategory:'Traffic', timestamp:'2025-12-07T08:00:00Z' },
-
-    // Student events: draft_submitted, review_result
-    // S1: honest, mixed complexity, few revisions
-    {
-      id:'s1-d1', type:'draft_submitted', actorId:'student-001', actorRole:'student',
-      caseId:'c101', caseCategory:'Rent', timestamp:'2025-12-03T09:00:00Z',
-      meta: { complexity: 3, claimAt:'2025-12-02T12:00:00Z', submitAt:'2025-12-03T09:00:00Z' }
-    },
-    {
-      id:'s1-r1', type:'review_result', actorId:'student-001', actorRole:'student',
-      caseId:'c101', caseCategory:'Rent', timestamp:'2025-12-03T18:00:00Z',
-      meta: { outcome:'approve' }
-    },
-    {
-      id:'s1-d2', type:'draft_submitted', actorId:'student-001', actorRole:'student',
-      caseId:'c102', caseCategory:'Wages', timestamp:'2025-12-04T10:00:00Z',
-      meta: { complexity: 4, claimAt:'2025-12-03T12:00:00Z', submitAt:'2025-12-04T10:00:00Z' }
-    },
-    {
-      id:'s1-r2', type:'review_result', actorId:'student-001', actorRole:'student',
-      caseId:'c102', caseCategory:'Wages', timestamp:'2025-12-04T17:00:00Z',
-      meta: { outcome:'revise' }
-    },
-
-    // S2: low-complexity farming + fast turnaround + repeated revise
-    {
-      id:'s2-d1', type:'draft_submitted', actorId:'student-002', actorRole:'student',
-      caseId:'c201', caseCategory:'Traffic', timestamp:'2025-12-01T10:00:00Z',
-      meta: { complexity: 1, claimAt:'2025-12-01T08:30:00Z', submitAt:'2025-12-01T10:00:00Z' }
-    },
-    {
-      id:'s2-r1', type:'review_result', actorId:'student-002', actorRole:'student',
-      caseId:'c201', caseCategory:'Traffic', timestamp:'2025-12-01T13:00:00Z',
-      meta: { outcome:'revise' }
-    },
-    {
-      id:'s2-d2', type:'draft_submitted', actorId:'student-002', actorRole:'student',
-      caseId:'c202', caseCategory:'Traffic', timestamp:'2025-12-02T10:15:00Z',
-      meta: { complexity: 1, claimAt:'2025-12-02T09:00:00Z', submitAt:'2025-12-02T10:15:00Z' }
-    },
-    {
-      id:'s2-r2', type:'review_result', actorId:'student-002', actorRole:'student',
-      caseId:'c202', caseCategory:'Traffic', timestamp:'2025-12-02T14:00:00Z',
-      meta: { outcome:'revise' }
-    },
-    {
-      id:'s2-d3', type:'draft_submitted', actorId:'student-002', actorRole:'student',
-      caseId:'c203', caseCategory:'Traffic', timestamp:'2025-12-03T09:30:00Z',
-      meta: { complexity: 2, claimAt:'2025-12-03T08:00:00Z', submitAt:'2025-12-03T09:30:00Z' }
-    },
-    {
-      id:'s2-r3', type:'review_result', actorId:'student-002', actorRole:'student',
-      caseId:'c203', caseCategory:'Traffic', timestamp:'2025-12-03T12:00:00Z',
-      meta: { outcome:'revise' }
-    },
-    {
-      id:'s2-d4', type:'draft_submitted', actorId:'student-002', actorRole:'student',
-      caseId:'c204', caseCategory:'Traffic', timestamp:'2025-12-04T09:45:00Z',
-      meta: { complexity: 1, claimAt:'2025-12-04T08:30:00Z', submitAt:'2025-12-04T09:45:00Z' }
-    },
-    {
-      id:'s2-r4', type:'review_result', actorId:'student-002', actorRole:'student',
-      caseId:'c204', caseCategory:'Traffic', timestamp:'2025-12-04T13:00:00Z',
-      meta: { outcome:'revise' }
-    },
-
-    // S3: only 1 submission, low suspicion
-    {
-      id:'s3-d1', type:'draft_submitted', actorId:'student-003', actorRole:'student',
-      caseId:'c301', caseCategory:'Rent', timestamp:'2025-12-05T11:00:00Z',
-      meta: { complexity: 3, claimAt:'2025-12-04T15:00:00Z', submitAt:'2025-12-05T11:00:00Z' }
-    },
-    {
-      id:'s3-r1', type:'review_result', actorId:'student-003', actorRole:'student',
-      caseId:'c301', caseCategory:'Rent', timestamp:'2025-12-05T16:00:00Z',
-      meta: { outcome:'approve' }
-    },
-  ];
-
-  // Review records for reviewer-collusion detector:
-  const reviews = [
-    // Case X1: most give 5, R3 gives 10
-    { reviewerId:'rev-001', studentId:'student-002', caseId:'c201', score:5, timestamp:'2025-12-02T10:00:00Z' },
-    { reviewerId:'rev-002', studentId:'student-002', caseId:'c201', score:5, timestamp:'2025-12-02T10:05:00Z' },
-    { reviewerId:'rev-003', studentId:'student-002', caseId:'c201', score:10, timestamp:'2025-12-02T10:10:00Z' },
-    { reviewerId:'rev-004', studentId:'student-002', caseId:'c201', score:5, timestamp:'2025-12-02T10:15:00Z' },
-
-    // Case X2: again R3 inflates
-    { reviewerId:'rev-001', studentId:'student-002', caseId:'c202', score:6, timestamp:'2025-12-03T11:00:00Z' },
-    { reviewerId:'rev-002', studentId:'student-002', caseId:'c202', score:5, timestamp:'2025-12-03T11:05:00Z' },
-    { reviewerId:'rev-003', studentId:'student-002', caseId:'c202', score:10, timestamp:'2025-12-03T11:10:00Z' },
-    { reviewerId:'rev-004', studentId:'student-002', caseId:'c202', score:6, timestamp:'2025-12-03T11:15:00Z' },
-
-    // Case Y1: normal variation
-    { reviewerId:'rev-001', studentId:'student-001', caseId:'c101', score:8, timestamp:'2025-12-04T09:00:00Z' },
-    { reviewerId:'rev-002', studentId:'student-001', caseId:'c101', score:9, timestamp:'2025-12-04T09:05:00Z' },
-    { reviewerId:'rev-003', studentId:'student-001', caseId:'c101', score:9, timestamp:'2025-12-04T09:10:00Z' },
-  ];
-
-  /*******************************
-   * 2. DETECTOR IMPLEMENTATION  *
-   *******************************/
-
-  function detectReporterAbuse(allEvents, cfg) {
-    const now = Date.now();
-    const since = new Date(now - cfg.reporterLookbackDays * 24 * 3600 * 1000);
-    const reporterMap = {};
-
-    allEvents.forEach(e => {
-      if (e.type !== 'case_created' || e.actorRole !== 'reporter') return;
-      if (new Date(e.timestamp) < since) return;
-
-      if (!reporterMap[e.actorId]) {
-        reporterMap[e.actorId] = { count: 0, categories: new Set() };
-      }
-      reporterMap[e.actorId].count += 1;
-      reporterMap[e.actorId].categories.add(e.caseCategory);
-    });
-
-    const results = [];
-    const totalThresh = cfg.reporterTotalThresh;
-    const categoryThresh = cfg.reporterCategoryThresh;
-
-    for (const reporterId in reporterMap) {
-      const data = reporterMap[reporterId];
-      const total = data.count;
-      const distinct = data.categories.size;
-
-      let score = 0;
-      const reasons = [];
-
-      if (total >= totalThresh) {
-        const extra = Math.min(1, (total - totalThresh + 1) / 5);
-        score += 0.4 + 0.3 * extra;
-        reasons.push(`High volume: ${total} cases in last ${cfg.reporterLookbackDays} days.`);
-      }
-
-      if (distinct >= categoryThresh) {
-        const extra = Math.min(1, (distinct - categoryThresh + 1) / 4);
-        score += 0.4 + 0.3 * extra;
-        reasons.push(`Unrealistic mix: ${distinct} distinct dispute categories.`);
-      }
-
-      score = Math.min(1, score);
-      results.push({
-        reporterId,
-        total,
-        distinct,
-        score,
-        reasons
-      });
-    }
-
-    return results;
-  }
-
-  function detectStudentFarming(allEvents, cfg) {
-    const now = Date.now();
-    const since = new Date(now - cfg.studentLookbackDays * 24 * 3600 * 1000);
-    const studentData = {};
-
-    allEvents.forEach(e => {
-      if (new Date(e.timestamp) < since) return;
-      if (e.actorRole !== 'student') return;
-      const sid = e.actorId;
-      if (!studentData[sid]) {
-        studentData[sid] = {
-          submissions: [],
-          reviewResults: []
-        };
-      }
-      if (e.type === 'draft_submitted') {
-        studentData[sid].submissions.push(e);
-      } else if (e.type === 'review_result') {
-        studentData[sid].reviewResults.push(e);
-      }
-    });
-
-    const results = [];
-    const reviseThresh = cfg.reviseThresh;
-    const lowComplexThresh = cfg.lowComplexThresh;
-    const fastHoursThresh = cfg.fastHoursThresh;
-
-    for (const sid in studentData) {
-      const { submissions, reviewResults } = studentData[sid];
-      const totalSubmissions = submissions.length;
-
-      if (totalSubmissions === 0) {
-        results.push({
-          studentId: sid,
-          totalSubmissions: 0,
-          reviseCount: 0,
-          lowComplexRatio: 0,
-          avgHours: null,
-          score: 0,
-          reasons: ['No submissions in window.']
-        });
-        continue;
-      }
-
-      const reviseCount = reviewResults.filter(r => r.meta && r.meta.outcome === 'revise').length;
-
-      const lowComplexCount = submissions.filter(s => s.meta && s.meta.complexity <= 2).length;
-      const lowComplexRatio = lowComplexCount / totalSubmissions;
-
-      const durations = submissions.map(s => {
-        if (!s.meta || !s.meta.claimAt || !s.meta.submitAt) return null;
-        return (new Date(s.meta.submitAt) - new Date(s.meta.claimAt)) / (3600 * 1000); // hours
-      }).filter(v => v !== null);
-
-      const avgHours = durations.length
-        ? durations.reduce((acc, v) => acc + v, 0) / durations.length
-        : null;
-
-      let score = 0;
-      const reasons = [];
-
-      if (reviseCount >= reviseThresh) {
-        const extra = Math.min(1, (reviseCount - reviseThresh + 1) / 4);
-        score += 0.6 + 0.2 * extra;
-        reasons.push(`High review-sendbacks: ${reviseCount} drafts marked "revise".`);
-      }
-
-      if (lowComplexRatio >= lowComplexThresh) {
-        const extra = Math.min(1, (lowComplexRatio - lowComplexThresh) / 0.3);
-        score += 0.3 + 0.2 * extra;
-        reasons.push(`Low-level farming: ${Math.round(lowComplexRatio * 100)}% of cases are low complexity.`);
-      }
-
-      if (avgHours !== null && avgHours < fastHoursThresh && totalSubmissions >= 3) {
-        const boost = Math.min(1, (fastHoursThresh - avgHours) / fastHoursThresh);
-        score += 0.3 * boost;
-        reasons.push(`Very fast average turnaround: ${avgHours.toFixed(1)} hrs per case.`);
-      }
-
-      score = Math.min(1, score);
-
-      results.push({
-        studentId: sid,
-        totalSubmissions,
-        reviseCount,
-        lowComplexRatio,
-        avgHours,
-        score,
-        reasons: reasons.length ? reasons : ['No strong suspicious pattern detected.']
-      });
-    }
-
-    return results;
-  }
-
-  function detectReviewerBias(allReviews, cfg) {
-    const now = Date.now();
-    const since = new Date(now - cfg.reviewerLookbackDays * 24 * 3600 * 1000);
-
-    const recent = allReviews.filter(r => new Date(r.timestamp) >= since);
-    const byCase = {};
-
-    recent.forEach(r => {
-      if (!byCase[r.caseId]) byCase[r.caseId] = [];
-      byCase[r.caseId].push(r);
-    });
-
-    const diffsByReviewer = {};
-
-    recent.forEach(r => {
-      const list = byCase[r.caseId];
-      if (!list || list.length < 2) return;
-      const others = list.filter(x => x.reviewerId !== r.reviewerId);
-      if (!others.length) return;
-
-      const meanOthers = others.reduce((s, x) => s + x.score, 0) / others.length;
-      const diff = r.score - meanOthers;
-
-      if (!diffsByReviewer[r.reviewerId]) diffsByReviewer[r.reviewerId] = [];
-      diffsByReviewer[r.reviewerId].push(diff);
-    });
-
-    const results = [];
-
-    for (const reviewerId in diffsByReviewer) {
-      const diffs = diffsByReviewer[reviewerId];
-      if (!diffs.length) {
-        results.push({
-          reviewerId,
-          casesReviewed: 0,
-          meanDiff: 0,
-          z: 0,
-          score: 0,
-          reasons: ['No comparable multi-review cases.']
-        });
-        continue;
-      }
-
-      const mean = diffs.reduce((a, b) => a + b, 0) / diffs.length;
-      const variance = diffs.reduce((a, b) => a + (b - mean) * (b - mean), 0) / diffs.length;
-      const std = Math.sqrt(variance);
-      const z = std ? mean / std : (mean !== 0 ? 999 : 0);
-
-      let score = 0;
-      const reasons = [];
-
-      if (Math.abs(mean) > 1.5) {
-        score += 0.4;
-        reasons.push(`Average scoring bias of ${mean.toFixed(2)} points vs peers.`);
-      }
-
-      if (Math.abs(z) > 2) {
-        score += 0.4;
-        reasons.push(`Bias is consistent across cases (z = ${z.toFixed(2)}).`);
-      }
-
-      score = Math.min(1, score);
-
-      results.push({
-        reviewerId,
-        casesReviewed: diffs.length,
-        meanDiff: mean,
-        z,
-        score,
-        reasons: reasons.length ? reasons : ['No strong bias detected vs peers.']
-      });
-    }
-
-    return results;
-  }
-
-  /**********************
-   * 3. FLAGS STORAGE   *
-   **********************/
-  function loadFlags() {
-    try {
-      const raw = localStorage.getItem('ac_flags');
-      if (!raw) return [];
-      return JSON.parse(raw);
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function saveFlags(flags) {
-    localStorage.setItem('ac_flags', JSON.stringify(flags));
-  }
-
-  let flags = loadFlags();
-
-  function createFlag(subjectId, subjectType, score, reasons) {
-    const level = score >= acConfig.flagThreshHigh
-      ? 'High'
-      : score >= acConfig.flagThreshMedium
-        ? 'Medium'
-        : 'Low';
-
-    const flag = {
-      id: 'flag-' + Date.now() + '-' + Math.random().toString(16).slice(2),
-      subjectId,
-      subjectType,
-      score,
-      level,
-      reasons,
-      status: 'open',
-      createdAt: new Date().toISOString()
-    };
-    flags.push(flag);
-  }
-
-  /**********************
-   * 4. RENDER HELPERS  *
-   **********************/
-
-  function scoreClass(score) {
-    if (score >= 0.7) return 'score-high';
-    if (score >= 0.3) return 'score-med';
-    return 'score-low';
-  }
-
-  function scoreLabel(score) {
-    if (score >= 0.7) return 'High';
-    if (score >= 0.3) return 'Medium';
-    return 'Low';
-  }
-
-  function renderReporterTable(rows) {
-    const body = document.getElementById('reporter-body');
-    body.innerHTML = '';
-
-    if (!rows.length) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="5" style="text-align:center;color:#9ca3af;">No reporter data.</td>`;
-      body.appendChild(tr);
-      return;
-    }
-
-    rows.forEach(r => {
-      const tr = document.createElement('tr');
-      tr.className = 'clickable-row';
-      tr.dataset.type = 'reporter';
-      tr.dataset.id = r.reporterId;
-      const sClass = scoreClass(r.score);
-      tr.innerHTML = `
-        <td>${r.reporterId}</td>
-        <td>${r.total}</td>
-        <td>${r.distinct}</td>
-        <td>
-          <span class="score-badge ${sClass}">
-            <span class="dot"></span>
-            ${scoreLabel(r.score)} (${r.score.toFixed(2)})
-          </span>
-        </td>
-        <td>
-          ${r.reasons.map(reason => `<div class="reason">• ${reason}</div>`).join('')}
-        </td>
-      `;
-      body.appendChild(tr);
-    });
-  }
-
-  function renderStudentTable(rows) {
-    const body = document.getElementById('student-body');
-    body.innerHTML = '';
-
-    if (!rows.length) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="7" style="text-align:center;color:#9ca3af;">No student submissions in window.</td>`;
-      body.appendChild(tr);
-      return;
-    }
-
-    rows.forEach(r => {
-      const sClass = scoreClass(r.score);
-      const tr = document.createElement('tr');
-      tr.className = 'clickable-row';
-      tr.dataset.type = 'student';
-      tr.dataset.id = r.studentId;
-      tr.innerHTML = `
-        <td>${r.studentId}</td>
-        <td>${r.totalSubmissions}</td>
-        <td>${r.reviseCount}</td>
-        <td>${Math.round(r.lowComplexRatio * 100)}%</td>
-        <td>${r.avgHours === null ? '—' : r.avgHours.toFixed(1)}</td>
-        <td>
-          <span class="score-badge ${sClass}">
-            <span class="dot"></span>
-            ${scoreLabel(r.score)} (${r.score.toFixed(2)})
-          </span>
-        </td>
-        <td>
-          ${r.reasons.map(reason => `<div class="reason">• ${reason}</div>`).join('')}
-        </td>
-      `;
-      body.appendChild(tr);
-    });
-  }
-
-  function renderReviewerTable(rows) {
-    const body = document.getElementById('reviewer-body');
-    body.innerHTML = '';
-
-    if (!rows.length) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="6" style="text-align:center;color:#9ca3af;">No review data.</td>`;
-      body.appendChild(tr);
-      return;
-    }
-
-    rows.forEach(r => {
-      const sClass = scoreClass(r.score);
-      const tr = document.createElement('tr');
-      tr.className = 'clickable-row';
-      tr.dataset.type = 'reviewer';
-      tr.dataset.id = r.reviewerId;
-      tr.innerHTML = `
-        <td>${r.reviewerId}</td>
-        <td>${r.casesReviewed}</td>
-        <td>${r.meanDiff.toFixed(2)}</td>
-        <td>${r.z.toFixed(2)}</td>
-        <td>
-          <span class="score-badge ${sClass}">
-            <span class="dot"></span>
-            ${scoreLabel(r.score)} (${r.score.toFixed(2)})
-          </span>
-        </td>
-        <td>
-          ${r.reasons.map(reason => `<div class="reason">• ${reason}</div>`).join('')}
-        </td>
-      `;
-      body.appendChild(tr);
-    });
-  }
-
-  function renderSummaryPills(reporterRows, studentRows, reviewerRows) {
-    const container = document.getElementById('summary-pills');
-    container.innerHTML = '';
-
-    const maxReporter = reporterRows.reduce((m,r)=>Math.max(m,r.score),0);
-    const maxStudent  = studentRows.reduce((m,r)=>Math.max(m,r.score),0);
-    const maxReviewer = reviewerRows.reduce((m,r)=>Math.max(m,r.score),0);
-
-    const pillConfigs = [
-      { label:'Reporter Suspicion', score:maxReporter },
-      { label:'Student Suspicion',  score:maxStudent  },
-      { label:'Reviewer Suspicion', score:maxReviewer }
+    /***********************
+     * 2. MOCK EVENT DATA  *
+     ***********************/
+
+    // Reporter/user events: case_created
+    const events = [
+        // Reporter U1: realistic 2 land disputes
+        { id: 'e1', type: 'case_created', actorId: 'user-001', actorRole:'reporter', caseId:'c1', caseCategory:'Land', timestamp:'2025-12-05T10:00:00Z' },
+        { id: 'e2', type: 'case_created', actorId: 'user-001', actorRole:'reporter', caseId:'c2', caseCategory:'Land', timestamp:'2025-12-06T11:00:00Z' },
+
+        // Reporter U2: clearly farming many categories
+        { id: 'e3', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c3', caseCategory:'Land', timestamp:'2025-12-01T09:00:00Z' },
+        { id: 'e4', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c4', caseCategory:'Traffic', timestamp:'2025-12-01T09:05:00Z' },
+        { id: 'e5', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c5', caseCategory:'Bonds', timestamp:'2025-12-01T09:10:00Z' },
+        { id: 'e6', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c6', caseCategory:'Defamation', timestamp:'2025-12-01T09:15:00Z' },
+        { id: 'e7', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c7', caseCategory:'Wages', timestamp:'2025-12-02T12:00:00Z' },
+        { id: 'e8', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c8', caseCategory:'Family', timestamp:'2025-12-03T13:00:00Z' },
+
+        // Reporter U3: lots of cases but same type (volume suspicious)
+        { id: 'e9',  type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c9',  caseCategory:'Traffic', timestamp:'2025-12-01T08:00:00Z' },
+        { id: 'e10', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c10', caseCategory:'Traffic', timestamp:'2025-12-02T08:00:00Z' },
+        { id: 'e11', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c11', caseCategory:'Traffic', timestamp:'2025-12-03T08:00:00Z' },
+        { id: 'e12', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c12', caseCategory:'Traffic', timestamp:'2025-12-04T08:00:00Z' },
+        { id: 'e13', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c13', caseCategory:'Traffic', timestamp:'2025-12-05T08:00:00Z' },
+        { id: 'e14', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c14', caseCategory:'Traffic', timestamp:'2025-12-06T08:00:00Z' },
+        { id: 'e15', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c15', caseCategory:'Traffic', timestamp:'2025-12-07T08:00:00Z' },
+
+        // Student events: draft_submitted, review_result
+        // S1: honest, mixed complexity, few revisions
+        {
+          id:'s1-d1', type:'draft_submitted', actorId:'student-001', actorRole:'student',
+          caseId:'c101', caseCategory:'Rent', timestamp:'2025-12-03T09:00:00Z',
+          meta: { complexity: 3, claimAt:'2025-12-02T12:00:00Z', submitAt:'2025-12-03T09:00:00Z' }
+        },
+        {
+          id:'s1-r1', type:'review_result', actorId:'student-001', actorRole:'student',
+          caseId:'c101', caseCategory:'Rent', timestamp:'2025-12-03T18:00:00Z',
+          meta: { outcome:'approve' }
+        },
+        {
+          id:'s1-d2', type:'draft_submitted', actorId:'student-001', actorRole:'student',
+          caseId:'c102', caseCategory:'Wages', timestamp:'2025-12-04T10:00:00Z',
+          meta: { complexity: 4, claimAt:'2025-12-03T12:00:00Z', submitAt:'2025-12-04T10:00:00Z' }
+        },
+        {
+          id:'s1-r2', type:'review_result', actorId:'student-001', actorRole:'student',
+          caseId:'c102', caseCategory:'Wages', timestamp:'2025-12-04T17:00:00Z',
+          meta: { outcome:'revise' }
+        },
+
+        // S2: low-complexity farming + fast turnaround + repeated revise
+        {
+          id:'s2-d1', type:'draft_submitted', actorId:'student-002', actorRole:'student',
+          caseId:'c201', caseCategory:'Traffic', timestamp:'2025-12-01T10:00:00Z',
+          meta: { complexity: 1, claimAt:'2025-12-01T08:30:00Z', submitAt:'2025-12-01T10:00:00Z' }
+        },
+        {
+          id:'s2-r1', type:'review_result', actorId:'student-002', actorRole:'student',
+          caseId:'c201', caseCategory:'Traffic', timestamp:'2025-12-01T13:00:00Z',
+          meta: { outcome:'revise' }
+        },
+        {
+          id:'s2-d2', type:'draft_submitted', actorId:'student-002', actorRole:'student',
+          caseId:'c202', caseCategory:'Traffic', timestamp:'2025-12-02T10:15:00Z',
+          meta: { complexity: 1, claimAt:'2025-12-02T09:00:00Z', submitAt:'2025-12-02T10:15:00Z' }
+        },
+        {
+          id:'s2-r2', type:'review_result', actorId:'student-002', actorRole:'student',
+          caseId:'c202', caseCategory:'Traffic', timestamp:'2025-12-02T14:00:00Z',
+          meta: { outcome:'revise' }
+        },
+        {
+          id:'s2-d3', type:'draft_submitted', actorId:'student-002', actorRole:'student',
+          caseId:'c203', caseCategory:'Traffic', timestamp:'2025-12-03T09:30:00Z',
+          meta: { complexity: 2, claimAt:'2025-12-03T08:00:00Z', submitAt:'2025-12-03T09:30:00Z' }
+        },
+        {
+          id:'s2-r3', type:'review_result', actorId:'student-002', actorRole:'student',
+          caseId:'c203', caseCategory:'Traffic', timestamp:'2025-12-03T12:00:00Z',
+          meta: { outcome:'revise' }
+        },
+        {
+          id:'s2-d4', type:'draft_submitted', actorId:'student-002', actorRole:'student',
+          caseId:'c204', caseCategory:'Traffic', timestamp:'2025-12-04T09:45:00Z',
+          meta: { complexity: 1, claimAt:'2025-12-04T08:30:00Z', submitAt:'2025-12-04T09:45:00Z' }
+        },
+        {
+          id:'s2-r4', type:'review_result', actorId:'student-002', actorRole:'student',
+          caseId:'c204', caseCategory:'Traffic', timestamp:'2025-12-04T13:00:00Z',
+          meta: { outcome:'revise' }
+        },
+
+        // S3: only 1 submission, low suspicion
+        {
+          id:'s3-d1', type:'draft_submitted', actorId:'student-003', actorRole:'student',
+          caseId:'c301', caseCategory:'Rent', timestamp:'2025-12-05T11:00:00Z',
+          meta: { complexity: 3, claimAt:'2025-12-04T15:00:00Z', submitAt:'2025-12-05T11:00:00Z' }
+        },
+        {
+          id:'s3-r1', type:'review_result', actorId:'student-003', actorRole:'student',
+          caseId:'c301', caseCategory:'Rent', timestamp:'2025-12-05T16:00:00Z',
+          meta: { outcome:'approve' }
+        },
     ];
 
-    pillConfigs.forEach(conf => {
-      const div = document.createElement('div');
-      let levelClass = 'pill-low';
-      if (conf.score >= 0.7) levelClass = 'pill-high';
-      else if (conf.score >= 0.3) levelClass = 'pill-med';
+    // Review records for reviewer-collusion detector:
+    const reviews = [
+        // Case X1: most give 5, R3 gives 10
+        { reviewerId:'rev-001', studentId:'student-002', caseId:'c201', score:5, timestamp:'2025-12-02T10:00:00Z' },
+        { reviewerId:'rev-002', studentId:'student-002', caseId:'c201', score:5, timestamp:'2025-12-02T10:05:00Z' },
+        { reviewerId:'rev-003', studentId:'student-002', caseId:'c201', score:10, timestamp:'2025-12-02T10:10:00Z' },
+        { reviewerId:'rev-004', studentId:'student-002', caseId:'c201', score:5, timestamp:'2025-12-02T10:15:00Z' },
 
-      div.className = `pill ${levelClass}`;
-      div.innerHTML = `
-        <span class="dot"></span>
-        ${conf.label}: <strong>${scoreLabel(conf.score)}</strong>
-        <span style="opacity:0.8;">(${conf.score.toFixed(2)})</span>
-      `;
-      container.appendChild(div);
-    });
-  }
+        // Case X2: again R3 inflates
+        { reviewerId:'rev-001', studentId:'student-002', caseId:'c202', score:6, timestamp:'2025-12-03T11:00:00Z' },
+        { reviewerId:'rev-002', studentId:'student-002', caseId:'c202', score:5, timestamp:'2025-12-03T11:05:00Z' },
+        { reviewerId:'rev-003', studentId:'student-002', caseId:'c202', score:10, timestamp:'2025-12-03T11:10:00Z' },
+        { reviewerId:'rev-004', studentId:'student-002', caseId:'c202', score:6, timestamp:'2025-12-03T11:15:00Z' },
 
-  function renderFlagsTable() {
-    const body = document.getElementById('flags-body');
-    const status = document.getElementById('flags-status');
-    body.innerHTML = '';
+        // Case Y1: normal variation
+        { reviewerId:'rev-001', studentId:'student-001', caseId:'c101', score:8, timestamp:'2025-12-04T09:00:00Z' },
+        { reviewerId:'rev-002', studentId:'student-001', caseId:'c101', score:9, timestamp:'2025-12-04T09:05:00Z' },
+        { reviewerId:'rev-003', studentId:'student-001', caseId:'c101', score:9, timestamp:'2025-12-04T09:10:00Z' },
+    ];
 
-    if (!flags.length) {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="5" style="text-align:center;color:#9ca3af;">No open flags. Engine considers everyone low-risk in this scan.</td>`;
-      body.appendChild(tr);
-      status.textContent = 'No flags created in the last run.';
-      return;
+    /*******************************
+     * 3. DETECTOR IMPLEMENTATION  *
+     *******************************/
+
+    function detectReporterAbuse(allEvents, cfg) {
+        const now = Date.now();
+        const since = new Date(now - cfg.reporterLookbackDays * 24 * 3600 * 1000);
+        const reporterMap = {};
+
+        allEvents.forEach(e => {
+            if (e.type !== 'case_created' || e.actorRole !== 'reporter') return;
+            if (new Date(e.timestamp) < since) return;
+
+            if (!reporterMap[e.actorId]) {
+                reporterMap[e.actorId] = { count: 0, categories: new Set() };
+            }
+            reporterMap[e.actorId].count += 1;
+            reporterMap[e.actorId].categories.add(e.caseCategory);
+        });
+
+        const results = [];
+        const totalThresh = cfg.reporterTotalThresh;
+        const categoryThresh = cfg.reporterCategoryThresh;
+
+        for (const reporterId in reporterMap) {
+            const data = reporterMap[reporterId];
+            const total = data.count;
+            const distinct = data.categories.size;
+
+            let score = 0;
+            const reasons = [];
+
+            if (total >= totalThresh) {
+                const extra = Math.min(1, (total - totalThresh + 1) / 5);
+                score += 0.4 + 0.3 * extra;
+                reasons.push(`High volume: ${total} cases in last ${cfg.reporterLookbackDays} days.`);
+            }
+
+            if (distinct >= categoryThresh) {
+                const extra = Math.min(1, (distinct - categoryThresh + 1) / 4);
+                score += 0.4 + 0.3 * extra;
+                reasons.push(`Unrealistic mix: ${distinct} distinct dispute categories.`);
+            }
+
+            score = Math.min(1, score);
+            results.push({
+                reporterId,
+                total,
+                distinct,
+                score,
+                reasons
+            });
+        }
+
+        return results;
     }
 
-    flags.forEach(f => {
-      const tr = document.createElement('tr');
-      const sClass = scoreClass(f.score);
-      tr.innerHTML = `
-        <td>${f.subjectId}</td>
-        <td>${f.subjectType}</td>
-        <td>${f.score.toFixed(2)}</td>
-        <td>
-          <span class="score-badge ${sClass}">
-            <span class="dot"></span>
-            ${f.level}
-          </span>
-        </td>
-        <td>
-          ${f.reasons.map(r => `<div class="reason">• ${r}</div>`).join('')}
-        </td>
-      `;
-      body.appendChild(tr);
-    });
+    function detectStudentFarming(allEvents, cfg) {
+        const now = Date.now();
+        const since = new Date(now - cfg.studentLookbackDays * 24 * 3600 * 1000);
+        const studentData = {};
 
-    status.textContent = `${flags.length} open flag(s). This would flow into a moderator dashboard in production.`;
-  }
-
-  /**********************
-   * 5. TIMELINE MODAL  *
-   **********************/
-  const modalBackdrop = document.getElementById('timeline-modal-backdrop');
-  const modalTitle = document.getElementById('timeline-modal-title');
-  const modalBody = document.getElementById('timeline-modal-body');
-  const modalClose = document.getElementById('timeline-modal-close');
-
-  function openTimelineModal(subjectType, subjectId) {
-    modalTitle.textContent = `Timeline · ${subjectType} · ${subjectId}`;
-    modalBody.innerHTML = '';
-
-    if (subjectType === 'reporter') {
-      const rows = events.filter(e => e.actorId === subjectId).sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
-      if (!rows.length) {
-        modalBody.innerHTML = `<div class="timeline-entry"><div class="timeline-entry-meta">No events found for this reporter in the current window.</div></div>`;
-      } else {
-        rows.forEach(e => {
-          const div = document.createElement('div');
-          div.className = 'timeline-entry';
-          div.innerHTML = `
-            <div class="timeline-entry-type">${e.type} • ${e.caseCategory || ''}</div>
-            <div class="timeline-entry-meta">${e.timestamp} • Case: ${e.caseId}</div>
-          `;
-          modalBody.appendChild(div);
+        allEvents.forEach(e => {
+            if (new Date(e.timestamp) < since) return;
+            if (e.actorRole !== 'student') return;
+            const sid = e.actorId;
+            if (!studentData[sid]) {
+                studentData[sid] = { submissions: [], reviewResults: [] };
+            }
+            if (e.type === 'draft_submitted') {
+                studentData[sid].submissions.push(e);
+            } else if (e.type === 'review_result') {
+                studentData[sid].reviewResults.push(e);
+            }
         });
-      }
-    } else if (subjectType === 'student') {
-      const rows = events.filter(e => e.actorId === subjectId).sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
-      if (!rows.length) {
-        modalBody.innerHTML = `<div class="timeline-entry"><div class="timeline-entry-meta">No events found for this student in the current window.</div></div>`;
-      } else {
-        rows.forEach(e => {
-          const extra = e.meta && e.meta.outcome ? ` • Outcome: ${e.meta.outcome}` : '';
-          const complexity = e.meta && typeof e.meta.complexity === 'number' ? ` • Complexity: ${e.meta.complexity}` : '';
-          const div = document.createElement('div');
-          div.className = 'timeline-entry';
-          div.innerHTML = `
-            <div class="timeline-entry-type">${e.type} • ${e.caseCategory || ''}</div>
-            <div class="timeline-entry-meta">${e.timestamp} • Case: ${e.caseId}${extra}${complexity}</div>
-          `;
-          modalBody.appendChild(div);
+
+        const results = [];
+        const reviseThresh = cfg.reviseThresh;
+        const lowComplexThresh = cfg.lowComplexThresh;
+        const fastHoursThresh = cfg.fastHoursThresh;
+
+        for (const sid in studentData) {
+            const { submissions, reviewResults } = studentData[sid];
+            const totalSubmissions = submissions.length;
+
+            if (totalSubmissions === 0) {
+                results.push({
+                    studentId: sid,
+                    totalSubmissions: 0,
+                    reviseCount: 0,
+                    lowComplexRatio: 0,
+                    avgHours: null,
+                    score: 0,
+                    reasons: ['No submissions in window.']
+                });
+                continue;
+            }
+
+            const reviseCount = reviewResults.filter(r => r.meta && r.meta.outcome === 'revise').length;
+
+            const lowComplexCount = submissions.filter(s => s.meta && s.meta.complexity <= 2).length;
+            const lowComplexRatio = lowComplexCount / totalSubmissions;
+
+            const durations = submissions.map(s => {
+                if (!s.meta || !s.meta.claimAt || !s.meta.submitAt) return null;
+                return (new Date(s.meta.submitAt) - new Date(s.meta.claimAt)) / (3600 * 1000); // hours
+            }).filter(v => v !== null);
+
+            const avgHours = durations.length
+                ? durations.reduce((acc, v) => acc + v, 0) / durations.length
+                : null;
+
+            let score = 0;
+            const reasons = [];
+
+            if (reviseCount >= reviseThresh) {
+                const extra = Math.min(1, (reviseCount - reviseThresh + 1) / 4);
+                score += 0.6 + 0.2 * extra;
+                reasons.push(`High review-sendbacks: ${reviseCount} drafts marked "revise".`);
+            }
+
+            if (lowComplexRatio >= lowComplexThresh) {
+                const extra = Math.min(1, (lowComplexRatio - lowComplexThresh) / 0.3);
+                score += 0.3 + 0.2 * extra;
+                reasons.push(`Low-level farming: ${Math.round(lowComplexRatio * 100)}% of cases are low complexity.`);
+            }
+
+            if (avgHours !== null && avgHours < fastHoursThresh && totalSubmissions >= 3) {
+                const boost = Math.min(1, (fastHoursThresh - avgHours) / fastHoursThresh);
+                score += 0.3 * boost;
+                reasons.push(`Very fast average turnaround: ${avgHours.toFixed(1)} hrs per case.`);
+            }
+
+            score = Math.min(1, score);
+
+            results.push({
+                studentId: sid,
+                totalSubmissions,
+                reviseCount,
+                lowComplexRatio,
+                avgHours,
+                score,
+                reasons: reasons.length ? reasons : ['No strong suspicious pattern detected.']
+            });
+        }
+
+        return results;
+    }
+
+    function detectReviewerBias(allReviews, cfg) {
+        const now = Date.now();
+        const since = new Date(now - cfg.reviewerLookbackDays * 24 * 3600 * 1000);
+
+        const recent = allReviews.filter(r => new Date(r.timestamp) >= since);
+        const byCase = {};
+
+        recent.forEach(r => {
+            if (!byCase[r.caseId]) byCase[r.caseId] = [];
+            byCase[r.caseId].push(r);
         });
-      }
-    } else if (subjectType === 'reviewer') {
-      const rows = reviews.filter(r => r.reviewerId === subjectId).sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
-      if (!rows.length) {
-        modalBody.innerHTML = `<div class="timeline-entry"><div class="timeline-entry-meta">No reviews found for this reviewer in the current window.</div></div>`;
-      } else {
+
+        const diffsByReviewer = {};
+        recent.forEach(r => {
+            const list = byCase[r.caseId];
+            if (!list || list.length < 2) return;
+            const others = list.filter(x => x.reviewerId !== r.reviewerId);
+            if (!others.length) return;
+
+            const meanOthers = others.reduce((s, x) => s + x.score, 0) / others.length;
+            const diff = r.score - meanOthers;
+
+            if (!diffsByReviewer[r.reviewerId]) diffsByReviewer[r.reviewerId] = [];
+            diffsByReviewer[r.reviewerId].push(diff);
+        });
+
+        const results = [];
+
+        for (const reviewerId in diffsByReviewer) {
+            const diffs = diffsByReviewer[reviewerId];
+            if (!diffs.length) {
+                results.push({
+                    reviewerId,
+                    casesReviewed: 0,
+                    meanDiff: 0,
+                    z: 0,
+                    score: 0,
+                    reasons: ['No comparable multi-review cases.']
+                });
+                continue;
+            }
+
+            const mean = diffs.reduce((a, b) => a + b, 0) / diffs.length;
+            const variance = diffs.reduce((a, b) => a + (b - mean) * (b - mean), 0) / diffs.length;
+            const std = Math.sqrt(variance);
+            const z = std ? mean / std : (mean !== 0 ? 999 : 0);
+
+            let score = 0;
+            const reasons = [];
+
+            if (Math.abs(mean) > 1.5) {
+                score += 0.4;
+                reasons.push(`Average scoring bias of ${mean.toFixed(2)} points vs peers.`);
+            }
+
+            if (Math.abs(z) > 2) {
+                score += 0.4;
+                reasons.push(`Bias is consistent across cases (z = ${z.toFixed(2)}).`);
+            }
+
+            score = Math.min(1, score);
+
+            results.push({
+                reviewerId,
+                casesReviewed: diffs.length,
+                meanDiff: mean,
+                z,
+                score,
+                reasons: reasons.length ? reasons : ['No strong bias detected vs peers.']
+            });
+        }
+
+        return results;
+    }
+
+    /**********************
+     * 4. RENDER HELPERS  *
+     **********************/
+    function scoreClass(score) {
+        if (score >= 0.7) return 'score-high';
+        if (score >= 0.3) return 'score-med';
+        return 'score-low';
+    }
+
+    function scoreLabel(score) {
+        if (score >= 0.7) return 'High';
+        if (score >= 0.3) return 'Medium';
+        return 'Low';
+    }
+
+    function renderReporterTable(rows) {
+        const body = document.getElementById('reporter-body');
+        body.innerHTML = '';
+
+        if (!rows.length) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td colspan="5" class="empty-row">No reporter data.</td>`;
+            body.appendChild(tr);
+            return;
+        }
+
         rows.forEach(r => {
-          const div = document.createElement('div');
-          div.className = 'timeline-entry';
-          div.innerHTML = `
-            <div class="timeline-entry-type">review_submitted • Case: ${r.caseId}</div>
-            <div class="timeline-entry-meta">${r.timestamp} • Student: ${r.studentId} • Score: ${r.score}</div>
-          `;
-          modalBody.appendChild(div);
+            const tr = document.createElement('tr');
+            const sClass = scoreClass(r.score);
+            tr.innerHTML = `
+                <td>${r.reporterId}</td>
+                <td>${r.total}</td>
+                <td>${r.distinct}</td>
+                <td>
+                    <span class="score-badge ${sClass}">
+                        <span class="dot"></span>
+                        ${scoreLabel(r.score)} (${r.score.toFixed(2)})
+                    </span>
+                </td>
+                <td>
+                    ${r.reasons.map(reason => `<div class="reason">• ${reason}</div>`).join('')}
+                </td>
+            `;
+            body.appendChild(tr);
         });
-      }
     }
 
-    modalBackdrop.style.display = 'flex';
-  }
+    function renderStudentTable(rows) {
+        const body = document.getElementById('student-body');
+        body.innerHTML = '';
 
-  modalClose.addEventListener('click', () => {
-    modalBackdrop.style.display = 'none';
-  });
+        if (!rows.length) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td colspan="7" class="empty-row">No student submissions in window.</td>`;
+            body.appendChild(tr);
+            return;
+        }
 
-  modalBackdrop.addEventListener('click', (e) => {
-    if (e.target === modalBackdrop) {
-      modalBackdrop.style.display = 'none';
+        rows.forEach(r => {
+            const sClass = scoreClass(r.score);
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${r.studentId}</td>
+                <td>${r.totalSubmissions}</td>
+                <td>${r.reviseCount}</td>
+                <td>${Math.round(r.lowComplexRatio * 100)}%</td>
+                <td>${r.avgHours === null ? '—' : r.avgHours.toFixed(1)}</td>
+                <td>
+                    <span class="score-badge ${sClass}">
+                        <span class="dot"></span>
+                        ${scoreLabel(r.score)} (${r.score.toFixed(2)})
+                    </span>
+                </td>
+                <td>
+                    ${r.reasons.map(reason => `<div class="reason">• ${reason}</div>`).join('')}
+                </td>
+            `;
+            body.appendChild(tr);
+        });
     }
-  });
 
-  function attachRowClickHandlers() {
-    const reporterBody = document.getElementById('reporter-body');
-    const studentBody  = document.getElementById('student-body');
-    const reviewerBody = document.getElementById('reviewer-body');
+    function renderReviewerTable(rows) {
+        const body = document.getElementById('reviewer-body');
+        body.innerHTML = '';
 
-    const handler = (e) => {
-      const tr = e.target.closest('tr.clickable-row');
-      if (!tr) return;
-      const type = tr.dataset.type;
-      const id = tr.dataset.id;
-      if (!type || !id) return;
+        if (!rows.length) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td colspan="6" class="empty-row">No review data.</td>`;
+            body.appendChild(tr);
+            return;
+        }
 
-      openTimelineModal(type, id);
-    };
+        rows.forEach(r => {
+            const sClass = scoreClass(r.score);
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${r.reviewerId}</td>
+                <td>${r.casesReviewed}</td>
+                <td>${r.meanDiff.toFixed(2)}</td>
+                <td>${r.z.toFixed(2)}</td>
+                <td>
+                    <span class="score-badge ${sClass}">
+                        <span class="dot"></span>
+                        ${scoreLabel(r.score)} (${r.score.toFixed(2)})
+                    </span>
+                </td>
+                <td>
+                    ${r.reasons.map(reason => `<div class="reason">• ${reason}</div>`).join('')}
+                </td>
+            `;
+            body.appendChild(tr);
+        });
+    }
 
-    reporterBody.addEventListener('click', handler);
-    studentBody.addEventListener('click', handler);
-    reviewerBody.addEventListener('click', handler);
-  }
+    function renderSummaryTiles(reporterRows, studentRows, reviewerRows) {
+        const container = document.getElementById('summary-grid');
+        container.innerHTML = '';
 
-  /**********************
-   * 6. WIRE IT TO UI   *
-   **********************/
+        const maxReporter = reporterRows.reduce((m,r)=>Math.max(m,r.score),0);
+        const maxStudent  = studentRows.reduce((m,r)=>Math.max(m,r.score),0);
+        const maxReviewer = reviewerRows.reduce((m,r)=>Math.max(m,r.score),0);
 
-  function runAllDetectors() {
-    // clear flags for this run
-    flags = [];
+        const items = [
+            { label: 'Reporter Suspicion', score: maxReporter, desc: 'Fake users filing unrealistic or repeated disputes.' },
+            { label: 'Student Suspicion',  score: maxStudent,  desc: 'Farming low-level cases or repeatedly failing reviews.' },
+            { label: 'Reviewer Suspicion', score: maxReviewer, desc: 'Score inflation or collusion in peer review.' }
+        ];
 
-    const reporterResults = detectReporterAbuse(events, acConfig);
-    const studentResults  = detectStudentFarming(events, acConfig);
-    const reviewerResults = detectReviewerBias(reviews, acConfig);
+        items.forEach(item => {
+            const score = item.score;
+            let chipClass = 'chip-low';
+            if (score >= 0.7) chipClass = 'chip-high';
+            else if (score >= 0.3) chipClass = 'chip-med';
 
-    // create flags based on thresholds
-    reporterResults.forEach(r => {
-      if (r.score >= acConfig.flagThreshMedium) {
-        createFlag(r.reporterId, 'reporter', r.score, r.reasons);
-      }
-    });
-    studentResults.forEach(s => {
-      if (s.score >= acConfig.flagThreshMedium) {
-        createFlag(s.studentId, 'student', s.score, s.reasons);
-      }
-    });
-    reviewerResults.forEach(r => {
-      if (r.score >= acConfig.flagThreshMedium) {
-        createFlag(r.reviewerId, 'reviewer', r.score, r.reasons);
-      }
-    });
+            const tile = document.createElement('div');
+            tile.className = 'summary-tile';
+            tile.innerHTML = `
+                <div class="summary-label">${item.label}</div>
+                <div class="summary-score-row">
+                    <span class="summary-score">${score.toFixed(2)}</span>
+                    <span class="summary-chip ${chipClass}">
+                        <span class="dot"></span>
+                        ${scoreLabel(score)}
+                    </span>
+                </div>
+                <div class="summary-desc">${item.desc}</div>
+            `;
+            container.appendChild(tile);
+        });
+    }
 
-    // persist flags
-    saveFlags(flags);
+    /**********************
+     * 5. WIRE IT TO UI   *
+     **********************/
+    function runAllDetectors() {
+        const reporterResults = detectReporterAbuse(events, CONFIG);
+        const studentResults  = detectStudentFarming(events, CONFIG);
+        const reviewerResults = detectReviewerBias(reviews, CONFIG);
 
-    // render UI
-    renderReporterTable(reporterResults);
-    renderStudentTable(studentResults);
-    renderReviewerTable(reviewerResults);
-    renderSummaryPills(reporterResults, studentResults, reviewerResults);
-    renderFlagsTable();
+        renderReporterTable(reporterResults);
+        renderStudentTable(studentResults);
+        renderReviewerTable(reviewerResults);
+        renderSummaryTiles(reporterResults, studentResults, reviewerResults);
+    }
 
-    // ensure row click handlers are live
-    attachRowClickHandlers();
-  }
+    document.getElementById('run-detectors-btn').addEventListener('click', runAllDetectors);
 
-  document.getElementById('run-detectors-btn').addEventListener('click', runAllDetectors);
-
-  document.getElementById('save-settings-btn').addEventListener('click', () => {
-    readConfigFromUI();
+    // Initial run on load
     runAllDetectors();
-  });
-
-  // Initial setup
-  bindConfigToUI();
-  runAllDetectors();
 </script>
 </body>
 </html>
