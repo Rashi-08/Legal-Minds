@@ -122,7 +122,15 @@
     /* ---------- Right column ---------- */
     .right-card .small-row{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid #e5e7eb}
     .right-card .small-row:last-child{border-bottom:none}
-    .download-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:linear-gradient(90deg,#0a66c2,#10b981);color:#fff;font-weight:700;text-decoration:none;margin-top:12px}
+    .download-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:linear-gradient(90deg,#0a66c2,#10b981);color:#fff;font-weight:700;text-decoration:none;margin-top:12px; width: 100%; justify-content: center;}
+
+    /* Recruiter Feedback Styles */
+    .recruiter-feedback {margin-top: 24px; border-top: 1px solid #e5e7eb; padding-top: 16px;}
+    .recruiter-feedback label {display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 6px;}
+    .recruiter-feedback textarea {width: 100%; border: 1px solid #d1d5db; border-radius: 8px; padding: 10px; font-family: inherit; font-size: 0.9rem; min-height: 80px; resize: vertical; margin-bottom: 12px;}
+    .recruiter-feedback select {width: 100%; border: 1px solid #d1d5db; border-radius: 8px; padding: 8px; font-family: inherit; font-size: 0.9rem; margin-bottom: 12px; background-color: #fff;}
+    .submit-review-btn {background: #111827; color: #fff; width: 100%; padding: 10px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; transition: background 0.2s;}
+    .submit-review-btn:hover {background: #000;}
 
     @media (max-width:1200px){
       .stats-row{grid-template-columns:repeat(3,1fr)}
@@ -142,7 +150,6 @@
   </header>
 
   <div class="page">
-    <!-- LEFT -->
     <aside class="card">
       <div class="profile-center">
         <div class="avatar" id="student-avatar">SR</div>
@@ -171,7 +178,6 @@
       <div class="badges" id="student-badges"></div>
     </aside>
 
-    <!-- MIDDLE -->
     <main class="main">
       <div class="card overview">
         <div class="panel-head">
@@ -225,7 +231,6 @@
       </div>
     </main>
 
-    <!-- RIGHT -->
     <aside class="card right-col right-card">
       <div style="font-weight:700;margin-bottom:8px">Quick Summary</div>
       <div class="small-row"><div class="label-small">Solved</div><div class="value-strong" id="rs-solved">—</div></div>
@@ -234,6 +239,22 @@
 
       <a class="download-btn" href="#" onclick="alert('Mock: download portfolio')">Download Portfolio</a>
       <div style="margin-top:14px;font-size:0.85rem;color:#6b7280">Recruiter note: this page presents verified case outcomes, proctor integrity and peer reviews — useful for hiring decisions.</div>
+
+      <div class="recruiter-feedback">
+        <div style="font-weight:700; margin-bottom: 12px; color: #111827;">Interview Feedback (Recruiter Only)</div>
+        <label for="recruiter-notes">Interview Notes</label>
+        <textarea id="recruiter-notes" placeholder="Enter notes from the interview session..."></textarea>
+        
+        <label for="hiring-decision">Recommendation</label>
+        <select id="hiring-decision">
+          <option value="" disabled selected>Select Decision</option>
+          <option value="Hire">Strong Hire</option>
+          <option value="Hold">Hold / Waitlist</option>
+          <option value="Reject">Reject</option>
+        </select>
+
+        <button class="submit-review-btn" onclick="submitInterviewReview()">Submit Review</button>
+      </div>
     </aside>
   </div>
 
@@ -366,6 +387,34 @@
         document.getElementById("summary-line").textContent = "Could not load portfolio data.";
         document.getElementById("summary-pill").textContent = "Error loading data.";
       }
+    }
+
+    // Function to handle recruiter review submission
+    function submitInterviewReview() {
+      const notes = document.getElementById("recruiter-notes").value;
+      const decision = document.getElementById("hiring-decision").value;
+
+      if (!notes || !decision) {
+        alert("Please fill in both the notes and select a decision.");
+        return;
+      }
+
+      // In a real app, this data would be sent to a backend
+      console.log("Recruiter Review Submitted:", {
+        notes: notes,
+        decision: decision,
+        timestamp: new Date().toISOString()
+      });
+
+      // UI Feedback
+      alert("Review submitted successfully!");
+      
+      // Optional: Disable fields to prevent duplicate submission
+      document.getElementById("recruiter-notes").disabled = true;
+      document.getElementById("hiring-decision").disabled = true;
+      document.querySelector(".submit-review-btn").textContent = "Review Submitted";
+      document.querySelector(".submit-review-btn").disabled = true;
+      document.querySelector(".submit-review-btn").style.backgroundColor = "#10b981"; // Green color
     }
 
     window.addEventListener("DOMContentLoaded", loadStudentProfile);
