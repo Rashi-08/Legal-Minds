@@ -6,27 +6,27 @@ Overview
 
 1)Lawyer Portal
 
-(i)Access to case details, client information, and workflow views.
+    (i)Access to case details, client information, and workflow views.
 
 2)Student Portal
 
-(i)Case listings, learning materials, and research-focused interfaces.
+    (i)Case listings, learning materials, and research-focused interfaces.
 
 3)Recruiter Portal
 
-(i)Student profiles and evaluation-related information.
+    (i)Student profiles and evaluation-related information.
 
 4)User Portal
 
-(i)General legal information and entry-level access to the system.
+    (i)General legal information and entry-level access to the system.
 
 Technology Stack
 
-1)HTML5
+    1)HTML5
 
-2)CSS3
+    2)CSS3
 
-3)JavaScript (vanilla)
+    3)JavaScript (vanilla)
 
 Static JSON files (cases.json, students.json)
 
@@ -34,29 +34,29 @@ No backend implemented yet
 
 Repository Structure
 
-1)index.html
+    1)index.html
 
-2)signup.html
+    2)signup.html
 
-3)cases.json
+    3)cases.json
 
-4)students.json
+    4)students.json
 
-5)lawyer/
+    5)lawyer/
 
-6)student/
+    6)student/
 
-7)recruiter/
+    7)recruiter/
 
-8)user/
+    8)user/
 
 Current Features
 
-1)Modular interface for different user roles
+    1)Modular interface for different user roles
 
-2)Static data handling using JSON
+    2)Static data handling using JSON
 
-3)Clean separation of UI components
+    3)Clean separation of UI components
 
 Ready for integration with backend services
 
