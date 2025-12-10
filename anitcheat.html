@@ -13,14 +13,13 @@
             background: #f3f4f6;
             color: #111827;
             min-height: 100vh;
-            /* Base font size increase for overall readability */
-            font-size: 17px; 
+            font-size: 17px;
         }
 
         .app {
-            max-width: 1280px; /* Increased max width */
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 32px 24px 60px; /* Increased top/bottom padding */
+            padding: 32px 24px 60px;
         }
 
         /* Top bar */
@@ -28,42 +27,42 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 24px; /* Increased margin */
+            margin-bottom: 24px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px; /* Increased gap */
+            gap: 12px;
             font-weight: 800;
-            font-size: 1.6rem; /* Increased size */
+            font-size: 1.6rem;
             background: linear-gradient(135deg, #0a66c2, #10b981);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .logo-icon {
-            font-size: 1.8rem; /* Increased size */
+            font-size: 1.8rem;
         }
 
         .top-pill {
-            font-size: 1rem; /* Increased size */
-            padding: 8px 14px; /* Increased padding */
+            font-size: 1rem;
+            padding: 8px 14px;
             border-radius: 999px;
             background: #e5f3ff;
             color: #1d4ed8;
             border: 1px solid #bfdbfe;
-            font-weight: 600; /* Added weight */
+            font-weight: 600;
         }
 
         /* Cards */
         .card {
             background: #ffffff;
-            border-radius: 18px; /* Slightly larger radius */
-            border: 2px solid #e5e7eb; /* Slightly stronger border */
-            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08); /* Stronger shadow */
-            padding: 24px 24px 24px; /* Increased padding */
-            margin-bottom: 24px; /* Increased margin */
+            border-radius: 18px;
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+            padding: 24px 24px 24px;
+            margin-bottom: 24px;
         }
 
         .card-header {
@@ -75,7 +74,7 @@
         }
 
         .card-title {
-            font-size: 1.3rem; /* Increased size */
+            font-size: 1.3rem;
             font-weight: 700;
             display: flex;
             align-items: center;
@@ -83,12 +82,12 @@
         }
 
         .card-title span.icon {
-            font-size: 1.5rem; /* Increased size */
+            font-size: 1.5rem;
         }
 
         .card-subtitle {
-            font-size: 0.95rem; /* Increased size */
-            color: #4b5563; /* Darker for contrast */
+            font-size: 0.95rem;
+            color: #4b5563;
             margin-bottom: 12px;
             line-height: 1.4;
         }
@@ -97,7 +96,7 @@
         .hero-grid {
             display: grid;
             grid-template-columns: 1.6fr 1.1fr;
-            gap: 24px; /* Increased gap */
+            gap: 24px;
             margin-top: 8px;
         }
 
@@ -111,20 +110,27 @@
             border: none;
             outline: none;
             border-radius: 999px;
-            padding: 10px 20px; /* Increased padding */
+            padding: 10px 20px;
             background: linear-gradient(135deg, #0a66c2, #10b981);
             color: #ffffff;
             font-weight: 700;
-            font-size: 1rem; /* Increased size */
+            font-size: 1rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); /* Added shadow */
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .primary-btn .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: #bbf7d0;
         }
 
         .hint-text {
-            font-size: 0.9rem; /* Increased size */
+            font-size: 0.9rem;
             color: #6b7280;
             margin-top: 10px;
             line-height: 1.4;
@@ -134,22 +140,22 @@
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 16px; /* Increased gap */
+            gap: 16px;
             margin-top: 8px;
         }
 
         .summary-tile {
             border-radius: 14px;
-            padding: 16px; /* Increased padding */
+            padding: 16px;
             border: 1px solid #d1d5db;
             background: #f9fafb;
         }
 
         .summary-label {
-            font-size: 0.85rem; /* Increased size */
+            font-size: 0.85rem;
             color: #4b5563;
             margin-bottom: 4px;
-            font-weight: 600; /* Added weight */
+            font-weight: 600;
         }
 
         .summary-score-row {
@@ -160,7 +166,7 @@
         }
 
         .summary-score {
-            font-size: 1.5rem; /* Increased size */
+            font-size: 1.5rem;
             font-weight: 800;
             background: linear-gradient(135deg, #0a66c2, #10b981);
             -webkit-background-clip: text;
@@ -168,7 +174,7 @@
         }
 
         .summary-chip {
-            font-size: 0.8rem; /* Increased size */
+            font-size: 0.8rem;
             padding: 4px 10px;
             border-radius: 999px;
             border: 1px solid;
@@ -176,15 +182,26 @@
         }
 
         .summary-desc {
-            font-size: 0.85rem; /* Increased size */
+            font-size: 0.85rem;
             color: #6b7280;
             line-height: 1.3;
         }
 
-        /* Legend */
         .legend-row {
             margin-top: 8px;
-            font-size: 0.85rem; /* Increased size */
+            font-size: 0.85rem;
+            color: #6b7280;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .legend-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            margin-right: 4px;
         }
 
         /* Tables */
@@ -198,17 +215,17 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.95rem; /* Increased body text size */
+            font-size: 0.95rem;
             background: #ffffff;
         }
 
         thead {
-            background: #eef1f3; /* Lighter shade for header */
+            background: #eef1f3;
         }
 
         th, td {
-            padding: 12px 14px; /* Increased padding */
-            border-bottom: 1px solid #d1d5db; /* Stronger border */
+            padding: 12px 14px;
+            border-bottom: 1px solid #d1d5db;
             text-align: left;
             vertical-align: middle;
         }
@@ -216,16 +233,15 @@
         th {
             font-weight: 700;
             color: #374151;
-            font-size: 1rem; /* Increased header size */
+            font-size: 1rem;
         }
 
         td {
             color: #4b5563;
         }
 
-        /* HOVER EFFECT FOR READABILITY */
         tbody tr:hover {
-            background-color: #f5f8fa; /* Subtle hover effect */
+            background-color: #f5f8fa;
             transition: background-color 0.15s ease;
         }
 
@@ -234,35 +250,42 @@
         }
 
         .reason {
-            font-size: 0.85rem; /* Increased size */
+            font-size: 0.85rem;
             color: #6b7280;
             margin-bottom: 4px;
         }
 
         .score-badge {
-            padding: 4px 10px; /* Increased padding */
-            font-size: 0.85rem; /* Increased size */
-            font-weight: 600; /* Added weight */
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 999px;
+            border: 1px solid;
         }
-        
-        /* Reused Color Classes (chip-low/med/high, score-low/med/high remain unchanged) */
+
         .chip-low { border-color: #22c55e; background: #ecfdf5; color: #166534; }
         .chip-low span.dot { background: #22c55e; }
         .chip-med { border-color: #eab308; background: #fffbeb; color: #a16207; }
         .chip-med span.dot { background: #eab308; }
         .chip-high { border-color: #ef4444; background: #fef2f2; color: #b91c1c; }
         .chip-high span.dot { background: #ef4444; }
+
         .score-low { border-color: #22c55e; background: #ecfdf5; color: #166534; }
-        .score-low span.dot { background: #22c55e; }
         .score-med { border-color: #eab308; background: #fffbeb; color: #a16207; }
-        .score-med span.dot { background: #eab308; }
         .score-high { border-color: #ef4444; background: #fef2f2; color: #b91c1c; }
-        .score-high span.dot { background: #ef4444; }
-        
+
         .score-badge span.dot {
             width: 8px;
             height: 8px;
             border-radius: 999px;
+        }
+
+        .empty-row {
+            text-align: center;
+            color: #9ca3af;
         }
     </style>
 </head>
@@ -301,9 +324,9 @@
                 <div class="hint-text" style="margin-top:10px;">
                     What we look at:
                     <ul style="margin-top:6px; margin-left:20px;">
-                        <li>Reporter: unrealistic case volume & category mix</li>
-                        <li>Student: repeated “revise” decisions & low-complexity spam</li>
-                        <li>Reviewer: scoring bias vs peers on the same draft</li>
+                        <li>Reporter: unrealistic case volume, category mix & cross-account linkage</li>
+                        <li>Student: repeated “revise”, low-complexity spam, progression & template reuse</li>
+                        <li>Reviewer: scoring bias and consistency vs peers on the same draft</li>
                     </ul>
                 </div>
             </div>
@@ -312,8 +335,7 @@
                 <div class="card-subtitle" style="margin-bottom:6px; padding-top: 4px;">
                     Latest scan · Max suspicion per role (0 = clean, 1 = very suspicious)
                 </div>
-                <div class="summary-grid" id="summary-grid">
-                    </div>
+                <div class="summary-grid" id="summary-grid"></div>
                 <div class="legend-row">
                     <span><span class="legend-dot" style="background:#22c55e;"></span>Low</span>
                     <span><span class="legend-dot" style="background:#eab308;"></span>Medium</span>
@@ -323,6 +345,7 @@
         </div>
     </div>
 
+    <!-- Reporter table -->
     <div class="card">
         <div class="card-header">
             <div class="card-title">
@@ -333,7 +356,7 @@
         <div class="card-subtitle">
             “One person cannot be in a land dispute, traffic case, bonds dispute and defamation fight at the same time.”
             We flag accounts that file
-            <b>too many cases</b> or an <b>unrealistic mix of categories</b> in a short window.
+            <b>too many cases</b>, an <b>unrealistic mix of categories</b>, or that share devices/IPs with student accounts.
         </div>
         <div class="table-wrap">
             <table>
@@ -351,6 +374,7 @@
         </div>
     </div>
 
+    <!-- Student table -->
     <div class="card">
         <div class="card-header">
             <div class="card-title">
@@ -359,8 +383,9 @@
             </div>
         </div>
         <div class="card-subtitle">
-            Students get flagged if they are repeatedly sent back for review, or if they farm only
-            <b>low-complexity, copy-pasteable cases</b> at suspicious speed.
+            Students get flagged if they are repeatedly sent back for review, farm only
+            <b>low-complexity, copy-pasteable cases</b>, never progress to harder work, or reuse the same draft template across
+            many fact patterns. We also flag if their device is the same as a reporter creating cases.
         </div>
         <div class="table-wrap">
             <table>
@@ -380,6 +405,7 @@
         </div>
     </div>
 
+    <!-- Reviewer table -->
     <div class="card">
         <div class="card-header">
             <div class="card-title">
@@ -431,33 +457,107 @@
 
     // Reporter/user events: case_created
     const events = [
-        // Reporter U1: realistic 2 land disputes
-        { id: 'e1', type: 'case_created', actorId: 'user-001', actorRole:'reporter', caseId:'c1', caseCategory:'Land', timestamp:'2025-12-05T10:00:00Z' },
-        { id: 'e2', type: 'case_created', actorId: 'user-001', actorRole:'reporter', caseId:'c2', caseCategory:'Land', timestamp:'2025-12-06T11:00:00Z' },
+        // Reporter U1: realistic 2 land disputes, own device
+        {
+            id: 'e1', type: 'case_created', actorId: 'user-001', actorRole:'reporter',
+            caseId:'c1', caseCategory:'Land', timestamp:'2025-12-05T10:00:00Z',
+            meta: { ip:'198.51.100.10', deviceId:'dev-u1', userAgent:'Mozilla/5.0 ReporterNormal' }
+        },
+        {
+            id: 'e2', type: 'case_created', actorId: 'user-001', actorRole:'reporter',
+            caseId:'c2', caseCategory:'Land', timestamp:'2025-12-06T11:00:00Z',
+            meta: { ip:'198.51.100.10', deviceId:'dev-u1', userAgent:'Mozilla/5.0 ReporterNormal' }
+        },
 
-        // Reporter U2: clearly farming many categories
-        { id: 'e3', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c3', caseCategory:'Land', timestamp:'2025-12-01T09:00:00Z' },
-        { id: 'e4', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c4', caseCategory:'Traffic', timestamp:'2025-12-01T09:05:00Z' },
-        { id: 'e5', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c5', caseCategory:'Bonds', timestamp:'2025-12-01T09:10:00Z' },
-        { id: 'e6', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c6', caseCategory:'Defamation', timestamp:'2025-12-01T09:15:00Z' },
-        { id: 'e7', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c7', caseCategory:'Wages', timestamp:'2025-12-02T12:00:00Z' },
-        { id: 'e8', type: 'case_created', actorId: 'user-002', actorRole:'reporter', caseId:'c8', caseCategory:'Family', timestamp:'2025-12-03T13:00:00Z' },
+        // Reporter U2: clearly farming many categories, SHARED device/IP
+        {
+            id: 'e3', type: 'case_created', actorId: 'user-002', actorRole:'reporter',
+            caseId:'c3', caseCategory:'Land', timestamp:'2025-12-01T09:00:00Z',
+            meta: { ip:'203.0.113.99', deviceId:'dev-shared-01', userAgent:'Mozilla/5.0 ReporterBot' }
+        },
+        {
+            id: 'e4', type: 'case_created', actorId: 'user-002', actorRole:'reporter',
+            caseId:'c4', caseCategory:'Traffic', timestamp:'2025-12-01T09:05:00Z',
+            meta: { ip:'203.0.113.99', deviceId:'dev-shared-01', userAgent:'Mozilla/5.0 ReporterBot' }
+        },
+        {
+            id: 'e5', type: 'case_created', actorId: 'user-002', actorRole:'reporter',
+            caseId:'c5', caseCategory:'Bonds', timestamp:'2025-12-01T09:10:00Z',
+            meta: { ip:'203.0.113.99', deviceId:'dev-shared-01', userAgent:'Mozilla/5.0 ReporterBot' }
+        },
+        {
+            id: 'e6', type: 'case_created', actorId: 'user-002', actorRole:'reporter',
+            caseId:'c6', caseCategory:'Defamation', timestamp:'2025-12-01T09:15:00Z',
+            meta: { ip:'203.0.113.99', deviceId:'dev-shared-01', userAgent:'Mozilla/5.0 ReporterBot' }
+        },
+        {
+            id: 'e7', type: 'case_created', actorId: 'user-002', actorRole:'reporter',
+            caseId:'c7', caseCategory:'Wages', timestamp:'2025-12-02T12:00:00Z',
+            meta: { ip:'203.0.113.99', deviceId:'dev-shared-01', userAgent:'Mozilla/5.0 ReporterBot' }
+        },
+        {
+            id: 'e8', type: 'case_created', actorId: 'user-002', actorRole:'reporter',
+            caseId:'c8', caseCategory:'Family', timestamp:'2025-12-03T13:00:00Z',
+            meta: { ip:'203.0.113.99', deviceId:'dev-shared-01', userAgent:'Mozilla/5.0 ReporterBot' }
+        },
 
-        // Reporter U3: lots of cases but same type (volume suspicious)
-        { id: 'e9',  type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c9',  caseCategory:'Traffic', timestamp:'2025-12-01T08:00:00Z' },
-        { id: 'e10', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c10', caseCategory:'Traffic', timestamp:'2025-12-02T08:00:00Z' },
-        { id: 'e11', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c11', caseCategory:'Traffic', timestamp:'2025-12-03T08:00:00Z' },
-        { id: 'e12', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c12', caseCategory:'Traffic', timestamp:'2025-12-04T08:00:00Z' },
-        { id: 'e13', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c13', caseCategory:'Traffic', timestamp:'2025-12-05T08:00:00Z' },
-        { id: 'e14', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c14', caseCategory:'Traffic', timestamp:'2025-12-06T08:00:00Z' },
-        { id: 'e15', type: 'case_created', actorId: 'user-003', actorRole:'reporter', caseId:'c15', caseCategory:'Traffic', timestamp:'2025-12-07T08:00:00Z' },
+        // Reporter U3: lots of traffic cases, own device
+        {
+            id: 'e9',  type: 'case_created', actorId: 'user-003', actorRole:'reporter',
+            caseId:'c9',  caseCategory:'Traffic', timestamp:'2025-12-01T08:00:00Z',
+            meta: { ip:'198.51.100.30', deviceId:'dev-u3', userAgent:'Mozilla/5.0 ReporterTraffic' }
+        },
+        {
+            id: 'e10', type: 'case_created', actorId: 'user-003', actorRole:'reporter',
+            caseId:'c10', caseCategory:'Traffic', timestamp:'2025-12-02T08:00:00Z',
+            meta: { ip:'198.51.100.30', deviceId:'dev-u3', userAgent:'Mozilla/5.0 ReporterTraffic' }
+        },
+        {
+            id: 'e11', type: 'case_created', actorId: 'user-003', actorRole:'reporter',
+            caseId:'c11', caseCategory:'Traffic', timestamp:'2025-12-03T08:00:00Z',
+            meta: { ip:'198.51.100.30', deviceId:'dev-u3', userAgent:'Mozilla/5.0 ReporterTraffic' }
+        },
+        {
+            id: 'e12', type: 'case_created', actorId: 'user-003', actorRole:'reporter',
+            caseId:'c12', caseCategory:'Traffic', timestamp:'2025-12-04T08:00:00Z',
+            meta: { ip:'198.51.100.30', deviceId:'dev-u3', userAgent:'Mozilla/5.0 ReporterTraffic' }
+        },
+        {
+            id: 'e13', type: 'case_created', actorId: 'user-003', actorRole:'reporter',
+            caseId:'c13', caseCategory:'Traffic', timestamp:'2025-12-05T08:00:00Z',
+            meta: { ip:'198.51.100.30', deviceId:'dev-u3', userAgent:'Mozilla/5.0 ReporterTraffic' }
+        },
+        {
+            id: 'e14', type: 'case_created', actorId: 'user-003', actorRole:'reporter',
+            caseId:'c14', caseCategory:'Traffic', timestamp:'2025-12-06T08:00:00Z',
+            meta: { ip:'198.51.100.30', deviceId:'dev-u3', userAgent:'Mozilla/5.0 ReporterTraffic' }
+        },
+        {
+            id: 'e15', type: 'case_created', actorId: 'user-003', actorRole:'reporter',
+            caseId:'c15', caseCategory:'Traffic', timestamp:'2025-12-07T08:00:00Z',
+            meta: { ip:'198.51.100.30', deviceId:'dev-u3', userAgent:'Mozilla/5.0 ReporterTraffic' }
+        },
+
+        // Reporter U4: small extra reporter sharing the same evil device as user-002
+        {
+            id: 'e16', type: 'case_created', actorId: 'user-004', actorRole:'reporter',
+            caseId:'c16', caseCategory:'Wages', timestamp:'2025-12-03T09:00:00Z',
+            meta: { ip:'203.0.113.99', deviceId:'dev-shared-01', userAgent:'Mozilla/5.0 ReporterBot2' }
+        },
 
         // Student events: draft_submitted, review_result
         // S1: honest, mixed complexity, few revisions
         {
           id:'s1-d1', type:'draft_submitted', actorId:'student-001', actorRole:'student',
           caseId:'c101', caseCategory:'Rent', timestamp:'2025-12-03T09:00:00Z',
-          meta: { complexity: 3, claimAt:'2025-12-02T12:00:00Z', submitAt:'2025-12-03T09:00:00Z' }
+          meta: {
+              complexity: 3,
+              claimAt:'2025-12-02T12:00:00Z',
+              submitAt:'2025-12-03T09:00:00Z',
+              ip:'198.51.100.60',
+              deviceId:'dev-s1',
+              draftText:'This draft explains the tenant’s right to protection from illegal eviction and seeks a reasoned reply from the landlord.'
+          }
         },
         {
           id:'s1-r1', type:'review_result', actorId:'student-001', actorRole:'student',
@@ -467,7 +567,14 @@
         {
           id:'s1-d2', type:'draft_submitted', actorId:'student-001', actorRole:'student',
           caseId:'c102', caseCategory:'Wages', timestamp:'2025-12-04T10:00:00Z',
-          meta: { complexity: 4, claimAt:'2025-12-03T12:00:00Z', submitAt:'2025-12-04T10:00:00Z' }
+          meta: {
+              complexity: 4,
+              claimAt:'2025-12-03T12:00:00Z',
+              submitAt:'2025-12-04T10:00:00Z',
+              ip:'198.51.100.60',
+              deviceId:'dev-s1',
+              draftText:'The worker is claiming unpaid wages and overtime; this draft sets out statutory rights and a clear payment timeline.'
+          }
         },
         {
           id:'s1-r2', type:'review_result', actorId:'student-001', actorRole:'student',
@@ -475,11 +582,18 @@
           meta: { outcome:'revise' }
         },
 
-        // S2: low-complexity farming + fast turnaround + repeated revise
+        // S2: low-complexity farming + fast turnaround + repeated revise + template reuse
         {
           id:'s2-d1', type:'draft_submitted', actorId:'student-002', actorRole:'student',
           caseId:'c201', caseCategory:'Traffic', timestamp:'2025-12-01T10:00:00Z',
-          meta: { complexity: 1, claimAt:'2025-12-01T08:30:00Z', submitAt:'2025-12-01T10:00:00Z' }
+          meta: {
+              complexity: 1,
+              claimAt:'2025-12-01T08:30:00Z',
+              submitAt:'2025-12-01T10:00:00Z',
+              ip:'203.0.113.99',             // same as user-002 (reporter)
+              deviceId:'dev-shared-01',      // shared device
+              draftText:'Dear Sir, I am a daily wage worker stopped by traffic police. This template briefly describes the facts and requests lenient action.'
+          }
         },
         {
           id:'s2-r1', type:'review_result', actorId:'student-002', actorRole:'student',
@@ -488,28 +602,49 @@
         },
         {
           id:'s2-d2', type:'draft_submitted', actorId:'student-002', actorRole:'student',
-          caseId:'c202', caseCategory:'Traffic', timestamp:'2025-12-02T10:15:00Z',
-          meta: { complexity: 1, claimAt:'2025-12-02T09:00:00Z', submitAt:'2025-12-02T10:15:00Z' }
+          caseId:'c202', caseCategory:'Rent', timestamp:'2025-12-02T10:15:00Z',
+          meta: {
+              complexity: 1,
+              claimAt:'2025-12-02T09:00:00Z',
+              submitAt:'2025-12-02T10:15:00Z',
+              ip:'203.0.113.99',
+              deviceId:'dev-shared-01',
+              draftText:'Dear Sir, I am a daily wage tenant facing issues. This template briefly describes the facts and requests lenient action from the landlord.'
+          }
         },
         {
           id:'s2-r2', type:'review_result', actorId:'student-002', actorRole:'student',
-          caseId:'c202', caseCategory:'Traffic', timestamp:'2025-12-02T14:00:00Z',
+          caseId:'c202', caseCategory:'Rent', timestamp:'2025-12-02T14:00:00Z',
           meta: { outcome:'revise' }
         },
         {
           id:'s2-d3', type:'draft_submitted', actorId:'student-002', actorRole:'student',
-          caseId:'c203', caseCategory:'Traffic', timestamp:'2025-12-03T09:30:00Z',
-          meta: { complexity: 2, claimAt:'2025-12-03T08:00:00Z', submitAt:'2025-12-03T09:30:00Z' }
+          caseId:'c203', caseCategory:'Wages', timestamp:'2025-12-03T09:30:00Z',
+          meta: {
+              complexity: 2,
+              claimAt:'2025-12-03T08:00:00Z',
+              submitAt:'2025-12-03T09:30:00Z',
+              ip:'203.0.113.99',
+              deviceId:'dev-shared-01',
+              draftText:'Dear Sir, I am a daily wage worker underpaid for three months. This template briefly describes the facts and requests full payment.'
+          }
         },
         {
           id:'s2-r3', type:'review_result', actorId:'student-002', actorRole:'student',
-          caseId:'c203', caseCategory:'Traffic', timestamp:'2025-12-03T12:00:00Z',
+          caseId:'c203', caseCategory:'Wages', timestamp:'2025-12-03T12:00:00Z',
           meta: { outcome:'revise' }
         },
         {
           id:'s2-d4', type:'draft_submitted', actorId:'student-002', actorRole:'student',
           caseId:'c204', caseCategory:'Traffic', timestamp:'2025-12-04T09:45:00Z',
-          meta: { complexity: 1, claimAt:'2025-12-04T08:30:00Z', submitAt:'2025-12-04T09:45:00Z' }
+          meta: {
+              complexity: 1,
+              claimAt:'2025-12-04T08:30:00Z',
+              submitAt:'2025-12-04T09:45:00Z',
+              ip:'203.0.113.99',
+              deviceId:'dev-shared-01',
+              draftText:'Dear Sir, I am a daily wage worker stopped by traffic police again. This template briefly repeats the facts and requests lenient action.'
+          }
         },
         {
           id:'s2-r4', type:'review_result', actorId:'student-002', actorRole:'student',
@@ -521,13 +656,20 @@
         {
           id:'s3-d1', type:'draft_submitted', actorId:'student-003', actorRole:'student',
           caseId:'c301', caseCategory:'Rent', timestamp:'2025-12-05T11:00:00Z',
-          meta: { complexity: 3, claimAt:'2025-12-04T15:00:00Z', submitAt:'2025-12-05T11:00:00Z' }
+          meta: {
+              complexity: 3,
+              claimAt:'2025-12-04T15:00:00Z',
+              submitAt:'2025-12-05T11:00:00Z',
+              ip:'198.51.100.90',
+              deviceId:'dev-s3',
+              draftText:'This draft explains the tenant’s rent arrears and proposes a realistic payment plan while asserting basic rights.'
+          }
         },
         {
           id:'s3-r1', type:'review_result', actorId:'student-003', actorRole:'student',
           caseId:'c301', caseCategory:'Rent', timestamp:'2025-12-05T16:00:00Z',
           meta: { outcome:'approve' }
-        },
+        }
     ];
 
     // Review records for reviewer-collusion detector:
@@ -547,14 +689,148 @@
         // Case Y1: normal variation
         { reviewerId:'rev-001', studentId:'student-001', caseId:'c101', score:8, timestamp:'2025-12-04T09:00:00Z' },
         { reviewerId:'rev-002', studentId:'student-001', caseId:'c101', score:9, timestamp:'2025-12-04T09:05:00Z' },
-        { reviewerId:'rev-003', studentId:'student-001', caseId:'c101', score:9, timestamp:'2025-12-04T09:10:00Z' },
+        { reviewerId:'rev-003', studentId:'student-001', caseId:'c101', score:9, timestamp:'2025-12-04T09:10:00Z' }
     ];
 
     /*******************************
-     * 3. DETECTOR IMPLEMENTATION  *
+     * 3. UTILS & CROSS-ACCOUNT    *
      *******************************/
 
-    function detectReporterAbuse(allEvents, cfg) {
+    function tokenize(text) {
+        return text
+            .toLowerCase()
+            .replace(/[^a-z0-9\s]/g, ' ')
+            .split(/\s+/)
+            .filter(Boolean);
+    }
+
+    function jaccardSimilarity(tokensA, tokensB) {
+        const setA = new Set(tokensA);
+        const setB = new Set(tokensB);
+        let intersection = 0;
+        setA.forEach(t => { if (setB.has(t)) intersection++; });
+        const union = setA.size + setB.size - intersection;
+        return union === 0 ? 0 : intersection / union;
+    }
+
+    // Cross-account linkage: shared device/IP across reporters & students
+    function computeCrossAccountSignals(allEvents) {
+        const deviceIndex = {};
+        const ipIndex = {};
+
+        allEvents.forEach(e => {
+            const m = e.meta || {};
+            if (m.deviceId) {
+                if (!deviceIndex[m.deviceId]) {
+                    deviceIndex[m.deviceId] = {
+                        roles: new Set(),
+                        actorIds: new Set(),
+                        reporters: new Set(),
+                        students: new Set()
+                    };
+                }
+                const entry = deviceIndex[m.deviceId];
+                entry.roles.add(e.actorRole);
+                entry.actorIds.add(e.actorId);
+                if (e.actorRole === 'reporter') entry.reporters.add(e.actorId);
+                if (e.actorRole === 'student') entry.students.add(e.actorId);
+            }
+            if (m.ip) {
+                if (!ipIndex[m.ip]) {
+                    ipIndex[m.ip] = {
+                        roles: new Set(),
+                        actorIds: new Set(),
+                        reporters: new Set(),
+                        students: new Set()
+                    };
+                }
+                const entry = ipIndex[m.ip];
+                entry.roles.add(e.actorRole);
+                entry.actorIds.add(e.actorId);
+                if (e.actorRole === 'reporter') entry.reporters.add(e.actorId);
+                if (e.actorRole === 'student') entry.students.add(e.actorId);
+            }
+        });
+
+        const reporterSignals = {};
+        const studentSignals = {};
+
+        function ensureReporter(id) {
+            if (!reporterSignals[id]) {
+                reporterSignals[id] = {
+                    sharedReporterDevices: 0,
+                    sharedReporterIps: 0,
+                    crossRoleDevices: 0,
+                    crossRoleIps: 0
+                };
+            }
+            return reporterSignals[id];
+        }
+
+        function ensureStudent(id) {
+            if (!studentSignals[id]) {
+                studentSignals[id] = {
+                    crossRoleDevices: 0,
+                    crossRoleIps: 0
+                };
+            }
+            return studentSignals[id];
+        }
+
+        // device-based signals
+        Object.entries(deviceIndex).forEach(([deviceId, entry]) => {
+            const reporters = Array.from(entry.reporters);
+            const students = Array.from(entry.students);
+
+            if (reporters.length > 1) {
+                reporters.forEach(rid => {
+                    const sig = ensureReporter(rid);
+                    sig.sharedReporterDevices += reporters.length - 1;
+                });
+            }
+            if (reporters.length > 0 && students.length > 0) {
+                reporters.forEach(rid => {
+                    const sig = ensureReporter(rid);
+                    sig.crossRoleDevices += students.length;
+                });
+                students.forEach(sid => {
+                    const sig = ensureStudent(sid);
+                    sig.crossRoleDevices += reporters.length;
+                });
+            }
+        });
+
+        // ip-based signals
+        Object.entries(ipIndex).forEach(([ip, entry]) => {
+            const reporters = Array.from(entry.reporters);
+            const students = Array.from(entry.students);
+
+            if (reporters.length > 1) {
+                reporters.forEach(rid => {
+                    const sig = ensureReporter(rid);
+                    sig.sharedReporterIps += reporters.length - 1;
+                });
+            }
+            if (reporters.length > 0 && students.length > 0) {
+                reporters.forEach(rid => {
+                    const sig = ensureReporter(rid);
+                    sig.crossRoleIps += students.length;
+                });
+                students.forEach(sid => {
+                    const sig = ensureStudent(sid);
+                    sig.crossRoleIps += reporters.length;
+                });
+            }
+        });
+
+        return { reporters: reporterSignals, students: studentSignals };
+    }
+
+    /*******************************
+     * 4. DETECTOR IMPLEMENTATION  *
+     *******************************/
+
+    function detectReporterAbuse(allEvents, cfg, reporterCrossSignals) {
         const now = Date.now();
         const since = new Date(now - cfg.reporterLookbackDays * 24 * 3600 * 1000);
         const reporterMap = {};
@@ -594,6 +870,18 @@
                 reasons.push(`Unrealistic mix: ${distinct} distinct dispute categories.`);
             }
 
+            const cross = reporterCrossSignals && reporterCrossSignals[reporterId];
+            if (cross) {
+                if (cross.sharedReporterDevices > 0 || cross.sharedReporterIps > 0) {
+                    score += 0.25;
+                    reasons.push(`Shares device/IP with other reporter accounts (${cross.sharedReporterDevices + cross.sharedReporterIps} link(s)).`);
+                }
+                if (cross.crossRoleDevices > 0 || cross.crossRoleIps > 0) {
+                    score += 0.35;
+                    reasons.push(`Same device/IP also used by student account(s): possible self-fabricated cases.`);
+                }
+            }
+
             score = Math.min(1, score);
             results.push({
                 reporterId,
@@ -607,7 +895,7 @@
         return results;
     }
 
-    function detectStudentFarming(allEvents, cfg) {
+    function detectStudentFarming(allEvents, cfg, studentCrossSignals) {
         const now = Date.now();
         const since = new Date(now - cfg.studentLookbackDays * 24 * 3600 * 1000);
         const studentData = {};
@@ -648,9 +936,15 @@
                 continue;
             }
 
+            const submissionsSorted = submissions.slice().sort(
+                (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+            );
+
             const reviseCount = reviewResults.filter(r => r.meta && r.meta.outcome === 'revise').length;
 
-            const lowComplexCount = submissions.filter(s => s.meta && s.meta.complexity <= 2).length;
+            const lowComplexCount = submissions.filter(
+                s => s.meta && typeof s.meta.complexity === 'number' && s.meta.complexity <= 2
+            ).length;
             const lowComplexRatio = lowComplexCount / totalSubmissions;
 
             const durations = submissions.map(s => {
@@ -665,6 +959,7 @@
             let score = 0;
             const reasons = [];
 
+            // Base signals: revise spam, low-complexity farming, ultra-fast turnaround
             if (reviseCount >= reviseThresh) {
                 const extra = Math.min(1, (reviseCount - reviseThresh + 1) / 4);
                 score += 0.6 + 0.2 * extra;
@@ -681,6 +976,82 @@
                 const boost = Math.min(1, (fastHoursThresh - avgHours) / fastHoursThresh);
                 score += 0.3 * boost;
                 reasons.push(`Very fast average turnaround: ${avgHours.toFixed(1)} hrs per case.`);
+            }
+
+            // 2.1 Progression model: complexity trend
+            const complexityValues = submissionsSorted
+                .map(s => s.meta && typeof s.meta.complexity === 'number' ? s.meta.complexity : null)
+                .filter(v => v !== null);
+
+            if (complexityValues.length >= 2) {
+                const first = complexityValues[0];
+                const last = complexityValues[complexityValues.length - 1];
+
+                if (first <= 2 && last <= 2 && totalSubmissions >= 3) {
+                    score += 0.25;
+                    reasons.push('No progression: stuck on low-complexity files over time.');
+                } else if (first <= 2 && last >= 3) {
+                    score *= 0.85; // reward healthy progression
+                    reasons.push('Healthy progression from low to higher complexity; risk slightly reduced.');
+                }
+            }
+
+            // 2.1 Category experience vs new category speed
+            const seenByCategory = {};
+            let speedyNewCategoryCount = 0;
+
+            submissionsSorted.forEach(s => {
+                const cat = s.caseCategory || 'Unknown';
+                const prevCount = seenByCategory[cat] || 0;
+
+                let hours = null;
+                if (s.meta && s.meta.claimAt && s.meta.submitAt) {
+                    hours = (new Date(s.meta.submitAt) - new Date(s.meta.claimAt)) / (3600 * 1000);
+                }
+
+                if (prevCount === 0 && hours !== null && hours < 3 && totalSubmissions >= 3) {
+                    speedyNewCategoryCount++;
+                }
+
+                seenByCategory[cat] = prevCount + 1;
+            });
+
+            if (speedyNewCategoryCount >= 2) {
+                score += 0.3;
+                reasons.push(`Very fast outputs in ${speedyNewCategoryCount} category/ies with no prior history.`);
+            }
+
+            // 2.x Draft similarity / template reuse within same student
+            const draftsWithText = submissionsSorted.filter(
+                s => s.meta && typeof s.meta.draftText === 'string' && s.meta.draftText.trim().length > 0
+            );
+            let highSimPairCount = 0;
+            let maxSim = 0;
+
+            if (draftsWithText.length >= 2) {
+                const tokenized = draftsWithText.map(s => tokenize(s.meta.draftText));
+                for (let i = 0; i < tokenized.length; i++) {
+                    for (let j = i + 1; j < tokenized.length; j++) {
+                        const sim = jaccardSimilarity(tokenized[i], tokenized[j]);
+                        if (sim > 0.85) {
+                            highSimPairCount++;
+                        }
+                        if (sim > maxSim) maxSim = sim;
+                    }
+                }
+            }
+
+            if (highSimPairCount > 0) {
+                const sev = Math.min(1, highSimPairCount / 3);
+                score += 0.3 + 0.2 * sev;
+                reasons.push(`Template reuse: ${highSimPairCount} draft pair(s) share ≥ 85% of tokens (max similarity ${(maxSim * 100).toFixed(1)}%).`);
+            }
+
+            // Cross-account linkage: same device/IP as reporter
+            const cross = studentCrossSignals && studentCrossSignals[sid];
+            if (cross && (cross.crossRoleDevices > 0 || cross.crossRoleIps > 0)) {
+                score += 0.35;
+                reasons.push('Same device/IP used for both reporter and student accounts (possible self-created cases).');
             }
 
             score = Math.min(1, score);
@@ -775,7 +1146,7 @@
     }
 
     /**********************
-     * 4. RENDER HELPERS  *
+     * 5. RENDER HELPERS  *
      **********************/
     function scoreClass(score) {
         if (score >= 0.7) return 'score-high';
@@ -898,7 +1269,7 @@
 
         const items = [
             { label: 'Reporter Suspicion', score: maxReporter, desc: 'Fake users filing unrealistic or repeated disputes.' },
-            { label: 'Student Suspicion',  score: maxStudent,  desc: 'Farming low-level cases or repeatedly failing reviews.' },
+            { label: 'Student Suspicion',  score: maxStudent,  desc: 'Farming low-level cases, template reuse or device overlap with reporters.' },
             { label: 'Reviewer Suspicion', score: maxReviewer, desc: 'Score inflation or collusion in peer review.' }
         ];
 
@@ -926,11 +1297,13 @@
     }
 
     /**********************
-     * 5. WIRE IT TO UI   *
+     * 6. WIRE IT TO UI   *
      **********************/
     function runAllDetectors() {
-        const reporterResults = detectReporterAbuse(events, CONFIG);
-        const studentResults  = detectStudentFarming(events, CONFIG);
+        const crossSignals = computeCrossAccountSignals(events);
+
+        const reporterResults = detectReporterAbuse(events, CONFIG, crossSignals.reporters);
+        const studentResults  = detectStudentFarming(events, CONFIG, crossSignals.students);
         const reviewerResults = detectReviewerBias(reviews, CONFIG);
 
         renderReporterTable(reporterResults);

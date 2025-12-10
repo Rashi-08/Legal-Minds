@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Sign Up - LegalMinds</title>
+<style>
+  :root {
+    --blue: #2563eb;
+    --blue-soft: #dbeafe;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --text-dark: #0f172a;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; }
+
+  body {
+    margin:0;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: radial-gradient(circle at top, #e0f2fe 0, #f8fafc 45%, #ffffff 80%);
+    color:var(--text-dark);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  header {
+    padding:18px 40px;
+    border-bottom:1px solid rgba(226,232,240,0.7);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    backdrop-filter:blur(12px);
+    background:linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0));
+    position:sticky;
+    top:0;
+    z-index:10;
+  }
+  .logo {
+    font-weight:800;
+    font-size:1.4rem;
+    letter-spacing:.12em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    text-decoration: none;
+    color: var(--text-dark);
+  }
+  .logo-dot {
+    width:18px;height:18px;border-radius:6px;
+    background:linear-gradient(135deg,#2563eb,#22c55e);
+  }
+  .logo span { color: var(--blue); }
+
+  main {
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+  }
+
+  .card {
+    background:white;
+    width:100%;
+    max-width:480px;
+    border-radius:24px;
+    padding:40px;
+    box-shadow:0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    border:1px solid var(--border);
+    animation: slideUp 0.4s ease-out;
+  }
+
+  @keyframes slideUp {
+    from { opacity:0; transform:translateY(20px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+
+  h1 { margin:0 0 8px; font-size:1.8rem; font-weight:800; text-align:center; }
+  .subtitle { text-align:center; color:var(--gray); margin-bottom:32px; font-size:0.95rem; }
+
+  .form-group { margin-bottom:20px; }
+  
+  label {
+    display:block;
+    font-weight:600;
+    font-size:0.9rem;
+    margin-bottom:8px;
+    color:#334155;
+  }
+
+  input, select {
+    width:100%;
+    padding:12px 16px;
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    font-size:0.95rem;
+    transition: all 0.2s;
+    background: #f8fafc;
+  }
+  
+  input:focus, select:focus {
+    outline:none;
+    border-color:var(--blue);
+    background:white;
+    box-shadow:0 0 0 3px rgba(37,99,235,0.1);
+  }
+
+  .btn-submit {
+    width:100%;
+    padding:14px;
+    background:var(--blue);
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:10px;
+    transition: background 0.2s;
+  }
+  .btn-submit:hover { background:#1d4ed8; }
+
+  .login-link {
+    text-align:center;
+    margin-top:24px;
+    font-size:0.9rem;
+    color:var(--gray);
+  }
+  .login-link a { color:var(--blue); text-decoration:none; font-weight:600; }
+  .login-link a:hover { text-decoration:underline; }
+  
+  .badge-preview {
+    display:flex; justify-content:center; gap:10px; margin-bottom:20px;
+  }
+  .mini-badge {
+    font-size:0.7rem; background:#ecfdf5; color:#059669; padding:4px 8px; border-radius:99px; border:1px solid #a7f3d0;
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      <div class="logo-dot"></div>
+      LEGAL<span>MINDS</span>
+    </a>
+    <div style="font-size:0.9rem; color:var(--gray);">Student Registration</div>
+  </header>
+
+  <main>
+    <div class="card">
+      <h1>Join the Engine</h1>
+      <p class="subtitle">Create your profile to start solving real cases and building your Living Brief.</p>
+
+      <div class="badge-preview">
+        <span class="mini-badge">✨ Free Portfolio</span>
+        <span class="mini-badge">🚀 Real Cases</span>
+        <span class="mini-badge">💼 Recruiter Access</span>
+      </div>
+
+      <form id="signupForm" onsubmit="handleSignup(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="fullname" value="Rahul Sharma" required>
+        </div>
+
+        <div class="form-group">
+          <label>University Email</label>
+          <input type="email" id="email" placeholder="rahul@nlu.ac.in" required>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" placeholder="Create a strong password" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+          <div class="form-group">
+            <label>Law School</label>
+            <input type="text" id="school" value="National Law University" required>
+          </div>
+          <div class="form-group">
+            <label>Year</label>
+            <select id="year" required>
+              <option value="1st Year" selected>1st Year</option>
+              <option value="2nd Year">2nd Year</option>
+              <option value="3rd Year">3rd Year</option>
+              <option value="4th Year">4th Year</option>
+              <option value="5th Year">5th Year</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Create Student Account</button>
+      </form>
+
+      <div class="login-link">
+        Already have an account? <a href="index.html">Log in here</a>
+      </div>
+    </div>
+  </main>
+
+<script>
+  function handleSignup(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('fullname').value;
+    const btn = document.querySelector('.btn-submit');
+    
+    // UI Feedback
+    btn.textContent = "Creating Profile...";
+    btn.style.opacity = "0.7";
+
+    setTimeout(() => {
+      alert("🎉 Account Created Successfully! \n\nRedirecting to your new portfolio...");
+      
+      // Redirect to student_portfolio.html with the new student ID
+      // This ID matches the entry we added to students.json
+      window.location.href = "./student/profile.html?id=student-015"; 
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>

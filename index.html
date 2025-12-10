@@ -146,13 +146,12 @@
   }
   .stat-pill span.icon { font-size:1rem; }
 
-  /* UPDATED GRID for 4 items */
+  /* Grid for 4 roles */
   .roles {
     display:grid;
-    /* Auto-fit creates responsive columns. Min 260px ensures they don't get too squished. */
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap:26px;
-    max-width:1280px; /* Increased max-width to fit 4 cards nicely */
+    max-width:1200px;
     width:100%;
     padding: 0 20px;
   }
@@ -167,7 +166,6 @@
     cursor:pointer;
     transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     text-align:left;
-    /* Removed max-width to let grid handle sizing */
     margin:0; 
     overflow:hidden;
     display: flex;
@@ -220,7 +218,7 @@
     margin:10px 0 18px;
     color:var(--gray);
     font-size:0.93rem;
-    flex-grow: 1; /* Pushes the button to the bottom */
+    flex-grow: 1;
   }
   .emoji-wrap{
     width:42px;height:42px;border-radius:999px;
@@ -329,11 +327,28 @@
     width:100%;
     font-weight:600;
   }
-  .btn.close {
-    background:#e2e8f0;
-    color:var(--gray);
-    margin-top:10px;
+  
+  /* Create Account Button (Secondary) */
+  .btn.secondary {
+    background: #ffffff;
+    color: var(--blue);
+    border: 2px solid #e2e8f0;
+    margin-top: 12px;
   }
+  .btn.secondary:hover {
+    background: #f8fafc;
+    border-color: var(--blue);
+  }
+
+  .btn.close {
+    background:transparent;
+    color:var(--gray);
+    margin-top:4px;
+    border:none;
+    font-weight: 500;
+  }
+  .btn.close:hover { color: var(--text-dark); }
+
   .modal-close-x{
     position:absolute;
     top:10px;right:12px;
@@ -457,9 +472,16 @@
     <div id="modalPill" class="modal-pill">CITIZEN LOGIN</div>
     <h2 id="modalTitle" class="modal-title">Login as <span class="blue">Citizen</span></h2>
     <p id="modalDesc" class="modal-sub">Enter your details to continue.</p>
+    
     <input type="text" placeholder="Full Name" id="name">
     <input type="email" placeholder="Email Address" id="email">
+    
     <button class="btn" onclick="login()">Continue →</button>
+    
+    <button id="signupBtn" class="btn secondary" style="display:none;" onclick="redirectToSignup()">
+      New? Create Account
+    </button>
+    
     <button class="btn close" onclick="closeModal()">Cancel</button>
   </div>
 </div>
@@ -480,14 +502,15 @@
       pill: "STUDENT LOGIN",
       desc: "Solve real cases, sit Micro-Bar exams, and grow your Living Brief portfolio.",
       icon: "🎓",
-      redirect: "student/dashboard.html"
+      redirect: "student/dashboard.html",
+      allowSignup: true // Flag to show signup button
     },
     lawyer: {
       title: "Lawyer",
       pill: "LAWYER LOGIN",
       desc: "Access the review queue to validate student work and mentor talent.",
       icon: "⚖️",
-      redirect: "lawyer/dashboard.html" 
+      redirect: "lawyer/lawyer.html" 
     },
     recruiter: {
       title: "Recruiter",
@@ -508,6 +531,14 @@
     document.getElementById("modalPill").textContent = meta.pill;
     document.getElementById("modalIcon").textContent = meta.icon;
 
+    // Show/Hide Signup Button based on role
+    const signupBtn = document.getElementById("signupBtn");
+    if (meta.allowSignup) {
+      signupBtn.style.display = "inline-block";
+    } else {
+      signupBtn.style.display = "none";
+    }
+
     document.getElementById("name").value = "";
     document.getElementById("email").value = "";
     document.getElementById("modal").classList.add("active");
@@ -527,11 +558,14 @@
     const firstName = name.split(" ")[0] || "there";
     alert(`Welcome, ${firstName}! 🎉`);
     
-    // Default to the meta redirect, or fallback to index if missing
     const redirect = roleMeta[currentRole]?.redirect || "index.html";
     
     closeModal();
     window.location.href = redirect;
+  }
+
+  function redirectToSignup() {
+    window.location.href = "./signup.html";
   }
 </script>
 </body>
