@@ -5,88 +5,131 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reviewer Portal - Legal Aid Platform</title>
 <style>
+  /* --- BASE STYLES FROM student.html --- */
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  /* 🎨 SHARED THEME PALETTE (Matches Student Dashboard) */
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f3f4f6;
-    color: #111827;
-    min-height: 100vh;
+    background-color: #f3f4f6; color: #111827; min-height: 100vh;
   }
 
-  /* --- Navigation --- */
-  .top-nav { background-color: #ffffff; border-bottom: 1px solid #e5e7eb; padding: 0.75rem 0; position: sticky; top: 0; z-index: 100; }
-  .nav-content { max-width: 1280px; margin: 0 auto; padding: 0 1rem; display: flex; align-items: center; gap: 2rem; }
-  .logo { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #0a66c2 0%, #10b981 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
-  .nav-actions { display: flex; gap: 1rem; margin-left: auto; }
-  .nav-btn { padding: 0.5rem 1rem; background: transparent; border: 1px solid #e5e7eb; border-radius: 20px; color: #374151; font-size: 0.875rem; cursor: pointer; transition: all 0.2s; }
-  .nav-btn:hover { background-color: #f3f4f6; border-color: #0a66c2; }
-  .role-badge { background-color: #e0e7ff; color: #4338ca; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 700; border: 1px solid #c7d2fe; }
+  /* Top Navigation */
+  .top-nav { background-color:#ffffff; border-bottom:1px solid #e5e7eb; padding:0.75rem 0; position:sticky; top:0; z-index:100; }
+  .nav-content { max-width:1280px; margin:0 auto; padding:0 1rem; display:flex; align-items:center; gap:2rem; }
+  .logo { font-size:1.5rem; font-weight:700; background:linear-gradient(135deg,#0a66c2 0%,#10b981 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; text-decoration:none; display:flex; align-items:center; gap:0.5rem; }
+  .search-bar { flex:1; max-width:400px; }
+  .search-bar input { width:100%; padding:0.625rem 1rem; border:1px solid #e5e7eb; border-radius:20px; background-color:#f9fafb; color:#111827; font-size:0.875rem; }
+  .nav-actions { display:flex; gap:1rem; margin-left:auto; }
+  .nav-btn { padding:0.5rem 1rem; background-color:transparent; border:1px solid #e5e7eb; border-radius:20px; color:#374151; font-size:0.875rem; cursor:pointer; transition:all 0.2s; }
+  .nav-btn:hover { background-color:#f3f4f6; border-color:#0a66c2; }
 
-  /* --- Layout --- */
-  .container { max-width: 1280px; margin: 1.5rem auto; padding: 0 1rem; display: grid; grid-template-columns: 280px 1fr 300px; gap: 1.5rem; }
+  /* Layout Grid */
+  .container { max-width:1280px; margin:1.5rem auto; padding:0 1rem; display:grid; grid-template-columns:280px 1fr 320px; gap:1.5rem; }
   
-  /* --- Cards & General --- */
-  .card { background-color: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 1rem; }
-  .card-header { padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; }
-  .card-title { font-size: 1rem; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 0.5rem; }
+  /* Profile Sidebar */
+  .profile-card { background-color:#ffffff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; height:fit-content; position:sticky; top:90px; }
+  /* Changed gradient to Purple/Blue for Reviewer distinction while keeping style */
+  .profile-header { height:80px; background:linear-gradient(135deg,#4f46e5 0%,#9333ea 100%); position:relative; }
+  .profile-avatar { width:80px; height:80px; border-radius:50%; border:4px solid #ffffff; background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%); position:absolute; bottom:-40px; left:50%; transform:translateX(-50%); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:600; color:#ffffff; }
+  .profile-info { padding:3rem 1.5rem 1rem; text-align:center; border-bottom:1px solid #e5e7eb; }
+  .profile-name { font-size:1.125rem; font-weight:700; margin-bottom:0.25rem; color:#111827; }
+  .profile-title { font-size:0.875rem; color:#6b7280; margin-bottom:1rem; }
+  .profile-bio { font-size:0.8rem; color:#6b7280; line-height:1.4; }
+  .profile-stats { padding:1rem 1.5rem; display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .stat-box { text-align:center; padding:0.75rem; background-color:#f9fafb; border-radius:8px; border:1px solid #e5e7eb; }
+  /* Purple text for reviewer stats */
+  .stat-value { font-size:1.5rem; font-weight:700; background:linear-gradient(135deg,#4f46e5 0%,#9333ea 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:0.25rem; }
+  .stat-label { font-size:0.75rem; color:#9ca3af; }
+  .profile-achievements { padding:1rem 1.5rem; border-top:1px solid #e5e7eb; }
+  .achievement-title { font-size:0.875rem; font-weight:600; color:#111827; margin-bottom:0.75rem; }
+  .badges { display:flex; gap:0.5rem; flex-wrap:wrap; }
+  .badge { padding:0.25rem 0.75rem; background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%); border-radius:12px; font-size:0.75rem; color:#ffffff; }
 
-  /* --- Sidebar Styles --- */
-  .profile-header { height: 80px; background: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%); position: relative; } /* Purple for Reviewer */
-  .profile-avatar { width: 80px; height: 80px; border-radius: 50%; border: 4px solid #ffffff; background: #4f46e5; position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #fff; font-weight: 700;}
-  .profile-info { padding: 3rem 1.5rem 1rem; text-align: center; border-bottom: 1px solid #e5e7eb; }
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1rem; }
-  .stat-box { text-align: center; padding: 0.75rem; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; }
-  .stat-val { font-size: 1.25rem; font-weight: 700; color: #111827; }
-  .stat-lbl { font-size: 0.75rem; color: #6b7280; }
-
-  /* --- Review List Styles --- */
-  .review-item { padding: 1.25rem; border-bottom: 1px solid #e5e7eb; transition: background 0.2s; display: flex; gap: 1rem; }
-  .review-item:hover { background-color: #f9fafb; }
-  .review-icon { width: 48px; height: 48px; border-radius: 8px; background: #e0e7ff; color: #4338ca; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
-  .review-content { flex: 1; }
-  .review-meta { display: flex; gap: 0.5rem; font-size: 0.75rem; color: #6b7280; margin-bottom: 0.25rem; }
-  .review-title { font-weight: 600; color: #111827; margin-bottom: 0.5rem; }
-  .review-snippet { font-size: 0.875rem; color: #4b5563; background: #f3f4f6; padding: 0.5rem; border-radius: 6px; margin-bottom: 0.75rem; border-left: 3px solid #cbd5e1; }
+  /* Main Content */
+  .main-content { display:flex; flex-direction:column; gap:1rem; }
+  .card { background-color:#ffffff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; }
+  .card-header { padding:1rem 1.5rem; border-bottom:1px solid #e5e7eb; display:flex; align-items:center; justify-content:space-between; }
+  .card-title { font-size:1rem; font-weight:700; color:#111827; display:flex; align-items:center; gap:0.5rem; }
   
-  .btn-primary { background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: white; border: none; padding: 0.5rem 1.25rem; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 0.875rem; transition: transform 0.2s; }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
+  /* Reusing Case List styles for Review Queue */
+  .case-list { display:flex; flex-direction:column; background-color:#ffffff; }
+  .case-item { padding:1.25rem 1.5rem; border-bottom:1px solid #e5e7eb; display:flex; gap:1rem; transition:background-color 0.2s; }
+  .case-item:hover { background-color:#f9fafb; }
+  .case-item:last-child { border-bottom:none; }
+  .case-icon { width:48px; height:48px; border-radius:8px; background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%); display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; color:#ffffff; }
+  .case-content { flex:1; min-width:0; }
+  .case-header { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap:wrap; }
+  .case-author { font-size:0.75rem; color:#6b7280; }
+  .case-time { font-size:0.75rem; color:#9ca3af; }
+  .case-title { font-size:1rem; font-weight:600; color:#111827; margin-bottom:0.5rem; line-height:1.4; }
+  .case-description { font-size:0.875rem; color:#4b5563; line-height:1.5; margin-bottom:0.75rem; }
+  .case-tags { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.75rem; }
+  .tag { padding:0.25rem 0.75rem; background-color:#f3f4f6; border:1px solid #e5e7eb; border-radius:12px; font-size:0.75rem; color:#6b7280; }
+  .tag.draft { background-color:#fef2f2; border-color:#f97373; color:#b91c1c; }
+  .tag.exam { background-color:#eff6ff; border-color:#60a5fa; color:#1e40af; }
+  
+  .case-footer { display:flex; gap:0.75rem; align-items:center; }
+  .case-action-btn { padding:0.5rem 1.25rem; background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%); border:none; border-radius:20px; color:#ffffff; font-size:0.875rem; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .case-action-btn:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(79,70,229,0.3); }
+  .case-action-btn.secondary { background:transparent; border:1px solid #e5e7eb; color:#374151; }
+  .case-action-btn.secondary:hover { background-color:#f3f4f6; border-color:#4f46e5; box-shadow:none; }
+  .empty-state { text-align:center; padding:3rem 2rem; color:#6b7280; font-size:0.875rem; background-color:#ffffff; }
 
-  /* --- MODAL (The Review Interface) --- */
+  /* Right Sidebar */
+  .right-sidebar { display:flex; flex-direction:column; gap:1rem; position:sticky; top:90px; height:fit-content; }
+  .info-card { background-color:#ffffff; border:1px solid #e5e7eb; border-radius:12px; overflow:hidden; }
+  .info-header { padding:1rem 1.25rem; border-bottom:1px solid #e5e7eb; font-size:0.875rem; font-weight:700; color:#111827; display:flex; align-items:center; gap:0.5rem; }
+  .info-content { padding:1rem 1.25rem; }
+  .info-item { padding:0.75rem 0; border-bottom:1px solid #e5e7eb; }
+  .info-item:last-child { border-bottom:none; padding-bottom:0; }
+  .info-item-title { font-size:0.875rem; font-weight:600; color:#111827; margin-bottom:0.25rem; }
+  .info-item-text { font-size:0.75rem; color:#6b7280; }
+  
+  /* Leaderboard reused for Reviewers */
+  .leaderboard-item { display:flex; align-items:center; gap:0.75rem; padding:0.75rem 0; border-bottom:1px solid #e5e7eb; }
+  .leaderboard-item:last-child { border-bottom:none; padding-bottom:0; }
+  .leaderboard-rank { font-size:1.25rem; min-width:32px; text-align:center; }
+  .leaderboard-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%); display:flex; align-items:center; justify-content:center; color:#ffffff; font-size:0.875rem; font-weight:700; border:2px solid #e5e7eb; }
+  .leaderboard-info { flex:1; }
+  .leaderboard-name { font-size:0.875rem; font-weight:600; color:#111827; margin-bottom:0.125rem; }
+  .leaderboard-score { font-size:0.75rem; color:#6b7280; }
+
+  @media (max-width: 1200px) { .container { grid-template-columns:260px 1fr; } .right-sidebar { display:none; } }
+  @media (max-width: 900px) { .container { grid-template-columns:1fr; } .profile-card { position:relative; top:0; } }
+  @media (max-width: 640px) { .nav-actions { display:none; } }
+
+  /* --- MODAL (REVIEW INTERFACE) --- */
+  /* Adapted to match Student Theme Light Mode */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
-  .modal-container { background: white; width: 90%; max-width: 1000px; height: 85vh; border-radius: 16px; display: flex; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+  .modal-container { background: white; width: 95%; max-width: 1100px; height: 85vh; border-radius: 12px; display: flex; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); border:1px solid #e5e7eb; }
   
   .modal-left { flex: 2; padding: 2rem; overflow-y: auto; background: #f9fafb; border-right: 1px solid #e5e7eb; }
   .modal-right { flex: 1; padding: 2rem; overflow-y: auto; background: white; display: flex; flex-direction: column; }
 
-  .doc-viewer { background: white; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-radius: 8px; min-height: 600px; font-family: 'Times New Roman', serif; line-height: 1.6; color: #333; }
+  .doc-viewer { background: white; padding: 2.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-radius: 8px; min-height: 600px; font-family: 'Times New Roman', serif; line-height: 1.6; color: #333; border: 1px solid #e5e7eb; }
   
   .rubric-item { margin-bottom: 1.5rem; }
   .rubric-label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #374151; font-size: 0.9rem; }
   .rubric-input { width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px; }
-  .feedback-area { width: 100%; height: 150px; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; margin-bottom: 1rem; resize: none; font-family: inherit; }
+  .feedback-area { width: 100%; height: 120px; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; margin-bottom: 1rem; resize: none; font-family: inherit; font-size: 0.9rem; }
   
   .action-buttons { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .btn-approve { background: #10b981; color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
-  .btn-reject { background: #ef4444; color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
-  .btn-close { position: absolute; top: 1rem; right: 1rem; background: white; border: none; font-size: 1.5rem; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-
-  /* Utilities */
-  .tag { padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
-  .tag-draft { background: #fee2e2; color: #991b1b; }
-  .tag-exam { background: #dbeafe; color: #1e40af; }
+  .btn-approve { background: #10b981; color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+  .btn-reject { background: #ef4444; color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+  .btn-approve:hover, .btn-reject:hover { opacity: 0.9; }
   
-  @media (max-width: 1024px) { .container { grid-template-columns: 260px 1fr; } .right-sidebar { display: none; } }
-  @media (max-width: 768px) { .container { grid-template-columns: 1fr; } .modal-container { flex-direction: column; height: 95vh; } .modal-left { height: 50%; } .modal-right { height: 50%; } }
+  .btn-close { position: absolute; top: 1rem; right: 1rem; background: white; border: 1px solid #e5e7eb; font-size: 1.2rem; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6b7280; z-index: 10; }
+  .btn-close:hover { background: #f3f4f6; color: #111827; }
+
 </style>
 </head>
 <body>
-
   <nav class="top-nav">
     <div class="nav-content">
-      <a href="#" class="logo"><span>⚖️</span><span>LegalMinds</span></a>
-      <span class="role-badge">REVIEWER MODE</span>
+      <a href="#" class="logo">
+        <span>⚖️</span>
+        <span>LegalAid</span>
+      </a>
+      <span style="background-color:#f3e8ff; color:#6b21a8; padding:0.25rem 0.75rem; border-radius:20px; font-size:0.75rem; font-weight:700; border:1px solid #d8b4fe; margin-left:1rem;">REVIEWER</span>
       <div class="nav-actions">
         <button class="nav-btn">My Queue (3)</button>
         <button class="nav-btn">History</button>
@@ -95,84 +138,125 @@
   </nav>
 
   <div class="container">
-    
-    <aside class="card">
-      <div class="profile-header"><div class="profile-avatar">RJ</div></div>
+    <aside class="profile-card">
+      <div class="profile-header"><div class="profile-avatar">SR</div></div>
       <div class="profile-info">
-        <h2 style="font-size: 1.1rem; font-weight: 700;">Rahul Jain</h2>
-        <p style="font-size: 0.85rem; color: #6b7280;">Senior Associate Reviewer</p>
-        <p style="font-size: 0.8rem; margin-top: 0.5rem; color: #4b5563;">Specialty: Contract Law & Torts</p>
+        <div class="profile-name">Sarah Rodriguez</div>
+        <div class="profile-title">Law Student • 3rd Year</div>
+        <p class="profile-bio">Passionate about labor rights and housing justice. Seeking to make a difference.</p>
       </div>
-      <div class="stat-grid">
-        <div class="stat-box"><div class="stat-val" id="stat-reviewed">142</div><div class="stat-lbl">Reviewed</div></div>
-        <div class="stat-box"><div class="stat-val" style="color: #10b981;">98%</div><div class="stat-lbl">Accuracy</div></div>
-        <div class="stat-box"><div class="stat-val" id="stat-pending">3</div><div class="stat-lbl">Pending</div></div>
-        <div class="stat-box"><div class="stat-val">4.5h</div><div class="stat-lbl">Avg Time</div></div>
+      <div class="profile-stats">
+        <div class="stat-box">
+          <div class="stat-value" id="stat-reviewed">142</div>
+          <div class="stat-label">Reviewed</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">98%</div>
+          <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value" id="stat-pending">3</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">4.5h</div>
+          <div class="stat-label">Avg Time</div>
+        </div>
+      </div>
+      <div class="profile-achievements">
+        <div class="achievement-title">🏆 Badges</div>
+        <div class="badges">
+          <span class="badge">Top Rated</span>
+          <span class="badge">Mentor</span>
+          <span class="badge">Fast Review</span>
+        </div>
       </div>
     </aside>
 
-    <main>
+    <main class="main-content">
       <div class="card">
         <div class="card-header">
-          <h2 class="card-title">📝 Submission Queue</h2>
+          <h2 class="card-title">
+            📝 Submission Queue
+          </h2>
           <span style="font-size: 0.8rem; color: #6b7280;">Sorted by Priority</span>
         </div>
-        <div id="review-queue">
+        <div class="case-list" id="review-queue">
           </div>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <h2 class="card-title">✅ Recently Completed</h2>
+          <h2 class="card-title">
+            ✅ Recently Completed
+          </h2>
         </div>
-        <div class="review-item" style="opacity: 0.7;">
-          <div class="review-icon" style="background: #ecfdf5; color: #047857;">✓</div>
-          <div class="review-content">
-            <div class="review-meta">Student: Priya S. • 2 hours ago</div>
-            <div class="review-title">Drafting: Lease Agreement (Clause 4)</div>
-            <div style="font-size: 0.8rem; color: #10b981; font-weight: 600;">Approved (Score: 9/10)</div>
+        <div class="case-list">
+          <div class="case-item" style="opacity: 0.8;">
+            <div class="case-icon" style="background:#10b981;">✓</div>
+            <div class="case-content">
+              <div class="case-header">
+                <span class="case-author">Student: Priya S.</span>
+                <span class="case-time">• 2 hours ago</span>
+              </div>
+              <div class="case-title">Drafting: Lease Agreement (Clause 4)</div>
+              <div class="case-tags">
+                <span style="color:#059669; font-weight:600; font-size:0.8rem;">Approved (Score: 9/10)</span>
+              </div>
+            </div>
+            <button class="nav-btn">View</button>
           </div>
-          <button class="nav-btn" style="height: fit-content; align-self: center;">View</button>
         </div>
       </div>
     </main>
 
     <aside class="right-sidebar">
-      <div class="card">
-        <div class="card-header"><h3 class="card-title">📋 Rubric Quick Guide</h3></div>
-        <div style="padding: 1.25rem;">
-          <div style="margin-bottom: 1rem;">
-            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">1. Legal Accuracy</div>
-            <p style="font-size: 0.8rem; color: #6b7280;">Citations must be from 2024 updated penal code. Check logic flow.</p>
+      <div class="info-card">
+        <div class="info-header">
+          <span>📋</span>
+          <span>Rubric Quick Guide</span>
+        </div>
+        <div class="info-content">
+          <div class="info-item">
+            <div class="info-item-title">1. Legal Accuracy</div>
+            <div class="info-item-text">Citations must be from 2024 updated code. Check logic flow.</div>
           </div>
-          <div style="margin-bottom: 1rem;">
-            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">2. Formatting</div>
-            <p style="font-size: 0.8rem; color: #6b7280;">Standard font size 12, proper indentation for clauses.</p>
+          <div class="info-item">
+            <div class="info-item-title">2. Formatting</div>
+            <div class="info-item-text">Standard font size 12, proper indentation for clauses.</div>
           </div>
-          <div style="margin-bottom: 1rem;">
-            <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem;">3. Tone</div>
-            <p style="font-size: 0.8rem; color: #6b7280;">Professional, objective, and devoid of emotional language.</p>
+          <div class="info-item">
+            <div class="info-item-title">3. Tone</div>
+            <div class="info-item-text">Professional, objective, and devoid of emotional language.</div>
           </div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header"><h3 class="card-title">🏆 Top Reviewers</h3></div>
-        <div style="padding: 0.5rem;">
-           <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #f3f4f6;">
-             <div style="width: 32px; height: 32px; background: #e0e7ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">AS</div>
-             <div style="flex: 1; font-size: 0.85rem; font-weight: 600;">Ananya Singh</div>
-             <div style="font-size: 0.75rem; color: #6b7280;">152</div>
-           </div>
-           <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem;">
-             <div style="width: 32px; height: 32px; background: #fee2e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">DK</div>
-             <div style="flex: 1; font-size: 0.85rem; font-weight: 600;">Dev Kumar</div>
-             <div style="font-size: 0.75rem; color: #6b7280;">148</div>
-           </div>
+      <div class="info-card">
+        <div class="info-header">
+          <span>🏆</span>
+          <span>Top Reviewers</span>
+        </div>
+        <div class="info-content">
+          <div class="leaderboard-item">
+            <div class="leaderboard-rank">🥇</div>
+            <div class="leaderboard-avatar">AS</div>
+            <div class="leaderboard-info">
+              <div class="leaderboard-name">Ananya Singh</div>
+              <div class="leaderboard-score">152 Reviews</div>
+            </div>
+          </div>
+          <div class="leaderboard-item">
+            <div class="leaderboard-rank">🥈</div>
+            <div class="leaderboard-avatar" style="background:linear-gradient(135deg,#f59e0b 0%,#d97706 100%);">DK</div>
+            <div class="leaderboard-info">
+              <div class="leaderboard-name">Dev Kumar</div>
+              <div class="leaderboard-score">148 Reviews</div>
+            </div>
+          </div>
         </div>
       </div>
     </aside>
-
   </div>
 
   <div class="modal-overlay" id="review-modal">
@@ -180,7 +264,7 @@
       <button class="btn-close" onclick="closeModal()">×</button>
       
       <div class="modal-left">
-        <h2 style="margin-bottom: 1rem; font-size: 1.5rem;" id="modal-title">Loading...</h2>
+        <h2 style="margin-bottom: 1rem; font-size: 1.5rem; color:#111827;" id="modal-title">Loading...</h2>
         <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #6b7280;">
           <span id="modal-student">Student: ...</span>
           <span id="modal-type">Type: ...</span>
@@ -190,7 +274,7 @@
       </div>
 
       <div class="modal-right">
-        <h3 style="margin-bottom: 1.5rem;">Evaluation</h3>
+        <h3 style="margin-bottom: 1.5rem; color:#111827;">Evaluation</h3>
         
         <div class="rubric-item">
           <label class="rubric-label">Legal Accuracy (0-10)</label>
@@ -206,7 +290,7 @@
 
         <div class="rubric-item">
           <label class="rubric-label">Detailed Feedback</label>
-          <textarea class="feedback-area" placeholder="Provide constructive criticism here... e.g., 'The citation in paragraph 3 is outdated.'"></textarea>
+          <textarea class="feedback-area" placeholder="Provide constructive criticism here..."></textarea>
         </div>
 
         <div class="action-buttons">
@@ -226,9 +310,9 @@
         type: "Drafting", 
         title: "Eviction Notice - Non-Payment", 
         submitted: "45 mins ago", 
-        tag: "tag-draft",
+        tag: "tag.draft",
         content: `
-          <h1>LEGAL NOTICE</h1>
+          <h1 style="text-align:center;">LEGAL NOTICE</h1>
           <p><strong>To:</strong> Mr. R. Sharma (Tenant)<br><strong>From:</strong> Mrs. K. Desai (Landlord)</p>
           <p><strong>Subject:</strong> Notice to vacate premises due to non-payment of rent.</p>
           <p>Dear Sir,</p>
@@ -244,7 +328,7 @@
         type: "Exam Answer", 
         title: "Constitutional Law: Article 21", 
         submitted: "2 hours ago", 
-        tag: "tag-exam",
+        tag: "tag.exam",
         content: `
           <h3>Question: Discuss the expansion of Article 21.</h3>
           <p><strong>Answer:</strong></p>
@@ -263,9 +347,9 @@
         type: "Drafting", 
         title: "Affidavit for Name Change", 
         submitted: "5 hours ago", 
-        tag: "tag-draft",
+        tag: "tag.draft",
         content: `
-          <h1>AFFIDAVIT</h1>
+          <h1 style="text-align:center;">AFFIDAVIT</h1>
           <p>I, Sara Ali, daughter of Mr. M. Ali, aged 22 years, residing at Delhi, do hereby solemnly affirm and declare as under:</p>
           <p>1. That my recorded name in school certificates is "Sara Ali".</p>
           <p>2. That I wish to change my name to "Sara Khan" for all future purposes.</p>
@@ -283,22 +367,26 @@
       const container = document.getElementById('review-queue');
       
       if (queueData.length === 0) {
-        container.innerHTML = `<div style="padding:2rem; text-align:center; color:#6b7280;">🎉 All caught up! No pending reviews.</div>`;
+        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🎉</div><div>All caught up! No pending reviews.</div></div>`;
         return;
       }
 
       container.innerHTML = queueData.map(item => `
-        <div class="review-item">
-          <div class="review-icon">📝</div>
-          <div class="review-content">
-            <div class="review-meta">Student: ${item.student} • ${item.submitted}</div>
-            <div class="review-title">
-              ${item.title} 
-              <span class="tag ${item.tag}">${item.type}</span>
+        <div class="case-item">
+          <div class="case-icon">📝</div>
+          <div class="case-content">
+            <div class="case-header">
+              <span class="case-author">Student: ${item.student}</span>
+              <span class="case-time">• ${item.submitted}</span>
             </div>
-            <div class="review-snippet">Click 'Start Review' to view the full document and grading rubric...</div>
+            <div class="case-title">${item.title}</div>
+            <div class="case-tags">
+              <span class="tag ${item.type === 'Drafting' ? 'draft' : 'exam'}">${item.type}</span>
+            </div>
+            <div class="case-footer">
+              <button class="case-action-btn" onclick="openReviewModal(${item.id})">Start Review</button>
+            </div>
           </div>
-          <button class="btn-primary" style="height: fit-content; align-self: center;" onclick="openReviewModal(${item.id})">Start Review</button>
         </div>
       `).join('');
       
