@@ -1,99 +1,107 @@
 Legal Minds
 
-Legal Minds is a multi-role legal case management and learning platform designed to support Students, Lawyers, Recruiters, and general Users. The current codebase contains a complete front-end built with HTML, CSS, and JavaScript, along with JSON files used for representing sample data. This project is structured as a modular foundation intended for extension into a fully functional application once backend and database layers are added.
+Legal Minds is a multi-role legal case management and learning platform. It currently provides a complete front-end built using HTML, CSS, and JavaScript, with JSON files used for sample data. The platform is modular and prepared for future backend integration.
 
 Overview
 
-The platform contains separate portals for each role:
+1)Lawyer Portal
 
-Lawyer Portal
-Provides access to case details, client information, and a basic workflow structure.
+(i)Access to case details, client information, and workflow views.
 
-Student Portal
-Displays case listings, resources, and pages oriented toward legal learning and research.
+2)Student Portal
 
-Recruiter Portal
-Shows student profiles and information relevant to screening and evaluation.
+(i)Case listings, learning materials, and research-focused interfaces.
 
-User Portal
-Offers general information and serves as an entry point to explore legal content.
+3)Recruiter Portal
 
-Each module is organized within its own directory to maintain separation of concerns and support scalable development.
+(i)Student profiles and evaluation-related information.
+
+4)User Portal
+
+(i)General legal information and entry-level access to the system.
 
 Technology Stack
 
-Frontend:
+1)HTML5
 
-HTML5
+2)CSS3
 
-CSS3
+3)JavaScript (vanilla)
 
-JavaScript (vanilla)
+Static JSON files (cases.json, students.json)
 
-Data:
-
-Static JSON files such as cases.json and students.json
-
-There is currently no backend, authentication system, or database integration.
+No backend implemented yet
 
 Repository Structure
 
-index.html
-signup.html
-cases.json
-students.json
+1)index.html
 
-lawyer/
-student/
-recruiter/
-user/
+2)signup.html
 
-Each directory contains the UI and assets associated with that specific portal.
+3)cases.json
+
+4)students.json
+
+5)lawyer/
+
+6)student/
+
+7)recruiter/
+
+8)user/
 
 Current Features
 
-Modular multi-role interface
+1)Modular interface for different user roles
 
-Static JSON-based data simulation
+2)Static data handling using JSON
 
-Simple and clean UI suitable for demonstrations
+3)Clean separation of UI components
 
-Front-end architecture prepared for later expansion
+Ready for integration with backend services
 
 Recommended Future Enhancements
 
-Backend Development
-Introduce a backend using Firebase (Authentication + Firestore), Node.js with Express.js, or Python with FastAPI.
+1)Backend Development
 
-Persistent Database
-Replace JSON files with a proper database such as Firebase Firestore, MongoDB, PostgreSQL, or MySQL.
+->Possible options: Firebase, Node.js (Express), Python FastAPI
 
-Authentication and Role-Based Access
-Secure login, user roles, and protected pages.
+2)Database Integration
 
-API Development
-Create endpoints for managing cases, profiles, submissions, and recruiter actions.
+->Replace JSON with a persistent database such as Firestore, MongoDB, PostgreSQL, or MySQL
 
-Administrative Dashboard
-Add tools for case approvals, user verification, and platform analytics.
+3)Authentication and Role Management
 
-Optional Legal-NLP Integration
-Case summarization, clause extraction, and legal document analysis using modern NLP models.
+->Add secure login, registration, and role-based access
+
+4)API Development
+
+->Create endpoints for cases, user profiles, recruiter operations, and submissions
+
+5)Administrative Dashboard
+
+->Tools for verification, data management, and analytics
+
+6)Advanced Legal NLP Features (optional)
+
+->Summarization, clause extraction, and legal text processing
 
 Contribution Guidelines
 
-Fork the repository.
+1)Fork the repository
 
-Create a new branch for your feature.
+2)Create a feature branch
 
-Commit your changes with descriptive messages.
+3)Commit changes with clear descriptions
 
-Push your branch and open a pull request.
+4)Push the branch and open a pull request
 
-Licensing
+License
 
-No license is currently included. An MIT or Apache 2.0 license may be added depending on requirements.
+->No license included currently
+
+->MIT or Apache 2.0 can be added later
 
 Contact
 
-For queries or collaboration, please open an issue in the repository or reach out to the maintainers.
+For queries or collaboration, open an issue in the repository or contact the maintainers
