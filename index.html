@@ -98,7 +98,7 @@
     background:var(--blue-soft);
     color:var(--blue);
     padding:6px 14px;
-    border-radius:99px;
+    border-radius:999px;
     font-size:0.78rem;
     font-weight:600;
     margin-bottom:18px;
@@ -146,18 +146,17 @@
   }
   .stat-pill span.icon { font-size:1rem; }
 
-  /* Roles row – 3 in a line on desktop */
+  /* UPDATED GRID for 4 items */
   .roles {
     display:grid;
-    grid-template-columns:repeat(3, minmax(0, 1fr));
+    /* Auto-fit creates responsive columns. Min 260px ensures they don't get too squished. */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap:26px;
-    max-width:1080px;
+    max-width:1280px; /* Increased max-width to fit 4 cards nicely */
     width:100%;
+    padding: 0 20px;
   }
-  @media (max-width: 900px) {
-    .roles { grid-template-columns:1fr; }
-  }
-
+  
   .role-card {
     position:relative;
     background:white;
@@ -168,9 +167,11 @@
     cursor:pointer;
     transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     text-align:left;
-    max-width:340px;
-    margin:0 auto;
+    /* Removed max-width to let grid handle sizing */
+    margin:0; 
     overflow:hidden;
+    display: flex;
+    flex-direction: column;
   }
   .role-card::after{
     content:"";
@@ -219,6 +220,7 @@
     margin:10px 0 18px;
     color:var(--gray);
     font-size:0.93rem;
+    flex-grow: 1; /* Pushes the button to the bottom */
   }
   .emoji-wrap{
     width:42px;height:42px;border-radius:999px;
@@ -374,7 +376,6 @@
   </div>
 
   <div class="roles">
-    <!-- Citizen -->
     <div class="role-card" onclick="openModal('citizen')">
       <div class="role-badge">CITIZEN WORKSPACE</div>
       <div class="role-top">
@@ -392,7 +393,6 @@
       </a>
     </div>
 
-    <!-- Student -->
     <div class="role-card" onclick="openModal('student')">
       <div class="role-badge">STUDENT HUB</div>
       <div class="role-top">
@@ -410,7 +410,23 @@
       </a>
     </div>
 
-    <!-- Recruiter -->
+    <div class="role-card" onclick="openModal('lawyer')">
+      <div class="role-badge">EXPERT REVIEWER</div>
+      <div class="role-top">
+        <div>
+          <div class="role-heading">Lawyer</div>
+          <div class="role-name">“I want to mentor.”</div>
+        </div>
+        <div class="emoji-wrap" aria-hidden="true">⚖️</div>
+      </div>
+      <p class="role-desc">
+        Review student drafts, mentor the next generation, and earn pro-bono credits or community recognition.
+      </p>
+      <a class="role-link">
+        START REVIEWING <span class="arrow">→</span>
+      </a>
+    </div>
+
     <div class="role-card" onclick="openModal('recruiter')">
       <div class="role-badge">RECRUITER DESK</div>
       <div class="role-top">
@@ -434,7 +450,6 @@
   © 2025 The Living Brief – Symbiotic Justice Engine. Built with purpose.
 </footer>
 
-<!-- MODAL -->
 <div id="modal" class="modal">
   <div class="modal-content">
     <button class="modal-close-x" onclick="closeModal()">×</button>
@@ -466,6 +481,13 @@
       desc: "Solve real cases, sit Micro-Bar exams, and grow your Living Brief portfolio.",
       icon: "🎓",
       redirect: "student/dashboard.html"
+    },
+    lawyer: {
+      title: "Lawyer",
+      pill: "LAWYER LOGIN",
+      desc: "Access the review queue to validate student work and mentor talent.",
+      icon: "⚖️",
+      redirect: "lawyer/dashboard.html" 
     },
     recruiter: {
       title: "Recruiter",
@@ -504,7 +526,10 @@
     }
     const firstName = name.split(" ")[0] || "there";
     alert(`Welcome, ${firstName}! 🎉`);
+    
+    // Default to the meta redirect, or fallback to index if missing
     const redirect = roleMeta[currentRole]?.redirect || "index.html";
+    
     closeModal();
     window.location.href = redirect;
   }
