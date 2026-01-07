@@ -203,25 +203,54 @@
   </main>
 
 <script>
-  function handleSignup(e) {
+  async function handleSignup(e) {
     e.preventDefault();
 
-    const name = document.getElementById('fullname').value;
-    const btn = document.querySelector('.btn-submit');
-    
-    // UI Feedback
+    const btn = document.querySelector(".btn-submit");
     btn.textContent = "Creating Profile...";
     btn.style.opacity = "0.7";
+    btn.disabled = true;
 
-    setTimeout(() => {
-      alert("🎉 Account Created Successfully! \n\nRedirecting to your new portfolio...");
-      
-      // Redirect to student_portfolio.html with the new student ID
-      // This ID matches the entry we added to students.json
-      window.location.href = "./student/profile.html?id=student-015"; 
-    }, 1000);
+    // collect form data
+    const signupData = {
+      name: document.getElementById("fullname").value,
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+      school: document.getElementById("school").value,
+      year: document.getElementById("year").value
+    };
+
+    try {
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(signupData)
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Signup failed");
+      }
+
+      alert("🎉 Account Created Successfully!");
+
+      // redirect after REAL signup
+      window.location.href = "./student/profile.html";
+
+    } catch (error) {
+      alert("❌ Signup failed. Please try again.");
+      console.error(error);
+    } finally {
+      btn.textContent = "Create Student Account";
+      btn.style.opacity = "1";
+      btn.disabled = false;
+    }
   }
 </script>
+
 
 </body>
 </html>
