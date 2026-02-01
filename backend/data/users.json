@@ -6,5 +6,32 @@
   {
     "name": "Rahul Sharma",
     "email": "avirat.anand2024@vitstudent.ac.in"
+  },
+  {
+    "role": "student",
+    "name": "Rashi",
+    "email": "rashi@gmail.com",
+    "password": "12345",
+    "school": "vit",
+    "year": "1st Year",
+    "stars": 0
+  },
+  {
+    "role": "student",
+    "name": "Rashi Gindodia",
+    "email": "Rashi@gmail.com",
+    "password": "Ras",
+    "school": "vit",
+    "year": "1st Year",
+    "stars": 0
+  },
+  {
+    "role": "student",
+    "name": "Avirat",
+    "email": "avirat@vitstudent.ac.in",
+    "password": "12345",
+    "school": "vit",
+    "year": "1st Year",
+    "stars": 0
   }
 ]
