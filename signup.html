@@ -81,7 +81,7 @@
   .subtitle { text-align:center; color:var(--gray); margin-bottom:32px; font-size:0.95rem; }
 
   .form-group { margin-bottom:20px; }
-  
+
   label {
     display:block;
     font-weight:600;
@@ -99,7 +99,7 @@
     transition: all 0.2s;
     background: #f8fafc;
   }
-  
+
   input:focus, select:focus {
     outline:none;
     border-color:var(--blue);
@@ -130,7 +130,7 @@
   }
   .login-link a { color:var(--blue); text-decoration:none; font-weight:600; }
   .login-link a:hover { text-decoration:underline; }
-  
+
   .badge-preview {
     display:flex; justify-content:center; gap:10px; margin-bottom:20px;
   }
@@ -202,26 +202,29 @@
     </div>
   </main>
 
-<script>
-  function handleSignup(e) {
-    e.preventDefault();
+  <script>
+    async function handleSignup(e) {
+      e.preventDefault();
 
-    const name = document.getElementById('fullname').value;
-    const btn = document.querySelector('.btn-submit');
-    
-    // UI Feedback
-    btn.textContent = "Creating Profile...";
-    btn.style.opacity = "0.7";
+      const res = await fetch("http://localhost:8000/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          role: "student",
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value
+        })
+      });
 
-    setTimeout(() => {
-      alert("🎉 Account Created Successfully! \n\nRedirecting to your new portfolio...");
-      
-      // Redirect to student_portfolio.html with the new student ID
-      // This ID matches the entry we added to students.json
-      window.location.href = "./student/profile.html?id=student-015"; 
-    }, 1000);
-  }
-</script>
+      const data = await res.json();
+      if(res.ok){
+        alert("Account created successfully!");
+        window.location.href="login.html";
+      }else{
+        alert(data.detail || "Signup failed");
+      }
+    }
+  </script>
 
 </body>
 </html>

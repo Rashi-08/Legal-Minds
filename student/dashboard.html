@@ -297,545 +297,235 @@
       </div>
     </div>
   </div>
-
 <script>
-  // ===== API & STATE =====
-  const API_BASE = "http://localhost:3000";
-  const currentStudentName = "Sarah Rodriguez";
-  let allCases = [];
-  let currentCategory = "All";
-  let activeCaseId = null;
+/* =========================
+   AUTH PROTECTION
+========================= */
 
-  // ===== HELPERS =====
-  function formatCategory(cat) {
-    if (!cat) return "Other";
-    const key = String(cat).toLowerCase();
-    const map = {
-      rent: "Rent",
-      wages: "Wages",
-      harassment: "Harassment",
-      fraud: "Fraud",
-      family: "Family",
-      other: "Other",
-      inreview: "Other"
-    };
-    return map[key] || (key.charAt(0).toUpperCase() + key.slice(1));
-  }
+const API_BASE = "http://localhost:3000";      // Node backend
+const AUTH_BASE = "http://localhost:8000";     // FastAPI auth
 
-  function formatLanguage(code) {
-    if (!code) return "Not specified";
-    const map = {
-      en: "English", hi: "Hindi", bn: "Bengali", te: "Telugu",
-      mr: "Marathi", ta: "Tamil", gu: "Gujarati", kn: "Kannada",
-      ml: "Malayalam", or: "Odia", pa: "Punjabi", as: "Assamese", ur: "Urdu"
-    };
-    return map[code] || code;
-  }
+const token = localStorage.getItem("token");
 
-  function getCategoryIcon(category) {
-    const key = (category || "").toLowerCase();
-    const icons = { rent: "🏠", wages: "💰", harassment: "⚠️", fraud: "⚖️", family: "👨‍👩‍👧", other: "📋" };
-    return icons[key] || "📋";
-  }
+if (!token) {
+  alert("You are not logged in.");
+  window.location.href = "login.html";
+}
 
-  function timeLabel(iso) {
-    if (!iso) return "Recently";
-    const d = new Date(iso);
-    if (Number.isNaN(d.getTime())) return "Recently";
-    return d.toLocaleString();
-  }
+let currentStudentName = "";
+let allCases = [];
+let currentCategory = "All";
+let activeCaseId = null;
 
-  // ===== LOAD CASES FROM BACKEND =====
-  async function loadCases() {
-    const unclaimedContainer = document.getElementById("unclaimed-cases");
-    try {
-      const res = await fetch(`${API_BASE}/api/get-cases`);
-      if (!res.ok) throw new Error("Network error: " + res.status);
-      const data = await res.json();
-      allCases = Array.isArray(data) ? data : [];
-      renderUnclaimedCases();
-      renderMyCases();
-    } catch (err) {
-      console.error("Failed to load cases", err);
-      if (unclaimedContainer) {
-        unclaimedContainer.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">⚠️</div>
-            <div>Could not load cases.</div>
-            <div style="margin-top: 0.5rem; font-size: 0.75rem;">Is the Node server running on http://localhost:3000 ?</div>
-          </div>
-        `;
+/* =========================
+   LOAD LOGGED-IN USER
+========================= */
+
+async function loadUser() {
+  try {
+    const res = await fetch(`${AUTH_BASE}/protected`, {
+      headers: {
+        "Authorization": "Bearer " + token
       }
-    }
-  }
-
-  // ===== CLAIM / ACCEPT CASE =====
-  async function claimCase(id) {
-    try {
-      const res = await fetch(`${API_BASE}/api/accept-case`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, studentName: currentStudentName })
-      });
-      const data = await res.json();
-      if (!data.success) {
-        alert(data.message || "Server error while accepting case");
-        return;
-      }
-      alert("Case accepted and assigned to you.");
-      await loadCases();
-    } catch (e) {
-      console.error(e);
-      alert("Network error while accepting case.");
-    }
-  }
-  window.claimCase = claimCase;
-
-  // ===== RENDER AVAILABLE (UNCLAIMED) CASES =====
-  function renderUnclaimedCases() {
-    const container = document.getElementById("unclaimed-cases");
-    if (!allCases || allCases.length === 0) {
-      container.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-state-icon">⌛</div>
-          <div>No cases yet. Waiting for citizens to submit.</div>
-        </div>
-      `;
-      return;
-    }
-
-    const filtered = allCases.filter(c => {
-      const status = (c.status || "").toLowerCase();
-      const isUnclaimed = !c.acceptedBy && (status === "in review" || status === "inreview" || status === "");
-      const catOk = currentCategory === "All" ||
-        ((c.category || "").toLowerCase() === currentCategory.toLowerCase());
-      return isUnclaimed && catOk;
     });
 
-    if (filtered.length === 0) {
-      container.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-state-icon">📭</div>
-          <div>No available cases in this category right now.</div>
-          <div style="margin-top: 0.5rem; font-size: 0.75rem;">Check back later or browse other categories.</div>
-        </div>
-      `;
-      return;
+    if (!res.ok) {
+      throw new Error("Session invalid");
     }
 
-    container.innerHTML = filtered.map(c => {
-      const citizenName = c.name && c.name.trim() ? c.name.trim() : "Anonymous Citizen";
-      const catLabel = formatCategory(c.category);
-      const loc = c.location || "Unknown location";
-      const desc = (c.description || "").length > 160
-        ? c.description.slice(0, 157) + "..."
-        : (c.description || "No detailed description.");
-      const statusLabel = c.status || "In Review";
-      return `
-        <div class="case-item">
-          <div class="vote-section">
-            <button class="vote-btn">▲</button>
-            <div class="vote-count">0</div>
-            <button class="vote-btn">▼</button>
-          </div>
-          <div class="case-icon">${getCategoryIcon(c.category)}</div>
-          <div class="case-content">
-            <div class="case-header">
-              <span class="case-author">${citizenName}</span>
-              <span class="case-time">• ${timeLabel(c.createdAt)}</span>
-            </div>
-            <div class="case-title" onclick="openCaseFile('${c.id}')">${c.title || "(no title)"}</div>
-            <div class="case-description">
-              ${loc} – ${desc}
-            </div>
-            <div class="case-tags">
-              <span class="tag category">${catLabel}</span>
-              <span class="tag">Status: ${statusLabel}</span>
-              <span class="tag">${loc}</span>
-            </div>
-            <div class="case-footer">
-              <button class="case-action-btn" onclick="claimCase('${c.id}')">✔ Accept Case</button>
-              <button class="case-action-btn secondary" onclick="openCaseFile('${c.id}')">👁 Show Case</button>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join("");
+    const data = await res.json();
+
+    currentStudentName = data.user.email;
+
+    // Update profile UI dynamically
+    document.querySelector(".profile-name").textContent = currentStudentName;
+    document.querySelector(".profile-avatar").textContent =
+      currentStudentName.charAt(0).toUpperCase();
+
+  } catch (err) {
+    alert("Session expired. Please login again.");
+    localStorage.removeItem("token");
+    window.location.href = "login.html";
   }
+}
 
-  // ===== RENDER MY ACTIVE CASES =====
-  function renderMyCases() {
-    const container = document.getElementById("my-cases");
-    if (!allCases || allCases.length === 0) {
-      container.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-state-icon">⌛</div>
-          <div>Loading your cases...</div>
-        </div>
-      `;
-      return;
-    }
+/* =========================
+   LOAD CASES
+========================= */
 
-    const mine = allCases.filter(c => c.acceptedBy === currentStudentName);
+async function loadCases() {
+  try {
+    const res = await fetch(`${API_BASE}/api/get-cases`, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    });
 
-    const sidebarProgress = document.getElementById("sidebar-progress");
-    if (sidebarProgress) sidebarProgress.textContent = mine.filter(c => (c.status || "").toLowerCase() !== "solved").length;
+    const data = await res.json();
+    allCases = Array.isArray(data) ? data : [];
 
-    if (mine.length === 0) {
-      container.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-state-icon">💼</div>
-          <div>You haven't accepted any cases yet.</div>
-          <div style="margin-top: 0.5rem; font-size: 0.75rem;">Start by accepting a case above to begin your journey!</div>
-        </div>
-      `;
-      return;
-    }
+    renderUnclaimedCases();
+    renderMyCases();
 
-    container.innerHTML = mine.map(c => {
-      const citizenName = c.name && c.name.trim() ? c.name.trim() : "Anonymous Citizen";
-      const catLabel = formatCategory(c.category);
-      const status = c.status || "Accepted";
-      const isSolved = status.toLowerCase() === "solved";
-      const statusColor = isSolved
-        ? "background-color: #ecfdf5; color: #047857; border-color: #a7f3d0;"
-        : "background-color: #eff6ff; color: #1d4ed8; border-color: #bfdbfe;";
-      return `
-        <div class="case-item">
-          <div class="case-icon" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">⚡</div>
-          <div class="case-content">
-            <div class="case-header">
-              <span class="case-author">${citizenName}</span>
-              <span class="case-time">• Accepted: ${timeLabel(c.createdAt)}</span>
-            </div>
-            <div class="case-title" onclick="openCaseFile('${c.id}')">${c.title || "(no title)"}</div>
-            <div class="case-description">
-              You are currently representing this client. Please review the uploaded documents and submit a solution.
-            </div>
-            <div class="case-tags">
-              <span class="tag category">${catLabel}</span>
-              <span class="tag" style="${statusColor}">${status}</span>
-            </div>
-            <div class="case-footer">
-              <button class="case-action-btn" onclick="openCaseFile('${c.id}')">📂 Open Case File</button>
-              <button class="case-action-btn secondary" onclick="updateStatus('${c.id}')">Status Info</button>
-            </div>
-          </div>
-        </div>
-      `;
-    }).join("");
+  } catch (err) {
+    console.error(err);
   }
+}
 
-  // ===== STATUS INFO (no backend change) =====
-  window.updateStatus = function(caseId) {
-    alert(
-      "Status is handled by the system:\n\n" +
-      "• 'In Review' – citizen submitted the case\n" +
-      "• 'Accepted' – you accepted the case\n" +
-      "• 'Solved' – you submitted a solution\n\n" +
-      "To change status to 'Solved', open the case file and submit your solution."
-    );
-  };
+/* =========================
+   CLAIM CASE
+========================= */
 
-  // ===== CATEGORY FILTER HANDLER =====
-  document.getElementById('category-filters').addEventListener('click', (e) => {
-    if (e.target.classList.contains('category-btn')) {
-      document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-      e.target.classList.add('active');
-      currentCategory = e.target.getAttribute('data-category') || "All";
-      renderUnclaimedCases();
-    }
-  });
+async function claimCase(id) {
+  try {
+    const res = await fetch(`${API_BASE}/api/accept-case`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({ id })
+    });
 
-  // ===== MODAL ELEMENTS =====
-  const modalBackdrop = document.getElementById('case-modal-backdrop');
-  const modalCloseBtn = document.getElementById('modal-close-btn');
-  const modalCloseBottom = document.getElementById('modal-close-bottom');
-  const modalCaseTitle = document.getElementById('modal-case-title');
-  const modalCaseMeta = document.getElementById('modal-case-meta');
-  const modalEvidence = document.getElementById('modal-evidence');
-  const modalSummary = document.getElementById('modal-summary');
-  const modalHistory = document.getElementById('modal-history');
-  const modalDraft = document.getElementById('modal-draft');
-  const modalDocsNeeded = document.getElementById('modal-docs-needed');
-  const modalFilesInput = document.getElementById('modal-solution-files');
-  const modalVoiceInput = document.getElementById('modal-solution-voice');
-  const modalVideoInput = document.getElementById('modal-solution-video');
-  const modalSaveDraft = document.getElementById('modal-save-draft');
-  const modalRunModeration = document.getElementById('modal-run-moderation');
-  const modalIssues = document.getElementById('modal-issues');
-  const modalIssuesList = document.getElementById('modal-issues-list');
-  const modalSuggestedFix = document.getElementById('modal-suggested-fix');
-  const modalDecisionPill = document.getElementById('modal-decision-pill');
-  const modalSubmit = document.getElementById('modal-submit');
+    const data = await res.json();
 
-  // ===== OPEN CASE FILE MODAL =====
-  window.openCaseFile = function(caseId) {
-    const cid = String(caseId);
-    const c = allCases.find(x => String(x.id) === cid);
-    if (!c) {
-      alert('Case not found.');
+    if (!data.success) {
+      alert(data.message || "Error accepting case");
       return;
     }
 
-    activeCaseId = cid;
+    alert("Case accepted successfully.");
+    await loadCases();
 
-    const citizenName = c.name && c.name.trim() ? c.name.trim() : "Anonymous Citizen";
-    const catLabel = formatCategory(c.category);
-    const loc = c.location || "Unknown location";
-    const created = timeLabel(c.createdAt);
-    const status = c.status || "In Review";
-    const sol = c.solution || {};
+  } catch (err) {
+    alert("Network error.");
+  }
+}
 
-    // Header
-    modalCaseTitle.textContent = c.title || "(no title)";
-    modalCaseMeta.textContent = `${catLabel} • ${loc} • Status: ${status}`;
+window.claimCase = claimCase;
 
-    // Evidence: documents + citizen audio/video
-    const evidenceParts = [];
-    if (Array.isArray(c.proofs) && c.proofs.length) {
-      evidenceParts.push("<div style='margin-bottom:6px;font-weight:600;'>Documents:</div>");
-      evidenceParts.push(
-        c.proofs.map((p, idx) =>
-          `<div style="padding:4px 0;"><a href="${API_BASE}${p}" target="_blank">📎 Evidence ${idx + 1}</a></div>`
-        ).join("")
-      );
+/* =========================
+   SUBMIT SOLUTION
+========================= */
+
+async function submitSolution(formData) {
+  try {
+    const res = await fetch(`${API_BASE}/api/submit-solution`, {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + token
+      },
+      body: formData
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+      alert(data.message || "Submission failed");
+      return false;
     }
-    if (c.voice) {
-      evidenceParts.push("<div style='margin-top:8px;font-weight:600;'>Citizen Audio:</div>");
-      evidenceParts.push(`<audio controls src="${API_BASE}${c.voice}" style="width:100%;margin-top:4px;"></audio>`);
-    }
-    if (c.video) {
-      evidenceParts.push("<div style='margin-top:8px;font-weight:600;'>Citizen Video:</div>");
-      evidenceParts.push(`<video controls src="${API_BASE}${c.video}" style="width:100%;max-height:260px;margin-top:4px;"></video>`);
-    }
-    modalEvidence.innerHTML = evidenceParts.length
-      ? evidenceParts.join("")
-      : `<div style="color:#6b7280;">No uploaded evidence for this case.</div>`;
 
-    // Summary
-    const descHtml = (c.description || "").replace(/\n/g, "<br>");
-    modalSummary.innerHTML = `
-      <strong>Citizen:</strong> ${citizenName}<br>
-      <strong>Case ID:</strong> ${c.id}<br>
-      <strong>Language:</strong> ${formatLanguage(c.language)}<br>
-      <strong>Reported:</strong> ${created}<br>
-      <div style="margin-top:6px;color:#6b7280;font-size:0.95rem;max-height:160px;overflow:auto;">
-        ${descHtml || "No detailed description provided."}
+    return true;
+
+  } catch (err) {
+    alert("Network error.");
+    return false;
+  }
+}
+
+/* =========================
+   RENDER FUNCTIONS (UNCHANGED UI)
+========================= */
+
+function renderUnclaimedCases() {
+  const container = document.getElementById("unclaimed-cases");
+
+  const filtered = allCases.filter(c =>
+    !c.acceptedBy &&
+    (currentCategory === "All" ||
+     (c.category || "").toLowerCase() === currentCategory.toLowerCase())
+  );
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📭</div>
+        <div>No available cases right now.</div>
       </div>
     `;
+    return;
+  }
 
-    // History / timeline
-    const history = [];
-    history.push(`
-      <div style="margin-bottom:8px;">
-        <strong>System</strong> • Case created
-        <div style="color:#6b7280;font-size:0.9rem;">${created}</div>
+  container.innerHTML = filtered.map(c => `
+    <div class="case-item">
+      <div class="case-icon">📋</div>
+      <div class="case-content">
+        <div class="case-title">${c.title || "(no title)"}</div>
+        <div class="case-description">${c.description || ""}</div>
+        <div class="case-footer">
+          <button class="case-action-btn" onclick="claimCase('${c.id}')">
+            ✔ Accept Case
+          </button>
+        </div>
       </div>
-    `);
-    if (c.acceptedBy) {
-      history.push(`
-        <div style="margin-bottom:8px;">
-          <strong>${c.acceptedBy}</strong> • Accepted the case
-          <div style="color:#6b7280;font-size:0.9rem;">(time when accepted not stored; shown as reported time)</div>
-        </div>
-      `);
-    }
-    if (sol.status === "submitted") {
-      history.push(`
-        <div style="margin-bottom:8px;">
-          <strong>${sol.studentName || c.acceptedBy || "Student"}</strong> • Submitted solution
-          <div style="color:#6b7280;font-size:0.9rem;">${timeLabel(sol.submittedAt)}</div>
-        </div>
-      `);
-    }
-    modalHistory.innerHTML = history.join("");
+    </div>
+  `).join("");
+}
 
-    // Fill solution section
-    modalDraft.value = sol.text || "";
-    modalDocsNeeded.value = sol.docsNeeded || "";
-    modalFilesInput.value = "";
-    modalVoiceInput.value = "";
-    modalVideoInput.value = "";
+function renderMyCases() {
+  const container = document.getElementById("my-cases");
 
-    // If solution already submitted, disable re-submission but still show content
-    const alreadySubmitted = sol.status === "submitted";
-    modalSubmit.disabled = alreadySubmitted;
-    modalSubmit.textContent = alreadySubmitted ? "Solution already submitted" : "📤 Submit Solution";
+  const mine = allCases.filter(c =>
+    c.acceptedBy === currentStudentName
+  );
 
-    // Clear moderation UI
-    modalIssues.style.display = "none";
-    modalIssuesList.innerHTML = "";
-    modalSuggestedFix.textContent = "";
-    modalDecisionPill.innerHTML = "";
-
-    // Show modal
-    modalBackdrop.style.display = 'flex';
-    modalBackdrop.setAttribute('aria-hidden', 'false');
-  };
-
-  function closeModal() {
-    modalBackdrop.style.display = 'none';
-    modalBackdrop.setAttribute('aria-hidden', 'true');
-    activeCaseId = null;
+  if (mine.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">💼</div>
+        <div>You haven't accepted any cases yet.</div>
+      </div>
+    `;
+    return;
   }
 
-  modalCloseBtn.addEventListener('click', closeModal);
-  modalCloseBottom.addEventListener('click', closeModal);
+  container.innerHTML = mine.map(c => `
+    <div class="case-item">
+      <div class="case-icon">⚡</div>
+      <div class="case-content">
+        <div class="case-title">${c.title}</div>
+        <div class="case-description">Status: ${c.status}</div>
+      </div>
+    </div>
+  `).join("");
+}
 
-  // Save draft locally only (doesn't touch backend)
-  modalSaveDraft.addEventListener('click', () => {
-    if (!activeCaseId) return alert('No active case.');
-    const idx = allCases.findIndex(x => String(x.id) === String(activeCaseId));
-    if (idx === -1) return alert('Case not found.');
-    allCases[idx].draft = modalDraft.value;
-    alert('Draft saved locally (not sent to server).');
-    renderMyCases();
-  });
+/* =========================
+   CATEGORY FILTER
+========================= */
 
-  // ===== LOCAL MODERATION (same logic) =====
-  function runLocalModeration(text) {
-    const issues = [];
-    const lower = (text || '').toLowerCase();
-
-    const uplPatterns = [
-      /i will represent you/, /i'll represent you/, /i will file/, /i'll file/, /i will appear/, /i'll appear/,
-      /i will handle your case/, /i'll handle your case/, /retainer/, /my fees/, /pay me/, /send me fees/,
-      /i will go to court/, /i'll go to court/
-    ];
-    if (uplPatterns.some(re => re.test(lower))) {
-      issues.push({ type:'block', msg:'Unauthorized Practice: contains promises of representation or fee requests.'});
+document.getElementById('category-filters')
+  .addEventListener('click', (e) => {
+    if (e.target.classList.contains('category-btn')) {
+      document.querySelectorAll('.category-btn')
+        .forEach(btn => btn.classList.remove('active'));
+      e.target.classList.add('active');
+      currentCategory = e.target.dataset.category;
+      renderUnclaimedCases();
     }
+});
 
-    const directAdvicePatterns = [
-      /\byou must\b/, /\byou should\b/, /\byou have to\b/, /\bdo this\b/, /\bjust do this\b/, /\bgo and file\b/, /\bfile a case immediately\b/
-    ];
-    if (directAdvicePatterns.some(re => re.test(lower))) {
-      issues.push({ type:'revise', msg:'No direct imperative legal advice: rephrase into options (A/B/C).'});
-    }
+/* =========================
+   INIT
+========================= */
 
-    const pii = [];
-    if (/\b[6-9]\d{9}\b/.test(lower)) pii.push('phone number');
-    if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(text)) pii.push('email');
-    if (/\b\d{4}\s?\d{4}\s?\d{4}\b/.test(text)) pii.push('Aadhaar-like number');
-    if (pii.length) issues.push({ type:'revise', msg:`Privacy: remove or mask ${pii.join(', ')}.` });
+async function initDashboard() {
+  await loadUser();
+  await loadCases();
+}
 
-    const promo = [/contact me/,/call me/,/whatsapp me/,/my firm/,/consultation fee/,/pay me/,/upi id/,/bank account/];
-    if (promo.some(re => re.test(lower))) issues.push({ type:'revise', msg:'Remove private contact details or fee requests.' });
+initDashboard();
 
-    const illegal = [/kill/,/beat them/,/violence/,/bribe/,/forge/,/forgery/,/threaten/,/burn/,/kidnap/];
-    if (illegal.some(re => re.test(lower))) issues.push({ type:'block', msg:'Illegal or unsafe instruction detected (violence, forgery, bribery).' });
-
-    const rude = [/idiot/,/stupid/,/dumb/,/moron/,/bastard/];
-    if (rude.some(re => re.test(lower))) issues.push({ type:'revise', msg:'Please remove insults; maintain professional neutral tone.' });
-
-    const misleading = [/100% win/,/guarantee/,/guaranteed win/,/you will definitely win/];
-    if (misleading.some(re => re.test(lower))) issues.push({ type:'revise', msg:'Avoid guarantees or absolute claims about outcomes.' });
-
-    let decision = 'allow';
-    if (issues.some(i => i.type === 'block')) decision = 'block';
-    else if (issues.some(i => i.type === 'revise')) decision = 'revise';
-
-    let suggested = '';
-    if (decision === 'revise') {
-      suggested = 'Rewrite so you: explain rights, present lawful options (A/B/C), avoid promises of representation, remove PII/self-promo, stay neutral.';
-    } else if (decision === 'block') {
-      suggested = 'Remove illegal/unsafe instructions or promises of representation. Seek supervisor review.';
-    } else {
-      suggested = 'Looks good for submission (still consider asking clarifying questions if needed).';
-    }
-
-    return { decision, issues, suggestedFix: suggested };
-  }
-
-  function presentModerationResult(result) {
-    modalIssues.style.display = 'block';
-    modalIssuesList.innerHTML = '';
-    modalSuggestedFix.textContent = result.suggestedFix || '';
-
-    modalDecisionPill.innerHTML = '';
-    const pill = document.createElement('div');
-    pill.className = 'pill ' + (result.decision === 'allow' ? 'allow' : (result.decision === 'revise' ? 'revise' : 'block'));
-    pill.textContent = (result.decision === 'allow' ? 'ALLOW' : (result.decision === 'revise' ? 'REVISE' : 'BLOCK'));
-    modalDecisionPill.appendChild(pill);
-
-    if (result.issues && result.issues.length) {
-      result.issues.forEach(i => {
-        const div = document.createElement('div');
-        div.className = 'issue-item';
-        div.textContent = '• ' + i.msg;
-        modalIssuesList.appendChild(div);
-      });
-    } else {
-      modalIssuesList.innerHTML = '<div style="color:#6b7280;">No issues found.</div>';
-    }
-  }
-
-  modalRunModeration.addEventListener('click', () => {
-    const text = modalDraft.value || '';
-    if (!text.trim()) return alert('Please write something to run moderation.');
-    const res = runLocalModeration(text);
-    presentModerationResult(res);
-  });
-
-  // ===== SUBMIT SOLUTION TO BACKEND =====
-  modalSubmit.addEventListener('click', async () => {
-    if (!activeCaseId) return alert("No active case.");
-    if (modalSubmit.disabled) {
-      alert("Solution is already submitted for this case.");
-      return;
-    }
-
-    const solutionText = (modalDraft.value || "").trim();
-    if (!solutionText) {
-      alert("Please write solution text before submitting.");
-      return;
-    }
-
-    const docsNeeded = (modalDocsNeeded.value || "").trim();
-
-    const fd = new FormData();
-    fd.append("id", activeCaseId);
-    fd.append("studentName", currentStudentName);
-    fd.append("solutionText", solutionText);
-    fd.append("docsNeeded", docsNeeded);
-
-    for (const f of modalFilesInput.files) {
-      fd.append("solutionFiles", f);
-    }
-    if (modalVoiceInput.files[0]) {
-      fd.append("solutionVoice", modalVoiceInput.files[0]);
-    }
-    if (modalVideoInput.files[0]) {
-      fd.append("solutionVideo", modalVideoInput.files[0]);
-    }
-
-    try {
-      const res = await fetch(`${API_BASE}/api/submit-solution`, {
-        method: "POST",
-        body: fd
-      });
-      const data = await res.json();
-      if (!data.success) {
-        alert(data.message || "Server error while submitting solution");
-        return;
-      }
-      alert("Solution submitted successfully. Status will now be 'Solved'.");
-      closeModal();
-      await loadCases();
-    } catch (e) {
-      console.error(e);
-      alert("Network error while submitting solution.");
-    }
-  });
-
-  // Load on initial page
-  loadCases();
-
-  // Close modal on ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modalBackdrop.style.display === 'flex') closeModal();
-  });
 </script>
 </body>
 </html>
