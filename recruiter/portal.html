@@ -161,6 +161,16 @@
             color: var(--primary-dark);
             border-color: var(--primary-light);
         }
+        .toolbar-btn.active {
+            background: linear-gradient(135deg, var(--accent-yellow) 0%, #d97706 100%);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+        }
+        .toolbar-btn.active:hover {
+            filter: brightness(1.05);
+            color: white;
+        }
 
         /* ===================== FILTER DRAWER ===================== */
 
@@ -733,6 +743,7 @@
             <option value="cases">Sort: Most Cases</option>
             <option value="completion">Sort: Highest Completion</option>
         </select>
+        <button id="shortlist-toggle-btn" class="toolbar-btn">⭐ Shortlisted</button>
         <button id="filter-toggle" class="toolbar-btn">⚙️ Filters</button>
     </div>
 
@@ -741,9 +752,6 @@
         <div class="filter-group">
             <label class="checkbox-label">
                 <input type="checkbox" id="filter-verified"> Verified only
-            </label>
-            <label class="checkbox-label" style="margin-left: 14px;">
-                <input type="checkbox" id="filter-shortlisted"> ⭐ Shortlisted Only
             </label>
             <select id="filter-domain" class="select" style="margin-left:14px;">
                 <option value="all">All domains</option>
@@ -818,7 +826,7 @@
     const grid = document.getElementById("student-grid");
     const loadMoreBtn = document.getElementById("load-more-btn");
     const filterVerifiedEl = document.getElementById("filter-verified");
-    const filterShortlistedEl = document.getElementById("filter-shortlisted");
+    const shortlistToggleBtn = document.getElementById("shortlist-toggle-btn");
 
     let searchTerm = "";
     let sortBy = "name";
@@ -951,7 +959,7 @@
                             <div class="student-meta">${s.school || ""}</div>
                         </div>
                     </div>
-                    <button class="star-btn ${isShortlisted ? 'active' : ''}" onclick="toggleShortlist('${s.id}', event)">★</button>
+                    <button class="star-btn ${isShortlisted ? 'active' : ''}" onclick="toggleShortlist('${s.id}', event)" title="${isShortlisted ? 'Remove from shortlist' : 'Add to shortlist'}">★</button>
                 </div>
                 <div class="badge-row">
                     ${s.verified ? '<span class="badge badge-verified">VERIFIED</span>' : ""}
@@ -1192,8 +1200,9 @@
         renderGrid();
     };
 
-    filterShortlistedEl.onchange = e => {
-        showShortlisted = e.target.checked;
+    shortlistToggleBtn.onclick = () => {
+        showShortlisted = !showShortlisted;
+        shortlistToggleBtn.classList.toggle("active", showShortlisted);
         renderGrid();
     };
 
@@ -1261,7 +1270,7 @@
         const text = q.toLowerCase();
         
         // 1. Summarize details about a student
-        const student = students.find(s => (s.name || "").toLowerCase().includes(text) || (s.id || "").toLowerCase() === text);
+        const student = students.find(s => text.includes((s.name || "").toLowerCase()) || text.includes((s.name || "").split(" ")[0].toLowerCase()) || (s.id || "").toLowerCase() === text);
         if (student && (text.includes("summarize") || text.includes("profile") || text.includes("about") || text.includes("tell me"))) {
             const s = student;
             const completion = s.completion != null ? s.completion : Math.round(((s.solvedCases || 0) / (s.totalAttempts || 1)) * 100);
