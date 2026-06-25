@@ -111,6 +111,9 @@ namespace LegalMinds.Backend.Models
     public class AcceptCaseRequest
     {
         [Required]
+        public string Id { get; set; } = string.Empty;
+
+        [Required]
         public string StudentName { get; set; } = string.Empty;
     }
 

@@ -197,46 +197,17 @@ namespace LegalMinds.Backend.Controllers
         [HttpPost("accept-case")]
         public async Task<IActionResult> AcceptCase([FromBody] AcceptCaseRequest model)
         {
-            var caseId = Request.Query["id"].ToString();
-            if (string.IsNullOrEmpty(caseId))
-            {
-                // Fallback to body read if needed
-                // But wait, the express server takes { id, studentName } from body!
-                // Let's support reading id from body or query.
-            }
-
-            // Let's read from body
-            var bodyString = "";
-            using (var reader = new StreamReader(Request.Body))
-            {
-                bodyString = await reader.ReadToEndAsync();
-            }
-
-            string? id = null;
-            string? studentName = null;
-            try
-            {
-                using var doc = JsonDocument.Parse(bodyString);
-                if (doc.RootElement.TryGetProperty("id", out var idProp)) id = idProp.GetString();
-                if (doc.RootElement.TryGetProperty("studentName", out var nameProp)) studentName = nameProp.GetString();
-            }
-            catch { }
-
-            // If not found in body, check query
-            if (string.IsNullOrEmpty(id)) id = Request.Query["id"].ToString();
-            if (string.IsNullOrEmpty(studentName)) studentName = model?.StudentName;
-
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(studentName))
+            if (model == null || string.IsNullOrEmpty(model.Id) || string.IsNullOrEmpty(model.StudentName))
             {
                 return BadRequest(new { success = false, message = "id and studentName are required" });
             }
 
-            var c = await _context.Cases.FirstOrDefaultAsync(x => x.Id == id);
+            var c = await _context.Cases.FirstOrDefaultAsync(x => x.Id == model.Id);
             if (c == null)
                 return NotFound(new { success = false, message = "Case not found" });
 
             c.Status = "Accepted";
-            c.AcceptedBy = studentName;
+            c.AcceptedBy = model.StudentName;
             await _context.SaveChangesAsync();
 
             return Ok(new { success = true, caseData = MapCaseToResponse(c) });
