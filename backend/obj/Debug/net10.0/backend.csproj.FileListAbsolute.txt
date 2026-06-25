@@ -74,3 +74,16 @@ C:\Users\VRAJ\LM_final\Legal-Minds\backend\obj\Debug\net10.0\refint\backend.dll
 C:\Users\VRAJ\LM_final\Legal-Minds\backend\obj\Debug\net10.0\backend.pdb
 C:\Users\VRAJ\LM_final\Legal-Minds\backend\obj\Debug\net10.0\backend.genruntimeconfig.cache
 C:\Users\VRAJ\LM_final\Legal-Minds\backend\obj\Debug\net10.0\ref\backend.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\Namotion.Reflection.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\Newtonsoft.Json.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\NJsonSchema.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\NJsonSchema.Annotations.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\NJsonSchema.NewtonsoftJson.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\NJsonSchema.Yaml.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\NSwag.Annotations.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\NSwag.AspNetCore.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\NSwag.Core.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\NSwag.Core.Yaml.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\NSwag.Generation.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\NSwag.Generation.AspNetCore.dll
+C:\Users\VRAJ\LM_final\Legal-Minds\backend\bin\Debug\net10.0\YamlDotNet.dll

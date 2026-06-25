@@ -15,6 +15,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 1. Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddOpenApiDocument(config =>
+{
+    config.PostProcess = document =>
+    {
+        document.Info.Title = "LegalMinds API Portal";
+        document.Info.Description = "Web API documentation for the LegalMinds Platform.";
+        document.Info.Version = "1.0.0";
+    };
+});
 
 // Add EF Core DB Context mapping to SQL Server LocalDB
 builder.Services.AddDbContext<LegalMindsDbContext>(options =>
@@ -57,6 +66,12 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // 2. Configure HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseOpenApi();
+    app.UseSwaggerUi();
+}
+
 app.UseCors("AllowAll");
 
 // Configure static file serving of the parent folder (Legal-Minds root)
