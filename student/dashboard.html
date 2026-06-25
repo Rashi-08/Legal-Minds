@@ -124,7 +124,7 @@
       </div>
       <div class="nav-actions">
         <a href="./reviewer.html"><button class="nav-btn">📊 Reviews</button></a>
-        <button class="nav-btn">🔔 Alerts</button>
+        <button class="nav-btn" onclick="logout()">🚪 Logout</button>
       </div>
     </div>
   </nav>
@@ -288,34 +288,32 @@
             <h3 style="margin-top:12px;margin-bottom:8px;">Status & History</h3>
             <div id="modal-history" style="background:#f9fafb;border:1px solid #e6e9ef;padding:12px;border-radius:8px;color:#374151;min-height:120px;">
               <!-- history entries -->
-            </div>
-          </aside>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button id="modal-close-bottom" class="close-btn">Close</button>
-      </div>
-    </div>
-  </div>
 <script>
 /* =========================
    AUTH PROTECTION
 ========================= */
 
-const API_BASE = "http://localhost:3000";      // Node backend
-const AUTH_BASE = "http://localhost:8000";     // FastAPI auth
+const API_BASE = "";      // Relative to unified .NET host
+const AUTH_BASE = "";     // Relative to unified .NET host
 
 const token = localStorage.getItem("token");
 
 if (!token) {
   alert("You are not logged in.");
-  window.location.href = "login.html";
+  window.location.href = "../login.html";
 }
 
 let currentStudentName = "";
 let allCases = [];
 let currentCategory = "All";
 let activeCaseId = null;
+
+function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
+  localStorage.removeItem("username");
+  window.location.href = "../login.html";
+}
 
 /* =========================
    LOAD LOGGED-IN USER
@@ -334,18 +332,48 @@ async function loadUser() {
     }
 
     const data = await res.json();
-
     currentStudentName = data.user.email;
 
-    // Update profile UI dynamically
-    document.querySelector(".profile-name").textContent = currentStudentName;
-    document.querySelector(".profile-avatar").textContent =
-      currentStudentName.charAt(0).toUpperCase();
+    // Fetch students.json to load matching details
+    try {
+      const sRes = await fetch("../students.json");
+      const sData = await sRes.json();
+      const students = sData.students || [];
+      const s = students.find(st => st.username.toLowerCase() === currentStudentName.toLowerCase() || st.email?.toLowerCase() === currentStudentName.toLowerCase() || st.name.toLowerCase().includes(currentStudentName.toLowerCase()));
+
+      if (s) {
+        document.querySelector(".profile-name").textContent = s.name;
+        document.querySelector(".profile-title").textContent = `${s.year} • ${s.school}`;
+        document.querySelector(".profile-bio").textContent = s.headline;
+        document.querySelector(".profile-avatar").textContent = s.initials;
+
+        const statBoxes = document.querySelectorAll(".stat-box");
+        if (statBoxes.length >= 4) {
+          statBoxes[0].querySelector(".stat-value").textContent = s.justiceRating;
+          statBoxes[1].querySelector(".stat-value").textContent = s.solvedCases;
+          statBoxes[3].querySelector(".stat-value").textContent = Math.round((s.solvedCases / (s.totalAttempts || 1)) * 100) + "%";
+        }
+
+        const badgesContainer = document.querySelector(".badges");
+        if (badgesContainer) {
+          badgesContainer.innerHTML = s.badges.map(b => `<span class="badge">${b}</span>`).join("");
+        }
+      } else {
+        document.querySelector(".profile-name").textContent = currentStudentName;
+        document.querySelector(".profile-avatar").textContent = currentStudentName.charAt(0).toUpperCase();
+        document.querySelector(".profile-title").textContent = "Law Student";
+        document.querySelector(".profile-bio").textContent = "Passionate about legal aid and justice representation.";
+      }
+    } catch (e) {
+      console.warn("Could not load details from students.json:", e);
+      document.querySelector(".profile-name").textContent = currentStudentName;
+      document.querySelector(".profile-avatar").textContent = currentStudentName.charAt(0).toUpperCase();
+    }
 
   } catch (err) {
     alert("Session expired. Please login again.");
     localStorage.removeItem("token");
-    window.location.href = "login.html";
+    window.location.href = "../login.html";
   }
 }
 
@@ -367,6 +395,10 @@ async function loadCases() {
     renderUnclaimedCases();
     renderMyCases();
 
+    // Update in-progress count in sidebar
+    const mineCount = allCases.filter(c => c.acceptedBy === currentStudentName && c.status !== "Solved" && c.status !== "Approved").length;
+    document.getElementById("sidebar-progress").textContent = mineCount;
+
   } catch (err) {
     console.error(err);
   }
@@ -384,7 +416,7 @@ async function claimCase(id) {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + token
       },
-      body: JSON.stringify({ id })
+      body: JSON.stringify({ id, studentName: currentStudentName })
     });
 
     const data = await res.json();
@@ -394,8 +426,10 @@ async function claimCase(id) {
       return;
     }
 
-    alert("Case accepted successfully.");
+    alert("Case accepted successfully. Opening drafting room...");
     await loadCases();
+    // Redirect to drafting workspace
+    window.location.href = `draft.html?id=${id}`;
 
   } catch (err) {
     alert("Network error.");
@@ -405,36 +439,7 @@ async function claimCase(id) {
 window.claimCase = claimCase;
 
 /* =========================
-   SUBMIT SOLUTION
-========================= */
-
-async function submitSolution(formData) {
-  try {
-    const res = await fetch(`${API_BASE}/api/submit-solution`, {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + token
-      },
-      body: formData
-    });
-
-    const data = await res.json();
-
-    if (!data.success) {
-      alert(data.message || "Submission failed");
-      return false;
-    }
-
-    return true;
-
-  } catch (err) {
-    alert("Network error.");
-    return false;
-  }
-}
-
-/* =========================
-   RENDER FUNCTIONS (UNCHANGED UI)
+   RENDER FUNCTIONS
 ========================= */
 
 function renderUnclaimedCases() {
@@ -489,15 +494,37 @@ function renderMyCases() {
     return;
   }
 
-  container.innerHTML = mine.map(c => `
-    <div class="case-item">
-      <div class="case-icon">⚡</div>
-      <div class="case-content">
-        <div class="case-title">${c.title}</div>
-        <div class="case-description">Status: ${c.status}</div>
+  container.innerHTML = mine.map(c => {
+    let actionBtnText = "📝 Open Drafting Room";
+    let statusClass = "urgent";
+    if (c.status === "Solved") {
+      actionBtnText = "👁️ View Submitted Solution";
+      statusClass = "category";
+    } else if (c.status === "Approved") {
+      actionBtnText = "👁️ View Approved Case";
+      statusClass = "category";
+    } else if (c.status === "Revision Needed") {
+      actionBtnText = "↩️ Revise Solution";
+      statusClass = "urgent";
+    }
+
+    return `
+      <div class="case-item" style="cursor:pointer;" onclick="window.location.href='draft.html?id=${c.id}'">
+        <div class="case-icon">⚡</div>
+        <div class="case-content">
+          <div class="case-title">${c.title}</div>
+          <div class="case-tags">
+            <span class="tag ${statusClass}">Status: ${c.status}</span>
+          </div>
+          <div class="case-footer" style="margin-top: 8px;">
+            <button class="case-action-btn" onclick="event.stopPropagation(); window.location.href='draft.html?id=${c.id}'">
+              ${actionBtnText}
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 }
 
 /* =========================

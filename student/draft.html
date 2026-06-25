@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drafting Workspace - LegalMinds</title>
+  <style>
+    :root {
+      --blue: #0a66c2;
+      --blue-hover: #08519c;
+      --green: #10b981;
+      --light: #f3f4f6;
+      --border: #e5e7eb;
+      --text: #111827;
+      --text-muted: #6b7280;
+      --card: #ffffff;
+      --bg: #f9fafb;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Nav */
+    .top-nav {
+      background-color: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 2rem;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 1.15rem;
+      text-decoration: none;
+    }
+    .nav-title {
+      margin-left: 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-left: 1px solid var(--border);
+      padding-left: 1.5rem;
+    }
+    .nav-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 0.75rem;
+    }
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background-color: transparent;
+      color: #374151;
+      transition: all 0.2s;
+    }
+    .btn:hover { background-color: #f3f4f6; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color: white;
+      border: none;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 4px 12px rgba(10, 102, 194, 0.25);
+      transform: translateY(-1px);
+    }
+
+    /* Container layout */
+    .workspace-container {
+      max-width: 1360px;
+      margin: 1.5rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 1.5rem;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Cards */
+    .card {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #1e3a8a;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    /* Editor inputs */
+    textarea {
+      width: 100%;
+      min-height: 380px;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      resize: vertical;
+      color: #1e293b;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(10, 102, 194, 0.1);
+    }
+    .textarea-small {
+      min-height: 90px;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.35rem;
+    }
+
+    /* Left and Right splits */
+    .main-workspace {
+      display: flex;
+      flex-direction: column;
+    }
+    .side-info {
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 90px;
+      height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+
+    /* Moderation alert box */
+    .mod-box {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      display: none;
+    }
+    .mod-box.warn {
+      background-color: #fffbeb;
+      border: 1px solid #fef3c7;
+      color: #92400e;
+      display: block;
+    }
+    .mod-box.success {
+      background-color: #ecfdf5;
+      border: 1px solid #d1fae5;
+      color: #065f46;
+      display: block;
+    }
+    .mod-header {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .mod-list {
+      font-size: 0.825rem;
+      margin-left: 1.25rem;
+      line-height: 1.4;
+    }
+
+    /* Client info list */
+    .client-detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 0.875rem;
+    }
+    .client-detail-row:last-child {
+      border-bottom: none;
+    }
+    .detail-lbl { color: var(--text-muted); }
+    .detail-val { font-weight: 600; text-align: right; }
+
+    .client-desc {
+      background-color: #f9fafb;
+      border: 1px solid var(--border);
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      color: #374151;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .media-player-box {
+      background-color: #eff6ff;
+      border: 1px solid #dbeafe;
+      padding: 0.75rem;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+    }
+    .media-player-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--blue);
+      margin-bottom: 0.35rem;
+    }
+    audio, video {
+      width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+      .workspace-container { grid-template-columns: 1fr; }
+      .side-info { position: static; height: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <a href="dashboard.html" class="logo">⚖️ LegalAid</a>
+    <div class="nav-title">Drafting Room & Moderation Desk</div>
+    <div class="nav-actions">
+      <button class="btn" onclick="goBack()">← Exit Room</button>
+      <button class="btn" onclick="saveDraftLocal()">💾 Save Draft</button>
+      <button class="btn btn-primary" onclick="submitFinalSolution()">📤 Submit Solution</button>
+    </div>
+  </nav>
+
+  <div class="workspace-container">
+    <!-- Left Workspace -->
+    <main class="main-workspace">
+      <div class="card">
+        <div class="card-title">📝 Legal Draft Editor</div>
+        <textarea id="draftText" placeholder="Write your legal notice, reply, or advisory letter here..."></textarea>
+        
+        <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.8rem; color: var(--text-muted);" id="saveTime">Draft auto-saves locally</span>
+          <button class="btn" style="background-color: #f1f5f9; border-color: #cbd5e1;" onclick="runDraftModeration()">🔎 Run Safety scan</button>
+        </div>
+
+        <!-- Moderation scan alerts -->
+        <div id="modBox" class="mod-box">
+          <div id="modHeader" class="mod-header">Scanning...</div>
+          <ul id="modList" class="mod-list"></ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📎 Add Attachments (for Client)</div>
+        <div class="form-group">
+          <label class="form-label">Client Documents Requested (optional)</label>
+          <textarea id="docsNeeded" class="textarea-small" placeholder="List any documents you need the client to upload..."></textarea>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Solution Files (PDF/Word)</label>
+            <input type="file" id="solutionFiles" multiple style="font-size:0.8rem;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Solution Audio (optional)</label>
+            <input type="file" id="solutionVoice" accept="audio/*" style="font-size:0.8rem;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Solution Video (optional)</label>
+            <input type="file" id="solutionVideo" accept="video/*" style="font-size:0.8rem;">
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Context Sidebar -->
+    <aside class="side-info">
+      <div class="card">
+        <div class="card-title">📂 Case Intake Brief</div>
+        <div id="clientDetails">
+          <div class="client-detail-row"><span class="detail-lbl">Case ID</span><span class="detail-val" id="caseId">...</span></div>
+          <div class="client-detail-row"><span class="detail-lbl">Category</span><span class="detail-val" id="caseCategory">...</span></div>
+          <div class="client-detail-row"><span class="detail-lbl">Citizen</span><span class="detail-val" id="caseCitizen">...</span></div>
+          <div class="client-detail-row"><span class="detail-lbl">Location</span><span class="detail-val" id="caseLocation">...</span></div>
+          <div class="client-detail-row"><span class="detail-lbl">Language</span><span class="detail-val" id="caseLanguage">...</span></div>
+          <div class="client-detail-row"><span class="detail-lbl">Received</span><span class="detail-val" id="caseDate">...</span></div>
+        </div>
+
+        <div class="form-label" style="margin-top: 1.25rem;">Problem Statement:</div>
+        <div class="client-desc" id="caseDesc">Loading description...</div>
+
+        <!-- Evidence files -->
+        <div id="intakeMedia"></div>
+      </div>
+
+      <div class="card" id="historyCard" style="display:none;">
+        <div class="card-title">↩️ Lawyer Feedback</div>
+        <p id="lawyerFeedbackText" style="font-size: 0.85rem; line-height: 1.4; color: #991b1b; font-weight: 500;"></p>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const caseId = params.get("id");
+    const token = localStorage.getItem("token");
+    const studentUsername = localStorage.getItem("username") || "student";
+
+    if (!caseId) {
+      alert("No Case ID provided.");
+      window.location.href = "dashboard.html";
+    }
+
+    if (!token) {
+      alert("Session expired. Please log in.");
+      window.location.href = "../login.html";
+    }
+
+    let loadedCaseData = null;
+
+    async function loadCaseBrief() {
+      try {
+        const res = await fetch(`/api/get-case?id=${encodeURIComponent(caseId)}`);
+        if (!res.ok) throw new Error("Could not find case data");
+        const c = await res.json();
+        loadedCaseData = c;
+
+        document.getElementById("caseId").textContent = c.id;
+        document.getElementById("caseCategory").textContent = c.category.toUpperCase();
+        document.getElementById("caseCitizen").textContent = c.name || "Anonymous";
+        document.getElementById("caseLocation").textContent = c.location || "Not provided";
+        document.getElementById("caseLanguage").textContent = c.language.toUpperCase();
+        document.getElementById("caseDate").textContent = new Date(c.createdAt).toLocaleDateString();
+        document.getElementById("caseDesc").textContent = c.description;
+
+        // Render intake audio / video evidence
+        const mediaBox = document.getElementById("intakeMedia");
+        mediaBox.innerHTML = "";
+
+        if (c.voice) {
+          mediaBox.innerHTML += `
+            <div class="media-player-box">
+              <div class="media-player-title">🎤 Voice intake:</div>
+              <audio controls src="${c.voice}"></audio>
+            </div>
+          `;
+        }
+        if (c.video) {
+          mediaBox.innerHTML += `
+            <div class="media-player-box">
+              <div class="media-player-title">🎥 Video intake:</div>
+              <video controls src="${c.video}"></video>
+            </div>
+          `;
+        }
+
+        // Render proof files
+        if (c.proofs && c.proofs.length) {
+          let proofsHtml = '<div class="form-label">Proof Files:</div><ul style="font-size:0.8rem; margin-left:1.25rem; margin-bottom:1rem;">';
+          c.proofs.forEach((p, idx) => {
+            proofsHtml += `<li><a href="${p}" target="_blank">Evidence Doc ${idx + 1}</a></li>`;
+          });
+          proofsHtml += "</ul>";
+          mediaBox.innerHTML += proofsHtml;
+        }
+
+        // Load existing draft if present
+        const savedDraft = localStorage.getItem(`draft_${c.id}`);
+        if (savedDraft) {
+          document.getElementById("draftText").value = savedDraft;
+        } else if (c.solution && c.solution.text) {
+          document.getElementById("draftText").value = c.solution.text;
+        }
+
+        // Load lawyer feedback if in revision status
+        if (c.status === "Revision Needed" && c.solution && c.solution.feedback) {
+          document.getElementById("historyCard").style.display = "block";
+          document.getElementById("lawyerFeedbackText").textContent = c.solution.feedback;
+        }
+
+      } catch (err) {
+        console.error(err);
+        alert("Failed to load case brief.");
+      }
+    }
+
+    // Local Storage Auto-Save
+    function saveDraftLocal() {
+      const draft = document.getElementById("draftText").value;
+      localStorage.setItem(`draft_${caseId}`, draft);
+      const timeStr = new Date().toLocaleTimeString();
+      document.getElementById("saveTime").textContent = `Draft saved locally at ${timeStr}`;
+    }
+
+    // Run Auto-save periodically
+    setInterval(saveDraftLocal, 10000);
+
+    // Draft compliance & PII moderation desk
+    function runDraftModeration() {
+      const text = document.getElementById("draftText").value;
+      const modBox = document.getElementById("modBox");
+      const modHeader = document.getElementById("modHeader");
+      const modList = document.getElementById("modList");
+
+      modList.innerHTML = "";
+      modBox.className = "mod-box";
+
+      const warnings = [];
+
+      // 1. Check placeholders
+      const placeholderRegex = /\[[^\]]+\]|___/g;
+      const placeholders = text.match(placeholderRegex);
+      if (placeholders) {
+        warnings.push(`Contains unresolved placeholders: ${[...new Set(placeholders)].join(", ")}`);
+      }
+
+      // 2. Check mobile PII leakage (unmasked format)
+      const phoneRegex = /\b\d{10}\b|\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/g;
+      const phones = text.match(phoneRegex);
+      if (phones) {
+        warnings.push(`Warning: Exposed phone number(s) detected: ${phones.join(", ")}. Please mask sensitive contact data.`);
+      }
+
+      // 3. Check email leakage
+      const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+      const emails = text.match(emailRegex);
+      if (emails) {
+        warnings.push(`Warning: Exposed email address(es) detected: ${emails.join(", ")}.`);
+      }
+
+      // 4. Citation check
+      const containsCitation = /section|sec\.|article|art\.|act|regulation|rule/i.test(text);
+      if (!containsCitation && text.trim().length > 50) {
+        warnings.push("Tip: Document lacks specific legal citations (e.g., 'Section 13', 'Rent Control Act'). Adding citations will strengthen the draft.");
+      }
+
+      // Render results
+      if (warnings.length > 0) {
+        modBox.className = "mod-box warn";
+        modHeader.innerHTML = "🔎 Compliance Check: Warnings Found";
+        warnings.forEach(w => {
+          modList.innerHTML += `<li>${w}</li>`;
+        });
+      } else {
+        modBox.className = "mod-box success";
+        modHeader.innerHTML = "✓ Compliance Check: All Clear!";
+        modList.innerHTML = "<li>No placeholders, exposed PII, or formatting anomalies detected. The draft is safe to submit.</li>";
+      }
+    }
+
+    async function submitFinalSolution() {
+      const text = document.getElementById("draftText").value.trim();
+      const docsNeeded = document.getElementById("docsNeeded").value.trim();
+
+      if (!text) {
+        alert("Cannot submit an empty draft.");
+        return;
+      }
+
+      if (!confirm("Are you sure you want to submit this draft to the expert review queue?")) {
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("id", caseId);
+      formData.append("studentName", studentUsername);
+      formData.append("solutionText", text);
+      formData.append("docsNeeded", docsNeeded);
+
+      // solution files
+      const fileInput = document.getElementById("solutionFiles");
+      if (fileInput.files.length > 0) {
+        Array.from(fileInput.files).forEach(f => {
+          formData.append("solutionFiles", f);
+        });
+      }
+
+      // solution media
+      const voiceInput = document.getElementById("solutionVoice");
+      if (voiceInput.files.length > 0) {
+        formData.append("solutionVoice", voiceInput.files[0]);
+      }
+
+      const videoInput = document.getElementById("solutionVideo");
+      if (videoInput.files.length > 0) {
+        formData.append("solutionVideo", videoInput.files[0]);
+      }
+
+      try {
+        const res = await fetch("/api/submit-solution", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer " + token
+          },
+          body: formData
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          alert("Solution draft submitted successfully! Returning to dashboard.");
+          localStorage.removeItem(`draft_${caseId}`); // clear local cache
+          window.location.href = "dashboard.html";
+        } else {
+          alert(data.message || "Failed to submit solution.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Server error while submitting solution.");
+      }
+    }
+
+    function goBack() {
+      saveDraftLocal();
+      window.location.href = "dashboard.html";
+    }
+
+    // Init
+    loadCaseBrief();
+  </script>
+</body>
+</html>

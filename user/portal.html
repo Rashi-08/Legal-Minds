@@ -887,7 +887,11 @@
 
   <script>
   // ========= Load previous case from localStorage & refresh from backend =========
+  // ========= Load previous case & render forum solved cases =========
   window.addEventListener("load", async () => {
+    // Render solved forum cases
+    renderForum();
+
     const prevCaseRaw = localStorage.getItem("previousCase");
     if (!prevCaseRaw) return;
 
@@ -926,6 +930,79 @@
       }
     }
   });
+
+  // ========= Community Solved Cases Forum Logic =========
+  const forumCases = [
+    {
+      category: "rent",
+      title: "Illegal Eviction Notice - Resolved",
+      meta: "Landlord locked tenant out without notice",
+      body: "The landlord locked out the tenant due to a 2-day rent delay. Our student clinic drafted an urgent pre-litigation notice citing Section 106 of the Transfer of Property Act. The landlord agreed to restore possession within 24 hours without court intervention."
+    },
+    {
+      category: "wages",
+      title: "Unpaid Overtime Wages Claim",
+      meta: "Factory worker denied 3 months overtime",
+      body: "A worker was dismissed for demanding overtime pay. We prepared a formal representation to the Labour Commissioner outlining the biometrics logs as proof. The management settled the dues out-of-court, paying double the normal wage rate for all overtime hours."
+    },
+    {
+      category: "fraud",
+      title: "Online Phishing Scam Refund",
+      meta: "User defrauded of ₹25,000 on fake portal",
+      body: "The client entered UPI PIN on a spoofed portal. We guided the user to file a cyber complaint on national portal and drafted a formal chargeback request letter to their bank. The bank accepted the dispute and credited the amount under zero-liability rules."
+    },
+    {
+      category: "harassment",
+      title: "Hostile Tenancy and Abuse",
+      meta: "Landlord repeatedly cutting off electricity",
+      body: "Landlord cut off utilities to force eviction. Student interns drafted a complaint under Section 430 of IPC and served a legal notice. The local power was restored, and they respected the legal tenancy term."
+    }
+  ];
+
+  function renderForum(filter = "") {
+    const listEl = document.getElementById("forum-list");
+    if (!listEl) return;
+    listEl.innerHTML = "";
+
+    const query = filter.toLowerCase().trim();
+    const filtered = forumCases.filter(c => 
+      c.title.toLowerCase().includes(query) || 
+      c.body.toLowerCase().includes(query) || 
+      c.category.toLowerCase().includes(query)
+    );
+
+    filtered.forEach(c => {
+      const li = document.createElement("li");
+      li.className = "forum-item";
+      li.onclick = () => showForumDetail(c);
+      li.innerHTML = `
+        <span class="f-cat">${c.category}</span>
+        <div class="f-title">${c.title}</div>
+        <div class="f-meta">${c.meta}</div>
+      `;
+      listEl.appendChild(li);
+    });
+  }
+
+  function filterForum() {
+    const q = document.getElementById("forum-search").value;
+    renderForum(q);
+  }
+
+  function showForumDetail(c) {
+    document.getElementById("forum-modal-title").textContent = c.title;
+    document.getElementById("forum-modal-meta").textContent = `Category: ${c.category.toUpperCase()} | Status: Resolved`;
+    document.getElementById("forum-modal-body").textContent = c.body;
+    document.getElementById("forum-modal").classList.add("active");
+  }
+
+  function closeForumModal() {
+    document.getElementById("forum-modal").classList.remove("active");
+  }
+
+  window.filterForum = filterForum;
+  window.closeForumModal = closeForumModal;
+  window.showForumDetail = showForumDetail;
 
   // ========= Profile dropdown =========
   const profileWrapper = document.getElementById("profile-wrapper");
@@ -1165,7 +1242,7 @@
     const language = document.getElementById("language-select").value;
     const location = document.getElementById("user-location").value.trim();
     const name = document.getElementById("user-name").value.trim();
-    const mobile = ""; // TODO: add a mobile input if you want real value
+    const mobile = document.getElementById("user-mobile").value.trim();
 
     if (!description) {
       alert("Please enter case description");

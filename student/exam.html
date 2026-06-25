@@ -279,7 +279,7 @@ async function submitExam(){
   await new Promise(r=>setTimeout(r,900)); // simulate server call
   showBanner('Exam submitted — unlocking drafting workspace', 'warn', 3000);
   setTimeout(()=> {
-    window.location.href = '/student/draft/' + CASE_ID;
+    window.location.href = 'draft.html?id=' + CASE_ID;
   }, 900);
 }
 

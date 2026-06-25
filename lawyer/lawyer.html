@@ -231,60 +231,29 @@
 </div>
 
 <script>
-    // 1. MOCK DATA: Students' work waiting for this lawyer
-    let pendingQueue = [
-        {
-            id: 201,
-            student: "Amit Kumar",
-            role: "4th Year Student",
-            title: "Draft: Legal Notice for Eviction",
-            date: "Submitted 45 mins ago",
-            content: `
-                <div style="text-align:center; font-weight:bold; margin-bottom:20px;">LEGAL NOTICE</div>
-                <p><strong>Ref:</strong> Non-payment of rent for property located at 12B, Green Park, Delhi.</p>
-                <p><strong>To:</strong> Mr. Sharma (Tenant)</p>
-                <p>Sir,</p>
-                <p>1. Under instruction from my client, Mrs. Gupta, I hereby serve you this notice regarding the arrears of rent amounting to ₹50,000 for the period of Oct-Dec 2025.</p>
-                <p>2. Despite repeated verbal reminders on 10th Nov and 15th Dec, the dues remain unpaid.</p>
-                <p>3. You are hereby called upon to clear the outstanding dues within 15 days of receipt of this notice, failing which my client shall be constrained to initiate legal proceedings under the Delhi Rent Control Act.</p>
-                <br>
-                <p>Sincerely,</p>
-                <p>Amit Kumar (Legal Intern)</p>
-            `
-        },
-        {
-            id: 202,
-            student: "Sarah Rodriguez",
-            role: "3rd Year Student",
-            title: "Research: Wage Theft Precedents",
-            date: "Submitted 3 hours ago",
-            content: `
-                <h3>Summary of Precedents regarding Unpaid Overtime</h3>
-                <p><strong>Objective:</strong> To establish grounds for claiming unpaid overtime for factory workers in the Chennai jurisdiction.</p>
-                <ol>
-                    <li><strong>Worker v. Factory X (2021):</strong> The High Court ruled that biometric data constitutes valid proof of working hours even in the absence of physical timesheets.</li>
-                    <li><strong>Union Y v. Mgmt Z (2019):</strong> Established that 'implied consent' for overtime does not waive the right to statutory overtime pay (2x wages).</li>
-                </ol>
-                <p><strong>Conclusion:</strong> The client has a strong case based on digital entry logs provided.</p>
-            `
-        },
-        {
-            id: 203,
-            student: "Rahul V.",
-            role: "Final Year Student",
-            title: "Draft: Reply to Copyright Notice",
-            date: "Submitted 5 hours ago",
-            content: `
-                <p><strong>Subject:</strong> Reply to Cease and Desist Notice dated 01/12/2025</p>
-                <p>Dear Counsel,</p>
-                <p>We are in receipt of your notice alleging copyright infringement regarding the logo used by my client.</p>
-                <p>Please note that my client's logo falls under the 'Fair Use' doctrine as a transformative work of parody, which is protected under Section 52 of the Copyright Act.</p>
-                <p>We deny all allegations and refuse your demand to cease operations.</p>
-            `
-        }
-    ];
-
+    const token = localStorage.getItem("token");
+    let pendingQueue = [];
     let activeReviewId = null;
+
+    async function loadQueue() {
+        try {
+            const res = await fetch("/api/get-cases", {
+                headers: {
+                    "Authorization": token ? "Bearer " + token : ""
+                }
+            });
+            if (!res.ok) throw new Error("Failed to load queue");
+            const data = await res.json();
+            
+            // Filter cases in 'Solved' status (solutions submitted)
+            pendingQueue = data.filter(c => c.status === "Solved");
+            renderQueue();
+        } catch (err) {
+            console.error(err);
+            document.getElementById('review-queue').innerHTML = 
+                `<div style="padding:2rem; text-align:center; color:#ef4444;">Error connecting to API. Make sure the server is running.</div>`;
+        }
+    }
 
     // 2. RENDER LIST
     function renderQueue() {
@@ -298,18 +267,24 @@
             <div class="case-item">
                 <div class="case-icon">⚖️</div>
                 <div class="case-content">
-                    <div class="case-header-meta">Student: ${item.student} (${item.role}) • ${item.date}</div>
+                    <div class="case-header-meta">Student: ${item.solution?.studentName || "Unknown"} • Submitted: ${new Date(item.solution?.submittedAt).toLocaleString()}</div>
                     <div class="case-title">${item.title}</div>
                     <div>
                         <span class="tag draft">Pending Review</span>
-                        <span class="tag student">Pro-Bono</span>
+                        <span class="tag student">${item.category}</span>
                     </div>
                     <div class="case-footer">
-                        <button class="action-btn" onclick="openReviewModal(${item.id})">Review Draft</button>
+                        <button class="action-btn" onclick="openReviewModal('${item.id}')">Review Draft</button>
                     </div>
                 </div>
             </div>
         `).join('');
+
+        // Update Nav Counter if elements exist
+        const counterBtn = document.querySelector(".nav-actions button:first-child");
+        if (counterBtn) {
+            counterBtn.textContent = `My Queue (${pendingQueue.length})`;
+        }
     }
 
     // 3. MODAL LOGIC
@@ -319,9 +294,52 @@
 
         activeReviewId = id;
         document.getElementById('modal-title').innerText = data.title;
-        document.getElementById('modal-student').innerText = data.student;
-        document.getElementById('modal-content').innerHTML = data.content;
+        document.getElementById('modal-student').innerText = data.solution?.studentName || "Unknown";
         
+        // Build document preview with solution text and files/audio/video
+        let previewHtml = `
+            <div style="font-family: 'Times New Roman', serif; line-height: 1.6; font-size: 1.1rem; white-space: pre-wrap; margin-bottom: 2rem;">
+                ${data.solution?.text}
+            </div>
+        `;
+
+        if (data.solution?.docsNeeded) {
+            previewHtml += `
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #f8fafc; border-left: 4px solid #1e40af; font-family: sans-serif; font-size: 0.9rem;">
+                    <strong>Documents requested from client:</strong><br>
+                    ${data.solution.docsNeeded}
+                </div>
+            `;
+        }
+
+        if (data.solution?.files && data.solution.files.length > 0) {
+            let filesHtml = '<div style="margin-top: 1rem; font-family: sans-serif; font-size: 0.9rem;"><strong>Solution Attachments:</strong><ul style="margin-left: 1.25rem;">';
+            data.solution.files.forEach((f, idx) => {
+                filesHtml += `<li><a href="${f}" target="_blank">Solution File ${idx + 1}</a></li>`;
+            });
+            filesHtml += '</ul></div>';
+            previewHtml += filesHtml;
+        }
+
+        if (data.solution?.voice) {
+            previewHtml += `
+                <div style="margin-top: 1rem; font-family: sans-serif; font-size: 0.9rem;">
+                    <strong>Solution Audio Explanation:</strong><br>
+                    <audio controls src="${data.solution.voice}" style="margin-top: 5px; width: 100%;"></audio>
+                </div>
+            `;
+        }
+
+        if (data.solution?.video) {
+            previewHtml += `
+                <div style="margin-top: 1rem; font-family: sans-serif; font-size: 0.9rem;">
+                    <strong>Solution Video Explanation:</strong><br>
+                    <video controls src="${data.solution.video}" style="margin-top: 5px; width: 100%; max-height: 240px;"></video>
+                </div>
+            `;
+        }
+
+        document.getElementById('modal-content').innerHTML = previewHtml;
         document.getElementById('lawyer-modal').style.display = 'flex';
     }
 
@@ -330,23 +348,55 @@
         activeReviewId = null;
     }
 
-    function submitDecision(type) {
+    async function submitDecision(type) {
         if (!activeReviewId) return;
         
-        const msg = type === 'approve' 
-            ? "✅ Draft Approved! Sent to Citizen." 
-            : "↩️ Returned to Student for revisions.";
-        
-        alert(msg);
+        const feedback = document.querySelector(".feedback-box").value.trim();
+        if (!feedback) {
+            alert("Please provide feedback for the student.");
+            return;
+        }
 
-        // Remove from list
-        pendingQueue = pendingQueue.filter(i => i.id !== activeReviewId);
-        renderQueue();
-        closeModal();
+        const decision = type === 'approve' ? 'approve' : 'reject';
+
+        try {
+            const res = await fetch(`/api/review-case?id=${encodeURIComponent(activeReviewId)}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token ? "Bearer " + token : ""
+                },
+                body: JSON.stringify({ decision, feedback })
+            });
+
+            if (!res.ok) throw new Error("Failed to submit review");
+            
+            const msg = type === 'approve' 
+                ? "✅ Draft Approved! Sent to Citizen." 
+                : "↩️ Returned to Student for revisions.";
+            
+            alert(msg);
+
+            // Reset UI
+            document.querySelector(".feedback-box").value = "";
+            closeModal();
+            await loadQueue();
+
+            // Update local reviewed counter if elements exist
+            const reviewedVal = document.querySelector(".stat-box:first-child .stat-value");
+            if (reviewedVal) {
+                let reviewedCount = parseInt(reviewedVal.textContent) || 0;
+                reviewedVal.textContent = reviewedCount + 1;
+            }
+
+        } catch (err) {
+            console.error(err);
+            alert("Error submitting review.");
+        }
     }
 
     // Initial Load
-    renderQueue();
+    loadQueue();
 
 </script>
 </body>
