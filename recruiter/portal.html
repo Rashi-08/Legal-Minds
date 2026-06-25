@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Recruiter Portal – Living Brief</title>
+    <title>Recruiter Portal – LegalMinds</title>
 
     <style>
         :root {
@@ -30,6 +30,7 @@
 
             --radius-lg: 16px;
             --radius-md: 12px;
+            --accent-yellow: #f59e0b;
         }
 
         body {
@@ -37,6 +38,7 @@
             background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 40%, var(--bg-low) 100%);
             margin: 0;
             color: var(--text);
+            min-height: 100vh;
         }
 
         * { box-sizing: border-box; }
@@ -58,8 +60,8 @@
         }
 
         .header-left { display:flex; flex-direction:column; }
-        .header-title { font-weight: 700; font-size: 20px; }
-        .header-subtitle { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+        .header-title { font-weight: 700; font-size: 20px; color: var(--primary-dark); display: flex; align-items: center; gap: 8px; }
+        .header-subtitle { font-size: 13px; color: var(--text-soft); margin-top: 3px; }
 
         .header-right { display:flex; align-items:center; gap:12px; }
 
@@ -70,6 +72,7 @@
             font-size: 13px;
             display:flex; align-items:center; gap:6px;
             color: var(--primary-dark);
+            font-weight: 600;
         }
 
         .avatar {
@@ -93,10 +96,11 @@
             margin-bottom: 4px;
             font-size: 28px;
             font-weight: 800;
+            color: var(--primary-dark);
         }
 
         .page > p {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             color: var(--text-soft);
             font-size: 15px;
         }
@@ -108,6 +112,7 @@
             gap:10px;
             margin-bottom:14px;
             flex-wrap:wrap;
+            align-items: center;
         }
 
         .search-input {
@@ -118,6 +123,13 @@
             border:1px solid var(--card-border);
             background:white;
             font-size:14px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.2s;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
         .select {
@@ -126,6 +138,8 @@
             border:1px solid var(--card-border);
             background:white;
             font-size:14px;
+            box-shadow: var(--shadow-soft);
+            cursor: pointer;
         }
 
         .toolbar-btn {
@@ -135,25 +149,59 @@
             background:white;
             cursor:pointer;
             font-size:14px;
+            font-weight: 600;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .toolbar-btn:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-color: var(--primary-light);
         }
 
         /* ===================== FILTER DRAWER ===================== */
 
         #filter-drawer {
             display:none;
-            padding:14px;
+            padding:16px;
             background:white;
             border-radius:14px;
             border:1px solid var(--card-border);
             box-shadow:var(--shadow-soft);
-            margin-bottom:12px;
+            margin-bottom:14px;
+            animation: slideDown 0.25s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
         }
 
         /* ===================== STUDENT GRID ===================== */
 
         .grid {
             display:grid;
-            grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+            grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
             gap:20px;
             margin-top:10px;
         }
@@ -162,22 +210,32 @@
             background:white;
             border:1px solid var(--card-border);
             border-radius:var(--radius-lg);
-            padding:18px;
+            padding:20px;
             box-shadow:var(--shadow-md);
             display:flex;
             flex-direction:column;
-            transition:0.2s ease;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
         .card:hover {
-            transform:translateY(-3px);
-            box-shadow:0 12px 24px rgba(0,0,0,0.12);
+            transform:translateY(-4px);
+            box-shadow:0 12px 30px rgba(30, 41, 59, 0.15);
         }
 
-        .student-header {
+        .card-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .student-header-inner {
             display:flex;
             align-items:center;
             gap:12px;
+            flex: 1;
         }
 
         .student-avatar {
@@ -188,15 +246,34 @@
             font-weight:700;
             font-size:15px;
             display:flex; align-items:center; justify-content:center;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
         }
 
-        .student-name { font-weight:700; font-size:16px; }
+        .student-name { font-weight:700; font-size:16px; color: var(--text); }
         .student-meta { font-size:13px; color:var(--text-soft); }
+
+        .star-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            color: #cbd5e1;
+            transition: color 0.2s, transform 0.2s;
+            padding: 0 4px;
+            display: flex;
+            align-items: center;
+        }
+        .star-btn.active {
+            color: var(--accent-yellow);
+        }
+        .star-btn:hover {
+            transform: scale(1.2);
+        }
 
         .badge-row {
             display:flex;
             gap:6px;
-            margin:10px 0;
+            margin:6px 0 12px;
             flex-wrap:wrap;
         }
 
@@ -212,46 +289,254 @@
         .badge-domain { background:var(--primary-light); color:var(--primary-dark); }
         .badge-school { background:#e0f2fe; color:#0369a1; }
 
+        .status-badge-card {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: fit-content;
+        }
+        .status-badge-card.hire { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .status-badge-card.hold { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+        .status-badge-card.shortlist { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .status-badge-card.reject { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+
         .card-metrics {
-            margin-top:8px;
+            margin-top:auto;
+            padding-top: 10px;
+            border-top: 1px dashed var(--card-border);
             font-size:13px;
             color:var(--text-soft);
-            min-height:60px;
+        }
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .progress-bar-container {
+            width: 80px;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            border-radius: 999px;
+        }
+
+        .stars-container {
+            color: var(--accent-yellow);
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 14px;
         }
 
         .btn {
-            margin-top:auto;
-            padding:12px 0;
-            border-radius:12px;
+            padding:10px 0;
+            border-radius:10px;
             background:linear-gradient(90deg, var(--primary-dark), var(--primary));
             color:white;
-            font-size:14px;
+            font-size:13px;
             font-weight:600;
             border:none;
             cursor:pointer;
+            transition: all 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn:hover {
+            filter:brightness(1.1);
+            transform: translateY(-1px);
+        }
+        .btn.secondary {
+            background: #f1f5f9;
+            color: var(--text-soft);
+            border: 1px solid var(--card-border);
+        }
+        .btn.secondary:hover {
+            background: #e2e8f0;
+            color: var(--text);
         }
 
-        .btn:hover { filter:brightness(1.05); }
+        /* ===================== CANDIDATE DETAIL DRAWER ===================== */
 
-        /* ===================== PROFILE PANEL (SPA, NO SCROLL) ===================== */
-
-        #profile-panel {
-            display:none;
-            background:white;
-            border:1px solid var(--card-border);
-            border-radius:20px;
-            padding:24px;
-            box-shadow:var(--shadow-md);
-            margin-top:20px;
+        .drawer-backdrop {
+            position: fixed;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: opacity 0.25s ease-out;
+        }
+        .drawer-backdrop.active {
+            display: flex;
+            opacity: 1;
+        }
+        .drawer-content {
+            width: 100%;
+            max-width: 520px;
+            height: 100%;
+            background: white;
+            box-shadow: -10px 0 30px rgba(15, 23, 42, 0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transform: translateX(100%);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 30px 24px;
+        }
+        .drawer-backdrop.active .drawer-content {
+            transform: translateX(0);
+        }
+        .drawer-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-soft);
+            transition: color 0.2s;
+            width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%;
+        }
+        .drawer-close:hover {
+            background-color: var(--bg-mid);
+            color: var(--text);
         }
 
-        #back-btn {
-            background:none;
-            border:none;
-            color:var(--primary-dark);
-            font-size:14px;
-            cursor:pointer;
-            margin-bottom:10px;
+        .drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 4px;
+            margin-top: 15px;
+        }
+
+        /* Scrollbar Styling */
+        .drawer-body::-webkit-scrollbar { width: 6px; }
+        .drawer-body::-webkit-scrollbar-track { background: transparent; }
+        .drawer-body::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .drawer-avatar {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            font-weight: 700;
+            font-size: 22px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
+        }
+        .drawer-name-title { font-size: 22px; font-weight: 800; color: var(--primary-dark); margin: 0; }
+        .drawer-sub-title { font-size: 14px; color: var(--text-soft); margin: 4px 0 0; }
+
+        .drawer-section-title {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--primary);
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 6px;
+            margin: 24px 0 12px;
+        }
+
+        .drawer-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .drawer-metric-box {
+            background: var(--bg-mid);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        .drawer-metric-val {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 2px;
+        }
+        .drawer-metric-lbl {
+            font-size: 10px;
+            color: var(--text-soft);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .drawer-cases-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .drawer-case-card {
+            background: var(--bg-mid);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 10px 14px;
+        }
+        .drawer-case-title { font-size: 13px; font-weight: 700; color: var(--text); }
+        .drawer-case-meta { font-size: 11px; color: var(--text-soft); margin: 4px 0; }
+        .drawer-case-outcome { font-size: 12px; color: var(--primary-dark); font-weight: 500; }
+
+        .drawer-reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .drawer-review-card {
+            background: var(--bg-mid);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 10px 14px;
+        }
+        .drawer-review-text { font-size: 12px; font-style: italic; color: var(--text); }
+        .drawer-review-meta { font-size: 11px; color: var(--text-soft); margin-top: 6px; display: flex; justify-content: space-between; }
+
+        .drawer-notes-section {
+            background: var(--primary-light);
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 10px;
+        }
+        .notes-label {
+            display: block; font-size: 12px; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; margin-bottom: 6px;
+        }
+        .notes-select {
+            width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #bfdbfe; font-size: 13px; margin-bottom: 12px; background: white;
+        }
+        .notes-textarea {
+            width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #bfdbfe; font-family: inherit; font-size: 13px; resize: vertical; margin-bottom: 12px; background: white;
+        }
+        .notes-save-btn {
+            background: var(--primary-dark); color: white; border: none; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; width: 100%;
+        }
+        .notes-save-btn:hover {
+            background: var(--primary);
         }
 
         /* ===================== COPILOT (AI ASSISTANT) ===================== */
@@ -260,39 +545,50 @@
             position:fixed;
             bottom:20px;
             right:20px;
-            padding:10px 14px;
+            padding:12px 18px;
             border-radius:999px;
             border:none;
             background:linear-gradient(90deg,#1e3a8a,#2563eb);
             color:white;
-            font-weight:600;
+            font-weight:700;
             font-size:14px;
             box-shadow:0 10px 25px rgba(15,23,42,0.3);
             cursor:pointer;
             z-index:50;
             display:flex;
             align-items:center;
-            gap:6px;
+            gap:8px;
+            transition: all 0.2s;
+        }
+        .copilot-toggle:hover {
+            transform: scale(1.05);
+            box-shadow:0 12px 28px rgba(15,23,42,0.4);
         }
 
         #copilot-panel {
             position:fixed;
-            bottom:80px;
+            bottom:85px;
             right:20px;
-            width:340px;
-            max-height:480px;
+            width:360px;
+            max-height:500px;
             background:white;
             border-radius:18px;
-            box-shadow:0 18px 50px rgba(15,23,42,0.45);
+            box-shadow:0 18px 50px rgba(15,23,42,0.35);
             border:1px solid var(--card-border);
             display:none;
             flex-direction:column;
             overflow:hidden;
             z-index:60;
+            animation: popup 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes popup {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .copilot-header {
-            padding:10px 14px;
+            padding:12px 16px;
             border-bottom:1px solid var(--card-border);
             display:flex;
             justify-content:space-between;
@@ -301,70 +597,100 @@
         }
 
         .copilot-body {
-            padding:10px;
+            padding:14px;
             flex:1;
             overflow-y:auto;
             font-size:13px;
+            background: #f8fafc;
         }
 
         .copilot-footer {
             border-top:1px solid var(--card-border);
-            padding:8px;
+            padding:10px;
             display:flex;
-            gap:6px;
+            gap:8px;
+            background: white;
         }
 
         .copilot-input {
             flex:1;
-            padding:8px;
+            padding:8px 12px;
             border-radius:10px;
             border:1px solid var(--card-border);
             font-size:13px;
         }
+        .copilot-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
 
         .copilot-send {
-            padding:8px 10px;
+            padding:8px 12px;
             border-radius:10px;
             border:none;
             background:var(--primary-dark);
             color:white;
             font-size:13px;
+            font-weight: 600;
             cursor:pointer;
+            transition: all 0.2s;
+        }
+        .copilot-send:hover {
+            background-color: var(--primary);
         }
 
         .msg {
-            margin-bottom:8px;
-            padding:8px 10px;
-            border-radius:10px;
+            margin-bottom:10px;
+            padding:10px 12px;
+            border-radius:12px;
             max-width:90%;
+            line-height: 1.4;
         }
 
         .msg.user {
             margin-left:auto;
-            background:#e0f2fe;
-            color:#0f172a;
+            background:#3b82f6;
+            color:white;
+            box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
         }
 
         .msg.bot {
             margin-right:auto;
-            background:#f1f5f9;
+            background:white;
             color:#0f172a;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
+        
+        .msg.bot p { margin: 0 0 6px 0; }
+        .msg.bot p:last-child { margin-bottom: 0; }
+        .msg.bot table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 11px; }
+        .msg.bot th, .msg.bot td { border: 1px solid #e2e8f0; padding: 6px; text-align: left; }
+        .msg.bot th { background-color: #f1f5f9; font-weight: 700; }
 
         .copilot-suggestion-row {
             display:flex;
             flex-wrap:wrap;
             gap:6px;
-            padding:6px 10px 4px;
+            padding:6px 12px 6px;
+            background: white;
+            border-top: 1px dashed var(--card-border);
         }
 
         .copilot-chip {
             font-size:11px;
-            padding:4px 8px;
+            padding:4px 10px;
             border-radius:999px;
-            border:1px solid #d1d5db;
-            background:#f9fafb;
+            border:1px solid #e2e8f0;
+            background:#f8fafc;
             cursor:pointer;
+            transition: all 0.2s;
+            color: var(--text-soft);
+        }
+        .copilot-chip:hover {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-color: #bfdbfe;
         }
 
         @media(max-width:640px){
@@ -385,18 +711,18 @@
 
 <header>
     <div class="header-left">
-        <div class="header-title">Recruiter Portal</div>
-        <div class="header-subtitle" id="header-subtitle">Browse verified student advocates</div>
+        <div class="header-title">⚖️ LegalMinds</div>
+        <div class="header-subtitle" id="header-subtitle">Recruiter Portal – Browse verified student advocates</div>
     </div>
     <div class="header-right">
-        <div class="header-pill">⚖️ <span id="header-count">0 candidates</span></div>
-        <div class="avatar">AJ</div>
+        <div class="header-pill">👥 <span id="header-count">0 candidates</span></div>
+        <div class="avatar">RC</div>
     </div>
 </header>
 
 <main class="page">
     <h1>Discover Verified Law Students</h1>
-    <p>Search, filter, and shortlist candidates based on real case performance.</p>
+    <p>Search, filter, and shortlist candidates based on real pro-bono case outcomes and proctor integrity scores.</p>
 
     <!-- Toolbar -->
     <div class="toolbar">
@@ -407,89 +733,104 @@
             <option value="cases">Sort: Most Cases</option>
             <option value="completion">Sort: Highest Completion</option>
         </select>
-        <button id="filter-toggle" class="toolbar-btn">Filters</button>
+        <button id="filter-toggle" class="toolbar-btn">⚙️ Filters</button>
     </div>
 
-    <!-- Filters -->
+    <!-- Filters Drawer -->
     <div id="filter-drawer">
-        <label>
-            <input type="checkbox" id="filter-verified"> Verified only
-        </label>
-        <select id="filter-domain" class="select" style="margin-left:14px;">
-            <option value="all">All domains</option>
-        </select>
-        <select id="filter-school" class="select" style="margin-left:14px;">
-            <option value="all">All schools</option>
-        </select>
+        <div class="filter-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="filter-verified"> Verified only
+            </label>
+            <label class="checkbox-label" style="margin-left: 14px;">
+                <input type="checkbox" id="filter-shortlisted"> ⭐ Shortlisted Only
+            </label>
+            <select id="filter-domain" class="select" style="margin-left:14px;">
+                <option value="all">All domains</option>
+            </select>
+            <select id="filter-school" class="select" style="margin-left:14px;">
+                <option value="all">All schools</option>
+            </select>
+        </div>
     </div>
 
-    <!-- Grid -->
+    <!-- Student Grid -->
     <div id="student-grid" class="grid"></div>
 
-    <div style="text-align:center; margin-top:20px;">
-        <button id="load-more-btn" class="toolbar-btn" style="display:none;">Load more</button>
-    </div>
-
-    <!-- Profile Panel (SPA, no scroll) -->
-    <div id="profile-panel">
-        <button id="back-btn">← Back to results</button>
-        <h2 id="profile-name"></h2>
-        <p id="profile-meta" style="color:var(--text-soft); margin-bottom:8px;"></p>
-        <p id="profile-details"></p>
-        <div id="profile-cases"></div>
+    <div style="text-align:center; margin-top:24px;">
+        <button id="load-more-btn" class="toolbar-btn" style="display:none; margin: 0 auto;">Load more</button>
     </div>
 </main>
 
+<!-- Candidate Detail Drawer -->
+<div id="candidate-drawer" class="drawer-backdrop" onclick="closeDrawer(event)">
+    <div class="drawer-content" onclick="event.stopPropagation()">
+        <button class="drawer-close" onclick="closeDrawer(event, true)">✕</button>
+        <div id="drawer-body-container" class="drawer-body">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+</div>
+
 <!-- Copilot Toggle -->
-<button class="copilot-toggle" id="copilot-toggle">🤖 Copilot</button>
+<button class="copilot-toggle" id="copilot-toggle">🤖 Recopilot</button>
 
 <!-- Copilot Panel -->
 <div id="copilot-panel">
     <div class="copilot-header">
         <div>
-            <strong>Recruiter Copilot</strong>
-            <div style="font-size:11px; color:#475569;">Ask about candidates & roles</div>
+            <strong style="color: var(--primary-dark);">Recruiter Copilot</strong>
+            <div style="font-size:11px; color:#475569;">Scan candidate pool dynamically</div>
         </div>
-        <button id="copilot-close" style="border:none;background:none;font-size:16px;cursor:pointer;">✕</button>
+        <button id="copilot-close" style="border:none;background:none;font-size:18px;cursor:pointer;color:var(--text-soft);">✕</button>
     </div>
     <div class="copilot-body" id="copilot-body">
         <div class="msg bot">
-            Hi! I can help you:
-            <ul style="margin:6px 0 0 16px; padding:0;">
-                <li>Summarize a student's profile</li>
-                <li>Find best candidates for a role</li>
-                <li>Compare two students</li>
+            <p>Hi! I can scan the student database dynamically to help you:</p>
+            <ul style="margin:6px 0 0 16px; padding:0; line-height: 1.5;">
+                <li>Summarize a student's profile & case results</li>
+                <li>Compare two students in a side-by-side table</li>
+                <li>Filter by specializations (e.g. Tenancy, Labour)</li>
+                <li>Identify top rating or highest proctor integrity</li>
             </ul>
         </div>
     </div>
     <div class="copilot-suggestion-row">
-        <div class="copilot-chip" data-q="Recommend top students for Corporate M&A.">Top for Corporate M&A</div>
-        <div class="copilot-chip" data-q="Summarize Nina Patel as a candidate.">Summarize Nina</div>
-        <div class="copilot-chip" data-q="Compare Arjun Singh and Riya Kapoor.">Compare Arjun & Riya</div>
+        <div class="copilot-chip" data-q="Recommend top students for Tenancy.">Top for Tenancy</div>
+        <div class="copilot-chip" data-q="Summarize Sarah Rodriguez as a candidate.">Summarize Sarah</div>
+        <div class="copilot-chip" data-q="Compare Amit Kumar and Priya Sharma.">Compare Amit & Priya</div>
+        <div class="copilot-chip" data-q="Who has the highest proctor integrity?">Highest Integrity</div>
     </div>
     <div class="copilot-footer">
-        <input id="copilot-input" class="copilot-input" placeholder="Ask anything about students…"/>
+        <input id="copilot-input" class="copilot-input" placeholder="Ask anything about candidates…"/>
         <button id="copilot-send" class="copilot-send">Send</button>
     </div>
 </div>
 
 <script>
     let students = [];
+    let shortlistedIds = [];
+    let activeDrawerStudentId = null;
 
     const headerCountEl = document.getElementById("header-count");
     const filterDomain = document.getElementById("filter-domain");
     const filterSchool = document.getElementById("filter-school");
     const grid = document.getElementById("student-grid");
     const loadMoreBtn = document.getElementById("load-more-btn");
-    const toolbarEl = document.querySelector(".toolbar");
+    const filterVerifiedEl = document.getElementById("filter-verified");
+    const filterShortlistedEl = document.getElementById("filter-shortlisted");
 
     let searchTerm = "";
     let sortBy = "name";
     let showVerified = false;
+    let showShortlisted = false;
     let limit = 12;
 
     async function loadStudents() {
         try {
+            // Load Shortlist
+            shortlistedIds = JSON.parse(localStorage.getItem("recruiter_shortlist") || "[]");
+
             const res = await fetch("../students.json");
             const data = await res.json();
             students = data.students || [];
@@ -499,7 +840,7 @@
         } catch (err) {
             console.error("Failed to load students.json", err);
             headerCountEl.textContent = "0 candidates";
-            grid.innerHTML = `<div style="grid-column:1/-1;padding:20px;background:#fee2e2;border-radius:12px;border:1px solid #fecaca;color:#991b1b;font-size:14px;">Could not load candidates. Please refresh or contact admin.</div>`;
+            grid.innerHTML = `<div style="grid-column:1/-1;padding:20px;background:#fee2e2;border-radius:12px;border:1px solid #fecaca;color:#991b1b;font-size:14px;text-align:center;">Could not load candidates. Please refresh or contact admin.</div>`;
         }
     }
 
@@ -536,6 +877,10 @@
         }
 
         if (showVerified) res = res.filter(s => s.verified);
+        
+        if (showShortlisted) {
+            res = res.filter(s => shortlistedIds.includes(s.id));
+        }
 
         if (filterDomain.value !== "all") {
             res = res.filter(s => (s.specializations || []).includes(filterDomain.value));
@@ -546,17 +891,30 @@
 
         res.sort((a,b) => {
             if (sortBy === "rating") return (b.rating || 0) - (a.rating || 0);
-            if (sortBy === "cases") return (b.casesCount || 0) - (a.casesCount || 0);
-            if (sortBy === "completion") return (b.completion || 0) - (a.completion || 0);
+            if (sortBy === "cases") return (b.casesCount ?? b.solvedCases ?? 0) - (a.casesCount ?? a.solvedCases ?? 0);
+            if (sortBy === "completion") return (b.completion ?? 0) - (a.completion ?? 0);
             return (a.name || "").localeCompare(b.name || "");
         });
 
         return res;
     }
 
+    function getStarsHtml(score) {
+        const fullStars = Math.floor(score);
+        const halfStar = score % 1 >= 0.5 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStar;
+        return "★".repeat(fullStars) + (halfStar ? "½" : "") + "☆".repeat(emptyStars);
+    }
+
     function renderGrid() {
         const list = applyFilters();
         grid.innerHTML = "";
+
+        if (list.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--text-soft);font-size:15px;font-weight:600;">No candidates found matching the filters.</div>`;
+            loadMoreBtn.style.display = "none";
+            return;
+        }
 
         const visible = list.slice(0, limit);
         visible.forEach(s => {
@@ -567,27 +925,63 @@
             const completion = s.completion != null ? s.completion : Math.round(((s.solvedCases || 0) / (s.totalAttempts || (s.solvedCases || 1))) * 100);
             const casesCount = s.casesCount != null ? s.casesCount : (s.solvedCases || 0);
             const rating = s.rating != null ? s.rating : 0;
+            const isShortlisted = shortlistedIds.includes(s.id);
 
             const firstSpec = (s.specializations && s.specializations[0]) || "Legal Aid";
+            
+            // Check for Recruiter Notepad state
+            const reviewDataRaw = localStorage.getItem("recruiter_review_" + s.id);
+            let reviewBadgeHtml = "";
+            if (reviewDataRaw) {
+                try {
+                    const review = JSON.parse(reviewDataRaw);
+                    if (review.status) {
+                        const statusClass = review.status.toLowerCase().replace(/\s+/g, '');
+                        reviewBadgeHtml = `<span class="status-badge-card ${statusClass}">${review.status}</span>`;
+                    }
+                } catch(e) {}
+            }
+
             card.innerHTML = `
-                <div class="student-header">
-                    <div class="student-avatar">${initials}</div>
-                    <div>
-                        <div class="student-name">${s.name}</div>
-                        <div class="student-meta">${s.school || ""} • ${s.year || ""}</div>
+                <div class="card-top-row">
+                    <div class="student-header-inner">
+                        <div class="student-avatar">${initials}</div>
+                        <div>
+                            <div class="student-name">${s.name}</div>
+                            <div class="student-meta">${s.school || ""}</div>
+                        </div>
                     </div>
+                    <button class="star-btn ${isShortlisted ? 'active' : ''}" onclick="toggleShortlist('${s.id}', event)">★</button>
                 </div>
                 <div class="badge-row">
                     ${s.verified ? '<span class="badge badge-verified">VERIFIED</span>' : ""}
                     <span class="badge badge-domain">${firstSpec}</span>
-                    ${s.school ? `<span class="badge badge-school">${s.school}</span>` : ""}
+                    ${s.year ? `<span class="badge badge-school">${s.year}</span>` : ""}
                 </div>
+                ${reviewBadgeHtml}
                 <div class="card-metrics">
-                    <div><b>Completion:</b> ${completion}%</div>
-                    <div><b>Cases:</b> ${casesCount}</div>
-                    <div><b>Rating:</b> ${rating.toFixed ? rating.toFixed(1) : rating} / 5</div>
+                    <div class="metric-row">
+                        <span>Rating:</span>
+                        <span class="stars-container">${getStarsHtml(rating)}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Cases Solved:</span>
+                        <span style="font-weight: 700; color: var(--primary-dark);">${casesCount}</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Completion:</span>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: ${completion}%"></div>
+                            </div>
+                            <span style="font-weight:700; font-size:11px; width:26px; text-align:right;">${completion}%</span>
+                        </div>
+                    </div>
                 </div>
-                <button class="btn" onclick="goToProfile('${s.id}')">View Profile</button>
+                <div class="card-actions">
+                    <button class="btn secondary" onclick="openQuickView('${s.id}')">Quick Look</button>
+                    <button class="btn" onclick="goToProfile('${s.id}')">Portfolio</button>
+                </div>
             `;
             grid.appendChild(card);
         });
@@ -595,9 +989,187 @@
         loadMoreBtn.style.display = list.length > limit ? "inline-block" : "none";
     }
 
+    function toggleShortlist(id, event) {
+        if (event) event.stopPropagation();
+        const index = shortlistedIds.indexOf(id);
+        if (index === -1) {
+            shortlistedIds.push(id);
+        } else {
+            shortlistedIds.splice(index, 1);
+        }
+        localStorage.setItem("recruiter_shortlist", JSON.stringify(shortlistedIds));
+        renderGrid();
+    }
+
     function goToProfile(id) {
-        // profile.html reads ?id=student-XXX and uses students.json
-        window.location.href = `../student/profile.html?id=${encodeURIComponent(id)}`;
+        window.open(`../student/profile.html?id=${encodeURIComponent(id)}`, "_blank");
+    }
+
+    // ===================== QUICK VIEW DRAWER LOGIC =====================
+    const drawer = document.getElementById("candidate-drawer");
+    const drawerBody = document.getElementById("drawer-body-container");
+
+    function openQuickView(id) {
+        const s = students.find(item => item.id === id);
+        if (!s) return;
+
+        activeDrawerStudentId = id;
+        
+        const completion = s.completion != null ? s.completion : Math.round(((s.solvedCases || 0) / (s.totalAttempts || (s.solvedCases || 1))) * 100);
+        const casesCount = s.casesCount != null ? s.casesCount : (s.solvedCases || 0);
+        const rating = s.rating != null ? s.rating : 0;
+        const initials = s.initials || s.name.split(" ").map(p=>p[0]).join("").slice(0,2);
+        
+        // Load recruiter notes & status
+        const reviewDataRaw = localStorage.getItem("recruiter_review_" + id);
+        let savedNotes = "";
+        let savedStatus = "";
+        if (reviewDataRaw) {
+            try {
+                const review = JSON.parse(reviewDataRaw);
+                savedNotes = review.notes || "";
+                savedStatus = review.status || "";
+            } catch(e) {}
+        }
+
+        // Build cases html
+        let casesHtml = "";
+        if (s.recentCases && s.recentCases.length > 0) {
+            casesHtml = s.recentCases.map(c => `
+                <div class="drawer-case-card">
+                    <div class="drawer-case-title">${c.icon || "📂"} ${c.title}</div>
+                    <div class="drawer-case-meta">${c.area || "General"} • Solving Time: ${c.duration || "N/A"}</div>
+                    <div class="drawer-case-outcome">${c.outcome || "In progress"}</div>
+                </div>
+            `).join("");
+        } else {
+            casesHtml = `<div style="font-size:12px;color:var(--text-soft);text-align:center;padding:10px;">No cases recorded yet.</div>`;
+        }
+
+        // Build reviews html
+        let reviewsHtml = "";
+        if (s.reviews && s.reviews.length > 0) {
+            reviewsHtml = s.reviews.map(r => {
+                const reviewStars = getStarsHtml(r.score / 2); // Map out of 10 score to 5 stars
+                return `
+                    <div class="drawer-review-card">
+                        <div class="drawer-review-text">"${r.text}"</div>
+                        <div class="drawer-review-meta">
+                            <span style="font-weight:700;">${r.by}</span>
+                            <span style="color:var(--accent-yellow); font-size: 11px;">${reviewStars} (${r.score.toFixed(1)}/10)</span>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        } else {
+            reviewsHtml = `<div style="font-size:12px;color:var(--text-soft);text-align:center;padding:10px;">No reviews recorded yet.</div>`;
+        }
+
+        drawerBody.innerHTML = `
+            <div class="drawer-header">
+                <div class="drawer-avatar">${initials}</div>
+                <div>
+                    <h2 class="drawer-name-title">${s.name}</h2>
+                    <p class="drawer-sub-title">${s.year || "Law Student"} • ${s.school || "University"}</p>
+                </div>
+            </div>
+            
+            <p style="font-size:13.5px; line-height:1.5; color:var(--text-soft); margin-bottom:16px;">
+                ${s.headline || "No headline provided."}
+            </p>
+
+            <div class="badge-row" style="margin-bottom: 20px;">
+                ${s.verified ? '<span class="badge badge-verified">VERIFIED CLINICIAN</span>' : ""}
+                ${(s.specializations || []).map(sp => `<span class="badge badge-domain">${sp}</span>`).join("")}
+            </div>
+
+            <div class="drawer-section-title">Verified Statistics</div>
+            <div class="drawer-metrics-grid">
+                <div class="drawer-metric-box">
+                    <div class="drawer-metric-val">${s.justiceRating || 0}</div>
+                    <div class="drawer-metric-lbl">Justice Rating</div>
+                </div>
+                <div class="drawer-metric-box">
+                    <div class="drawer-metric-val">${casesCount}</div>
+                    <div class="drawer-metric-lbl">Cases Solved</div>
+                </div>
+                <div class="drawer-metric-box">
+                    <div class="drawer-metric-val">${completion}%</div>
+                    <div class="drawer-metric-lbl">Completion</div>
+                </div>
+                <div class="drawer-metric-box">
+                    <div class="drawer-metric-val">${rating.toFixed(1)} / 5</div>
+                    <div class="drawer-metric-lbl">Avg Rating</div>
+                </div>
+                <div class="drawer-metric-box">
+                    <div class="drawer-metric-val">${s.integrityScore != null ? s.integrityScore + '%' : '100%'}</div>
+                    <div class="drawer-metric-lbl">Integrity</div>
+                </div>
+                <div class="drawer-metric-box">
+                    <div class="drawer-metric-val">${s.examSessions || 0}</div>
+                    <div class="drawer-metric-lbl">Exams</div>
+                </div>
+            </div>
+
+            <div class="drawer-section-title">Recent Cases</div>
+            <div class="drawer-cases-list">
+                ${casesHtml}
+            </div>
+
+            <div class="drawer-section-title">Clinical Reviews</div>
+            <div class="drawer-reviews-list">
+                ${reviewsHtml}
+            </div>
+
+            <div class="drawer-section-title">Recruiter Workspace</div>
+            <div class="drawer-notes-section">
+                <label class="notes-label">Hiring Status</label>
+                <select id="drawer-hiring-status" class="notes-select">
+                    <option value="" ${savedStatus === "" ? "selected" : ""}>-- Set Decision --</option>
+                    <option value="Strong Hire" ${savedStatus === "Strong Hire" ? "selected" : ""}>Strong Hire</option>
+                    <option value="Hold" ${savedStatus === "Hold" ? "selected" : ""}>Hold / Waitlist</option>
+                    <option value="Shortlisted" ${savedStatus === "Shortlisted" ? "selected" : ""}>Shortlisted</option>
+                    <option value="Reject" ${savedStatus === "Reject" ? "selected" : ""}>Reject</option>
+                </select>
+                
+                <label class="notes-label">Interview & Evaluation Notes</label>
+                <textarea id="drawer-recruiter-notes" class="notes-textarea" placeholder="Add feedback, competencies shown, or timeline remarks...">${savedNotes}</textarea>
+                
+                <button class="notes-save-btn" onclick="saveRecruiterNotes()">Save Notepad</button>
+            </div>
+            
+            <div style="margin-top: 24px; display: flex; gap: 10px;">
+                <button class="btn" style="flex: 1;" onclick="goToProfile('${s.id}')">View Full Public Portfolio</button>
+            </div>
+        `;
+
+        drawer.style.display = "flex";
+        setTimeout(() => {
+            drawer.classList.add("active");
+        }, 10);
+    }
+
+    function closeDrawer(event, force = false) {
+        if (force || event.target === drawer) {
+            drawer.classList.remove("active");
+            setTimeout(() => {
+                drawer.style.display = "none";
+                activeDrawerStudentId = null;
+            }, 250);
+        }
+    }
+
+    function saveRecruiterNotes() {
+        if (!activeDrawerStudentId) return;
+        
+        const status = document.getElementById("drawer-hiring-status").value;
+        const notes = document.getElementById("drawer-recruiter-notes").value.trim();
+
+        const reviewData = { status, notes, timestamp: new Date().toISOString() };
+        localStorage.setItem("recruiter_review_" + activeDrawerStudentId, JSON.stringify(reviewData));
+
+        alert("Recruiter evaluation notes saved successfully!");
+        renderGrid();
     }
 
     // Toolbar events
@@ -614,10 +1186,17 @@
         const fd = document.getElementById("filter-drawer");
         fd.style.display = fd.style.display === "none" ? "block" : "none";
     };
-    document.getElementById("filter-verified").onchange = e => {
+    
+    filterVerifiedEl.onchange = e => {
         showVerified = e.target.checked;
         renderGrid();
     };
+
+    filterShortlistedEl.onchange = e => {
+        showShortlisted = e.target.checked;
+        renderGrid();
+    };
+
     filterDomain.onchange = renderGrid;
     filterSchool.onchange = renderGrid;
 
@@ -626,7 +1205,7 @@
         renderGrid();
     };
 
-    /* ========= Copilot logic (unchanged) ========= */
+    // ===================== COPILOT LOGIC (DYNAMIC DYNAMIC) =====================
     const copilotToggle = document.getElementById("copilot-toggle");
     const copilotPanel = document.getElementById("copilot-panel");
     const copilotClose = document.getElementById("copilot-close");
@@ -636,6 +1215,9 @@
 
     copilotToggle.onclick = () => {
         copilotPanel.style.display = copilotPanel.style.display === "flex" ? "none" : "flex";
+        if (copilotPanel.style.display === "flex") {
+            copilotInput.focus();
+        }
     };
     copilotClose.onclick = () => copilotPanel.style.display = "none";
 
@@ -651,10 +1233,14 @@
         if (e.key === "Enter") handleCopilotQuery();
     });
 
-    function appendMessage(text, from="bot") {
+    function appendMessage(text, from="bot", isHtml=false) {
         const div=document.createElement("div");
         div.className = "msg " + from;
-        div.textContent = text;
+        if (isHtml) {
+            div.innerHTML = text;
+        } else {
+            div.textContent = text;
+        }
         copilotBody.appendChild(div);
         copilotBody.scrollTop = copilotBody.scrollHeight;
     }
@@ -664,37 +1250,156 @@
         if (!q) return;
         appendMessage(q, "user");
         copilotInput.value = "";
-        const answer = localCopilotAnswer(q);
-        appendMessage(answer, "bot");
+        
+        setTimeout(() => {
+            const answer = localCopilotAnswer(q);
+            appendMessage(answer, "bot", true);
+        }, 300);
     }
 
     function localCopilotAnswer(q) {
         const text = q.toLowerCase();
+        
+        // 1. Summarize details about a student
+        const student = students.find(s => (s.name || "").toLowerCase().includes(text) || (s.id || "").toLowerCase() === text);
+        if (student && (text.includes("summarize") || text.includes("profile") || text.includes("about") || text.includes("tell me"))) {
+            const s = student;
+            const completion = s.completion != null ? s.completion : Math.round(((s.solvedCases || 0) / (s.totalAttempts || 1)) * 100);
+            const casesCount = s.casesCount != null ? s.casesCount : (s.solvedCases || 0);
+            const specs = (s.specializations || []).join(", ") || "General Practice";
+            const rating = s.rating != null ? s.rating.toFixed(1) : "0.0";
+            
+            let html = `<p><strong>Candidate Summary: ${s.name}</strong></p>`;
+            html += `<p style="margin: 4px 0 8px;"><em>${s.school || "University"} • ${s.year || "Law Student"}</em></p>`;
+            html += `<p><strong>Headline:</strong> "${s.headline || 'N/A'}"</p>`;
+            html += `<p><strong>Specializations:</strong> ${specs}</p>`;
+            html += `<p>• **Cases Solved**: ${casesCount} (${completion}% completion)<br/>`;
+            html += `• **Rating**: ⭐ ${rating}/5.0<br/>`;
+            html += `• **Proctor Integrity**: ${s.integrityScore ?? 100}% (${s.examSessions ?? 0} proctored exams)</p>`;
+            
+            // Fetch recruiter note
+            const reviewDataRaw = localStorage.getItem("recruiter_review_" + s.id);
+            if (reviewDataRaw) {
+                try {
+                    const review = JSON.parse(reviewDataRaw);
+                    html += `<div style="margin-top: 10px; padding: 8px; border-left: 3px solid var(--primary); background: #f1f5f9;">`;
+                    html += `<strong>Recruiter Decision:</strong> <span style="font-weight:700;">${review.status || "None"}</span><br/>`;
+                    html += `<strong>Your Notes:</strong> "${review.notes || ""}"`;
+                    html += `</div>`;
+                } catch(e) {}
+            }
+            return html;
+        }
 
-        const maybeName = students.find(s =>
-            (s.name || "").toLowerCase().includes(text)
-        );
-        if (text.includes("summarize") || text.includes("profile")) {
-            if (maybeName) {
-                const s = maybeName;
-                const completion = s.completion ?? Math.round(((s.solvedCases || 0) / (s.totalAttempts || (s.solvedCases || 1))) * 100);
-                const casesCount = s.casesCount ?? (s.solvedCases || 0);
-                return `${s.name} (${s.school}, ${s.year}) specialises in ${(s.specializations || []).join(", ") || "public-interest matters"}.
-Completion rate: ${completion}%. Cases handled: ${casesCount}. Rating: ${(s.rating || 0).toFixed(1)}/5.
-They are a strong fit for matters involving ${(s.specializations || ["their primary domain"]).join(", ")}.`;
+        // 2. Compare two students
+        if (text.includes("compare")) {
+            const matches = [];
+            students.forEach(s => {
+                const namePart = s.name.split(" ")[0].toLowerCase();
+                if (text.includes(namePart) || text.includes(s.name.toLowerCase())) {
+                    matches.push(s);
+                }
+            });
+
+            if (matches.length >= 2) {
+                const s1 = matches[0];
+                const s2 = matches[1];
+                
+                const c1 = s1.completion != null ? s1.completion : Math.round(((s1.solvedCases || 0) / (s1.totalAttempts || 1)) * 100);
+                const c2 = s2.completion != null ? s2.completion : Math.round(((s2.solvedCases || 0) / (s2.totalAttempts || 1)) * 100);
+                
+                const cases1 = s1.casesCount != null ? s1.casesCount : (s1.solvedCases || 0);
+                const cases2 = s2.casesCount != null ? s2.casesCount : (s2.solvedCases || 0);
+
+                let html = `<p><strong>Comparison: ${s1.name} vs ${s2.name}</strong></p>`;
+                html += `<table>`;
+                html += `<thead><tr><th>Metric</th><th>${s1.name.split(" ")[0]}</th><th>${s2.name.split(" ")[0]}</th></tr></thead>`;
+                html += `<tbody>`;
+                html += `<tr><td><strong>School</strong></td><td>${s1.school}</td><td>${s2.school}</td></tr>`;
+                html += `<tr><td><strong>Rating</strong></td><td>⭐ ${(s1.rating || 0).toFixed(1)}/5</td><td>⭐ ${(s2.rating || 0).toFixed(1)}/5</td></tr>`;
+                html += `<tr><td><strong>Cases Solved</strong></td><td>${cases1}</td><td>${cases2}</td></tr>`;
+                html += `<tr><td><strong>Completion</strong></td><td>${c1}%</td><td>${c2}%</td></tr>`;
+                html += `<tr><td><strong>Integrity Score</strong></td><td>${s1.integrityScore ?? 100}%</td><td>${s2.integrityScore ?? 100}%</td></tr>`;
+                html += `<tr><td><strong>Avg solve time</strong></td><td>${s1.avgTimeHours || "N/A"}h</td><td>${s2.avgTimeHours || "N/A"}h</td></tr>`;
+                html += `</tbody>`;
+                html += `</table>`;
+                return html;
             }
         }
 
-        // super simple recommend: top by rating
-        if (text.includes("recommend") || text.includes("best") || text.includes("top")) {
-            let pool = [...students];
-            pool = pool.sort((a,b) => (b.rating || 0) - (a.rating || 0)).slice(0,4);
-            if (!pool.length) return "I don’t have candidates loaded yet. Refresh the page.";
-            const lines = pool.map(s => `• ${s.name} – ${(s.specializations || []).join(", ") || "Legal Aid"}, rating ${(s.rating || 0).toFixed(1)}/5, ${s.casesCount ?? s.solvedCases ?? 0} cases`);
-            return "Here are strong candidates based on rating:\n\n" + lines.join("\n");
+        // 3. Recommend by Specialization
+        let matchedSpec = null;
+        const specKeywords = ["tenancy", "rent", "labour", "labor", "wages", "harassment", "consumer", "procedural", "civil", "contracts"];
+        specKeywords.forEach(kw => {
+            if (text.includes(kw)) {
+                matchedSpec = kw;
+            }
+        });
+
+        if (matchedSpec) {
+            const keyword = matchedSpec === "labor" ? "labour" : matchedSpec === "rent" ? "tenancy" : matchedSpec;
+            const matches = students.filter(s => 
+                (s.specializations || []).some(sp => sp.toLowerCase().includes(keyword)) ||
+                Object.keys(s.areas || {}).some(k => k.toLowerCase().includes(keyword))
+            );
+
+            if (matches.length > 0) {
+                matches.sort((a,b) => (b.rating || 0) - (a.rating || 0));
+                let html = `<p>Top candidates matching <strong>"${keyword}"</strong>:</p>`;
+                html += `<ul style="margin: 4px 0; padding-left:16px;">`;
+                matches.slice(0, 5).forEach(s => {
+                    html += `<li style="margin-bottom: 4px;"><strong>${s.name}</strong> (${s.school})<br/>⭐ ${s.rating.toFixed(1)}/5 • Solved: ${s.solvedCases} cases</li>`;
+                });
+                html += `</ul>`;
+                return html;
+            }
         }
 
-        return "I’ve checked the current candidate pool. Try asking things like:\n• “Summarize Sarah Rodriguez as a candidate.”\n• “Recommend top students for tenancy and labour.”";
+        // 4. Proctor Integrity Search
+        if (text.includes("integrity") || text.includes("proctor") || text.includes("cheating") || text.includes("exam")) {
+            const matches = [...students].sort((a,b) => (b.integrityScore || 0) - (a.integrityScore || 0)).slice(0, 3);
+            let html = `<p>Candidates with highest <strong>Proctor Integrity Scores</strong>:</p>`;
+            html += `<ul style="margin: 4px 0; padding-left:16px;">`;
+            matches.forEach(s => {
+                html += `<li style="margin-bottom: 4px;"><strong>${s.name}</strong> - Integrity: <strong>${s.integrityScore || 100}%</strong> (${s.examSessions || 0} exams monitored)</li>`;
+            });
+            html += `</ul>`;
+            return html;
+        }
+
+        // 5. Best / Top candidates overall
+        if (text.includes("best") || text.includes("top") || text.includes("highest")) {
+            const matches = [...students].sort((a,b) => (b.rating || 0) - (a.rating || 0)).slice(0, 3);
+            let html = `<p>Top-rated candidates overall:</p>`;
+            html += `<ul style="margin: 4px 0; padding-left:16px;">`;
+            matches.forEach(s => {
+                html += `<li style="margin-bottom: 4px;"><strong>${s.name}</strong> - Rating: <strong>⭐ ${s.rating.toFixed(1)}/5.0</strong> (${s.solvedCases || 0} cases solved)</li>`;
+            });
+            html += `</ul>`;
+            return html;
+        }
+
+        // 6. Search by school
+        const matchedSchool = [...new Set(students.map(s => s.school))].find(sch => text.includes(sch.toLowerCase()));
+        if (matchedSchool) {
+            const matches = students.filter(s => s.school.toLowerCase() === matchedSchool.toLowerCase());
+            let html = `<p>Found ${matches.length} candidates from <strong>${matchedSchool}</strong>:</p>`;
+            html += `<ul style="margin: 4px 0; padding-left:16px;">`;
+            matches.slice(0, 5).forEach(s => {
+                html += `<li style="margin-bottom: 4px;"><strong>${s.name}</strong> (${s.year}) - Rating: ⭐ ${s.rating.toFixed(1)}</li>`;
+            });
+            html += `</ul>`;
+            return html;
+        }
+
+        return `<p>I've checked the candidate pool. Try asking:</p>
+                <ul style="margin: 4px 0 0 16px; padding:0; line-height: 1.4;">
+                    <li>“Summarize Sarah Rodriguez”</li>
+                    <li>“Compare Sarah and Amit”</li>
+                    <li>“Who has the highest proctor integrity?”</li>
+                    <li>“Recommend candidates specializing in Tenancy”</li>
+                    <li>“Find students from National Law University”</li>
+                </ul>`;
     }
 
     // kick things off
